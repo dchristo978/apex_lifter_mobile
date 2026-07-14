@@ -1,0 +1,103 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/auth_provider.dart';
+import 'providers/gym_provider.dart';
+import 'providers/leaderboard_provider.dart';
+import 'providers/machine_provider.dart';
+import 'providers/notification_provider.dart';
+import 'providers/workout_provider.dart';
+import 'screens/login_screen.dart';
+import 'screens/main_shell.dart';
+import 'services/api_client.dart';
+
+void main() {
+  final api = ApiClient();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<ApiClient>.value(value: api),
+        ChangeNotifierProvider(create: (_) => AuthProvider(api)..bootstrap()),
+        ChangeNotifierProvider(create: (_) => GymProvider(api)),
+        ChangeNotifierProvider(create: (_) => MachineProvider(api)),
+        ChangeNotifierProvider(create: (_) => WorkoutProvider(api)),
+        ChangeNotifierProvider(create: (_) => LeaderboardProvider(api)),
+        ChangeNotifierProvider(create: (_) => NotificationProvider(api)),
+      ],
+      child: const ApexLifterApp(),
+    ),
+  );
+}
+
+// Pure black + maroon palette with gray accents.
+const _maroon = Color(0xFF800000);
+const _maroonLight = Color(0xFFB03A48);
+const _black = Color(0xFF000000);
+const _grayDark = Color(0xFF1A1A1A);
+const _gray = Color(0xFF2A2A2A);
+const _grayLight = Color(0xFFBDBDBD);
+
+ThemeData _buildTheme() {
+  final base = ColorScheme.fromSeed(
+    seedColor: _maroon,
+    brightness: Brightness.dark,
+  );
+
+  final scheme = base.copyWith(
+    primary: _maroonLight,
+    onPrimary: Colors.white,
+    primaryContainer: _maroon,
+    onPrimaryContainer: Colors.white,
+    secondary: _grayLight,
+    onSecondary: _black,
+    secondaryContainer: _gray,
+    onSecondaryContainer: Colors.white,
+    surface: _black,
+    onSurface: Colors.white,
+    onSurfaceVariant: _grayLight,
+    surfaceContainerLowest: _black,
+    surfaceContainerLow: _grayDark,
+    surfaceContainer: _grayDark,
+    surfaceContainerHigh: _gray,
+    surfaceContainerHighest: _gray,
+    outline: const Color(0xFF5A5A5A),
+    outlineVariant: const Color(0xFF3A3A3A),
+  );
+
+  return ThemeData(
+    colorScheme: scheme,
+    useMaterial3: true,
+    scaffoldBackgroundColor: _black,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: _black,
+      foregroundColor: Colors.white,
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: _grayDark,
+      indicatorColor: _maroon,
+    ),
+    cardTheme: const CardThemeData(color: _grayDark),
+  );
+}
+
+class ApexLifterApp extends StatelessWidget {
+  const ApexLifterApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Apex Lifter',
+      debugShowCheckedModeBanner: false,
+      theme: _buildTheme(),
+      home: Consumer<AuthProvider>(
+        builder: (context, auth, _) => switch (auth.status) {
+          AuthStatus.unknown =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
+          AuthStatus.unauthenticated => const LoginScreen(),
+          AuthStatus.authenticated => const MainShell(),
+        },
+      ),
+    );
+  }
+}
