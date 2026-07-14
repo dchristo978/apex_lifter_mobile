@@ -86,6 +86,17 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> uploadAvatar(List<int> bytes, String filename) async {
+    final json = await _api.uploadBytes(
+      '/profile/avatar',
+      field: 'avatar',
+      bytes: bytes,
+      filename: filename,
+    );
+    user = User.fromJson(json['user'] as Map<String, dynamic>);
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     try {
       await _api.post('/auth/logout');

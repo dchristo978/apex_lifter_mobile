@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/auth_provider.dart';
 import '../providers/leaderboard_provider.dart';
 import '../providers/machine_provider.dart';
+import 'public_profile_screen.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
@@ -27,9 +29,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     final machines = context.watch<MachineProvider>().machines;
     final board = context.watch<LeaderboardProvider>();
     final myUserId = context.watch<AuthProvider>().user?.id;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Leaderboard')),
+      appBar: AppBar(title: Text(l10n.leaderboard)),
       body: Column(
         children: [
           Padding(
@@ -39,9 +42,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 DropdownButtonFormField<int>(
                   initialValue: board.machineId,
                   isExpanded: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Alat',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: l10n.machine,
+                    border: const OutlineInputBorder(),
                   ),
                   items: [
                     for (final m in machines)
@@ -60,8 +63,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       _filterChip(
                         context,
                         label: board.type == 'single'
-                            ? '1RM Murni'
-                            : 'Est. 1RM (multi-rep)',
+                            ? l10n.pure1rm
+                            : l10n.est1rmMulti,
                         onTap: () {
                           board.type =
                               board.type == 'single' ? 'multi' : 'single';
@@ -72,8 +75,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       _filterChip(
                         context,
                         label: board.period == 'weekly'
-                            ? 'Mingguan'
-                            : 'Bulanan',
+                            ? l10n.weekly
+                            : l10n.monthly,
                         onTap: () {
                           board.period = board.period == 'weekly'
                               ? 'monthly'
@@ -85,9 +88,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       _cycleChip<String?>(
                         context,
                         label: switch (board.gender) {
-                          'male' => 'Pria',
-                          'female' => 'Wanita',
-                          _ => 'Semua Gender',
+                          'male' => l10n.genderMale,
+                          'female' => l10n.genderFemale,
+                          _ => l10n.allGenders,
                         },
                         values: const [null, 'male', 'female'],
                         current: board.gender,
@@ -100,8 +103,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       _cycleChip<String?>(
                         context,
                         label: board.ageBracket == null
-                            ? 'Semua Umur'
-                            : 'Umur ${board.ageBracket}',
+                            ? l10n.allAges
+                            : l10n.ageFilter(board.ageBracket!),
                         values: const [null, 'u18', '18-29', '30-39', '40+'],
                         current: board.ageBracket,
                         onChanged: (v) {
@@ -113,8 +116,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       _cycleChip<String?>(
                         context,
                         label: board.weightClass == null
-                            ? 'Semua BB'
-                            : 'BB ${board.weightClass} kg',
+                            ? l10n.allWeights
+                            : l10n.weightFilter(board.weightClass!),
                         values: const [null, 'u60', '60-74', '75-89', '90+'],
                         current: board.weightClass,
                         onChanged: (v) {
@@ -135,7 +138,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: Text('Posisimu saat ini: #${board.myRank}',
+                  child: Text(l10n.yourPosition(board.myRank!),
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
               ),
@@ -144,12 +147,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             child: board.loading
                 ? const Center(child: CircularProgressIndicator())
                 : board.machineId == null
-                    ? const Center(
-                        child: Text('Pilih alat untuk melihat peringkat.'))
+                    ? Center(child: Text(l10n.selectMachinePrompt))
                     : board.entries.isEmpty
-                        ? const Center(
-                            child: Text(
-                                'Belum ada yang mencatat set di periode ini.'))
+                        ? _emptyState(context, board)
                         : RefreshIndicator(
                             onRefresh: () => board.refresh(),
                             child: ListView.builder(
@@ -166,8 +166,100 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     );
   }
 
+  /// Empty state with shortcuts to broaden the active filters so the user
+  /// can always find a populated leaderboard.
+  Widget _emptyState(BuildContext context, LeaderboardProvider board) {
+    final l10n = AppLocalizations.of(context);
+    final hasCategoryFilters = board.gender != null ||
+        board.ageBracket != null ||
+        board.weightClass != null;
+
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 140),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.leaderboard_outlined,
+                size: 48, color: Theme.of(context).colorScheme.onSurfaceVariant),
+            const SizedBox(height: 12),
+            Text(
+              board.error ?? l10n.noOneLogged,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.broadenSearch,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                if (board.period == 'weekly')
+                  _suggestionButton(
+                    icon: Icons.calendar_month,
+                    label: l10n.viewMonthly,
+                    onTap: () {
+                      board.period = 'monthly';
+                      board.refresh();
+                    },
+                  ),
+                _suggestionButton(
+                  icon: Icons.swap_horiz,
+                  label: board.type == 'single'
+                      ? l10n.viewEst1rm
+                      : l10n.viewPure1rm,
+                  onTap: () {
+                    board.type = board.type == 'single' ? 'multi' : 'single';
+                    board.refresh();
+                  },
+                ),
+                if (hasCategoryFilters)
+                  _suggestionButton(
+                    icon: Icons.filter_alt_off,
+                    label: l10n.clearFilters,
+                    onTap: () {
+                      board.gender = null;
+                      board.ageBracket = null;
+                      board.weightClass = null;
+                      board.refresh();
+                    },
+                  ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.orPickAnotherMachine,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _suggestionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return FilledButton.tonalIcon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 18),
+      label: Text(label),
+    );
+  }
+
   Widget _entryTile(
       BuildContext context, LeaderboardEntry entry, int? myUserId) {
+    final l10n = AppLocalizations.of(context);
     final isMe = entry.userId == myUserId;
     final medal = switch (entry.rank) {
       1 => '🥇',
@@ -182,9 +274,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         leading: CircleAvatar(
           child: Text(medal ?? '${entry.rank}'),
         ),
-        title: Text(isMe ? '${entry.userName} (kamu)' : entry.userName),
-        subtitle: Text(
-            '${entry.weightKg.toStringAsFixed(entry.weightKg % 1 == 0 ? 0 : 1)} kg × ${entry.reps} reps'),
+        title: Text(isMe ? l10n.youSuffix(entry.userName) : entry.userName),
+        subtitle: Text(l10n.entrySubtitle(
+            entry.weightKg.toStringAsFixed(entry.weightKg % 1 == 0 ? 0 : 1),
+            entry.reps)),
         trailing: Text(
           '${entry.value.toStringAsFixed(1)} kg',
           style: Theme.of(context)
@@ -192,6 +285,16 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               .titleMedium
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
+        onTap: isMe
+            ? null
+            : () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => PublicProfileScreen(
+                      userId: entry.userId,
+                      initialName: entry.userName,
+                    ),
+                  ),
+                ),
       ),
     );
   }

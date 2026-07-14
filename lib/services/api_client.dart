@@ -52,6 +52,24 @@ class ApiClient {
     ));
   }
 
+  /// Multipart upload (e.g. avatar image) from raw bytes.
+  Future<Map<String, dynamic>> uploadBytes(
+    String path, {
+    required String field,
+    required List<int> bytes,
+    required String filename,
+  }) async {
+    final request = http.MultipartRequest('POST', Uri.parse('$baseUrl$path'))
+      ..headers.addAll({
+        'Accept': 'application/json',
+        if (_token != null) 'Authorization': 'Bearer $_token',
+      })
+      ..files.add(http.MultipartFile.fromBytes(field, bytes, filename: filename));
+
+    final streamed = await request.send();
+    return _handle(await http.Response.fromStream(streamed));
+  }
+
   Future<Map<String, dynamic>> patch(String path,
       Map<String, dynamic> body) async {
     return _handle(await http.patch(

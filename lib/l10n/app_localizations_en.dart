@@ -1,0 +1,474 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appTitle => 'Apex Lifter';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navLeaderboard => 'Leaderboard';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get cannotConnect => 'Could not connect to the server.';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get invalidEmail => 'Invalid email';
+
+  @override
+  String get passwordRequired => 'Password is required';
+
+  @override
+  String get login => 'Log in';
+
+  @override
+  String get noAccountRegister => 'Don\'t have an account? Sign up';
+
+  @override
+  String get registerTitle => 'Create account';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get nameRequired => 'Name is required';
+
+  @override
+  String get passwordMin8Label => 'Password (min. 8 characters)';
+
+  @override
+  String get passwordMin8 => 'At least 8 characters';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get genderMale => 'Male';
+
+  @override
+  String get genderFemale => 'Female';
+
+  @override
+  String get pickBirthDate => 'Pick birth date';
+
+  @override
+  String get birthDateRequired => 'Birth date is required.';
+
+  @override
+  String get bodyWeightOptional => 'Body weight (kg) — optional';
+
+  @override
+  String get register => 'Sign up';
+
+  @override
+  String greeting(String name) {
+    return 'Hi, $name 💪';
+  }
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get addSet => 'Add Set';
+
+  @override
+  String get gymCheckin => 'Gym Check-in';
+
+  @override
+  String checkedInAt(String gym) {
+    return 'You checked in at $gym';
+  }
+
+  @override
+  String get whoIsHere => 'Who\'s here?';
+
+  @override
+  String get notCheckedIn =>
+      'Not checked in. Check-in is optional — you can still log sets without it.';
+
+  @override
+  String get checkinWithGps => 'Check in with GPS';
+
+  @override
+  String get recentSets => 'Recent Sets';
+
+  @override
+  String get noSetsYet => 'No sets logged yet. Start lifting! 🏋️';
+
+  @override
+  String get machine => 'Machine';
+
+  @override
+  String get leaderboard => 'Leaderboard';
+
+  @override
+  String get pure1rm => 'Pure 1RM';
+
+  @override
+  String get est1rmMulti => 'Est. 1RM (multi-rep)';
+
+  @override
+  String get weekly => 'Weekly';
+
+  @override
+  String get monthly => 'Monthly';
+
+  @override
+  String get allGenders => 'All Genders';
+
+  @override
+  String get allAges => 'All Ages';
+
+  @override
+  String ageFilter(String bracket) {
+    return 'Age $bracket';
+  }
+
+  @override
+  String get allWeights => 'All BW';
+
+  @override
+  String weightFilter(String weightClass) {
+    return 'BW $weightClass kg';
+  }
+
+  @override
+  String yourPosition(int rank) {
+    return 'Your current position: #$rank';
+  }
+
+  @override
+  String get selectMachinePrompt => 'Select a machine to view the ranking.';
+
+  @override
+  String get noOneLogged => 'No one has logged a set in this period yet.';
+
+  @override
+  String get broadenSearch => 'Try broadening your search:';
+
+  @override
+  String get viewMonthly => 'View Monthly period';
+
+  @override
+  String get viewEst1rm => 'View Est. 1RM (multi-rep)';
+
+  @override
+  String get viewPure1rm => 'View Pure 1RM';
+
+  @override
+  String get clearFilters => 'Clear gender, age & BW filters';
+
+  @override
+  String get orPickAnotherMachine =>
+      'or pick another machine from the dropdown above';
+
+  @override
+  String youSuffix(String name) {
+    return '$name (you)';
+  }
+
+  @override
+  String entrySubtitle(String weight, int reps) {
+    return '$weight kg × $reps reps';
+  }
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String ageValue(int age, String bracket) {
+    return '$age yr (bracket $bracket)';
+  }
+
+  @override
+  String get bodyWeight => 'Body weight';
+
+  @override
+  String updatedOn(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String weightWithClass(String weight, String weightClass) {
+    return '$weight kg (class $weightClass)';
+  }
+
+  @override
+  String get notSet => 'Not set';
+
+  @override
+  String get staleWeightTitle => 'Body weight expired';
+
+  @override
+  String get staleWeightBody =>
+      'It has been more than 90 days. Weigh in again so your weight-class records stay verified.';
+
+  @override
+  String get tapWeightHint =>
+      'Tap \"Body weight\" to update. Records follow your latest weight class.';
+
+  @override
+  String get viewPublicProfile => 'View my public profile';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get avatarUpdated => 'Profile photo updated.';
+
+  @override
+  String avatarUploadFailed(String error) {
+    return 'Failed to upload photo: $error';
+  }
+
+  @override
+  String get updateBodyWeight => 'Update body weight';
+
+  @override
+  String get bodyWeightKg => 'Body weight (kg)';
+
+  @override
+  String get pushNotifications => 'Push notifications';
+
+  @override
+  String get pushNotificationsSubtitle => 'Receive rank change alerts';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageIndonesian => 'Bahasa Indonesia';
+
+  @override
+  String get chooseLanguage => 'Choose language';
+
+  @override
+  String get editProfileData => 'Edit personal data';
+
+  @override
+  String get editProfilePhoto => 'Edit profile photo';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get profileUpdated => 'Profile updated.';
+
+  @override
+  String get categoryChest => 'Chest';
+
+  @override
+  String get categoryBack => 'Back';
+
+  @override
+  String get categoryShoulders => 'Shoulders';
+
+  @override
+  String get categoryArms => 'Arms';
+
+  @override
+  String get categoryLegs => 'Legs';
+
+  @override
+  String get categoryCore => 'Core';
+
+  @override
+  String setLogged(String value) {
+    return 'Set logged! Estimated 1RM: $value kg';
+  }
+
+  @override
+  String get chooseMachine => 'Choose machine';
+
+  @override
+  String get chooseMachineFirst => 'Choose a machine first';
+
+  @override
+  String get load => 'Load (kg)';
+
+  @override
+  String get invalidLoad => 'Invalid load';
+
+  @override
+  String get reps => 'Reps';
+
+  @override
+  String get reps1to100 => 'Reps 1-100';
+
+  @override
+  String get repsHint =>
+      'Reps = 1 counts toward the pure 1RM leaderboard; reps ≥ 2 count toward the estimated 1RM leaderboard.';
+
+  @override
+  String get saveSet => 'Save Set';
+
+  @override
+  String get markRead => 'Mark read';
+
+  @override
+  String get noNotifications => 'No notifications yet.\nHold your position! 🏆';
+
+  @override
+  String get atGym => 'At the Gym';
+
+  @override
+  String get noRecentCheckins =>
+      'No one has checked in here in the last 3 hours.';
+
+  @override
+  String liftersHere(int count) {
+    return '$count lifters training here';
+  }
+
+  @override
+  String get you => '(you)';
+
+  @override
+  String checkedInTime(String time) {
+    return 'Checked in $time';
+  }
+
+  @override
+  String progressTitle(String machine) {
+    return 'Progress · $machine';
+  }
+
+  @override
+  String get needTwoDays =>
+      'Need at least 2 training days on this machine to\nshow a progress chart. Keep lifting! 🏋️';
+
+  @override
+  String get est1rmOverTime => 'Estimated 1RM over time';
+
+  @override
+  String deltaSince(String delta, String date) {
+    return '$delta kg since $date';
+  }
+
+  @override
+  String get dailyRecord => 'Daily record';
+
+  @override
+  String est1rmValue(String value) {
+    return '$value kg est. 1RM';
+  }
+
+  @override
+  String get sessionHistory => 'Gym Session History';
+
+  @override
+  String get statSets => 'Sets';
+
+  @override
+  String get statMachines => 'Machines';
+
+  @override
+  String get statBest1rm => 'Best 1RM';
+
+  @override
+  String get totalVolume => 'Total volume';
+
+  @override
+  String get noBadges =>
+      'No champion badges yet. Badges appear when the weekly leaderboard resets.';
+
+  @override
+  String classLabel(String weightClass) {
+    return 'class $weightClass';
+  }
+
+  @override
+  String setCountLabel(int count) {
+    return '$count set';
+  }
+
+  @override
+  String topMachineLabel(String machine, String value) {
+    return 'top: $machine ${value}kg';
+  }
+
+  @override
+  String get machineRecords => 'Machine Records';
+
+  @override
+  String get noMachineRecords =>
+      'No records yet. Log a set to set a record! 🏋️';
+
+  @override
+  String recordLift(String weight, int reps) {
+    return '$weight kg × $reps';
+  }
+
+  @override
+  String recordEst1rm(String value) {
+    return '$value kg est. 1RM';
+  }
+
+  @override
+  String get featured => 'Featured';
+
+  @override
+  String get featuredMachines => 'Featured Machines';
+
+  @override
+  String get featuredMachinesHint =>
+      'Pick up to 3 machines to pin to the top of your public profile, in the order you want them shown.';
+
+  @override
+  String get editFeaturedMachines => 'Edit featured machines';
+
+  @override
+  String get noFeaturedMachines => 'No featured machines yet';
+
+  @override
+  String featuredCount(int count) {
+    return '$count of 3 selected';
+  }
+
+  @override
+  String get addMachine => 'Add machine';
+
+  @override
+  String get featuredLimitReached => 'You can feature at most 3 machines.';
+
+  @override
+  String get dragToReorder => 'Drag to reorder';
+}

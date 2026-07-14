@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -10,15 +11,16 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<NotificationProvider>();
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifikasi'),
+        title: Text(l10n.notifications),
         actions: [
           if (provider.unreadCount > 0)
             TextButton(
               onPressed: () => provider.markAllRead(),
-              child: const Text('Tandai dibaca'),
+              child: Text(l10n.markRead),
             ),
         ],
       ),
@@ -26,12 +28,11 @@ class NotificationsScreen extends StatelessWidget {
         onRefresh: () => provider.refresh(),
         child: provider.notifications.isEmpty
             ? ListView(
-                children: const [
+                children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 120),
+                    padding: const EdgeInsets.only(top: 120),
                     child: Center(
-                        child: Text(
-                            'Belum ada notifikasi.\nTetap jaga posisimu! 🏆',
+                        child: Text(l10n.noNotifications,
                             textAlign: TextAlign.center)),
                   ),
                 ],

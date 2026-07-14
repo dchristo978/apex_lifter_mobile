@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_client.dart';
 import 'register_screen.dart';
@@ -37,13 +38,16 @@ class _LoginScreenState extends State<LoginScreen> {
     } on ApiException catch (e) {
       setState(() => _error = e.message);
     } catch (_) {
-      setState(() => _error = 'Tidak bisa terhubung ke server.');
+      if (mounted) {
+        setState(() => _error = AppLocalizations.of(context).cannotConnect);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final loading = context.watch<AuthProvider>().loading;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -70,23 +74,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.email,
+                      border: const OutlineInputBorder(),
                     ),
-                    validator: (v) =>
-                        (v == null || !v.contains('@')) ? 'Email tidak valid' : null,
+                    validator: (v) => (v == null || !v.contains('@'))
+                        ? l10n.invalidEmail
+                        : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _password,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.password,
+                      border: const OutlineInputBorder(),
                     ),
                     validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Password wajib diisi' : null,
+                        (v == null || v.isEmpty) ? l10n.passwordRequired : null,
                   ),
                   if (_error != null) ...[
                     const SizedBox(height: 12),
@@ -102,14 +107,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Text('Masuk'),
+                        : Text(l10n.login),
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (_) => const RegisterScreen()),
                     ),
-                    child: const Text('Belum punya akun? Daftar'),
+                    child: Text(l10n.noAccountRegister),
                   ),
                 ],
               ),

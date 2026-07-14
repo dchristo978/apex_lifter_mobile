@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'l10n/app_localizations.dart';
 import 'providers/auth_provider.dart';
 import 'providers/gym_provider.dart';
 import 'providers/leaderboard_provider.dart';
 import 'providers/machine_provider.dart';
 import 'providers/notification_provider.dart';
+import 'providers/settings_provider.dart';
 import 'providers/workout_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
@@ -18,6 +21,7 @@ void main() {
     MultiProvider(
       providers: [
         Provider<ApiClient>.value(value: api),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()..load()),
         ChangeNotifierProvider(create: (_) => AuthProvider(api)..bootstrap()),
         ChangeNotifierProvider(create: (_) => GymProvider(api)),
         ChangeNotifierProvider(create: (_) => MachineProvider(api)),
@@ -72,6 +76,15 @@ ThemeData _buildTheme() {
     appBarTheme: const AppBarTheme(
       backgroundColor: _black,
       foregroundColor: Colors.white,
+      centerTitle: false,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: _black,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: _grayDark,
@@ -86,10 +99,15 @@ class ApexLifterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<SettingsProvider>().locale;
+
     return MaterialApp(
       title: 'Apex Lifter',
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Consumer<AuthProvider>(
         builder: (context, auth, _) => switch (auth.status) {
           AuthStatus.unknown =>

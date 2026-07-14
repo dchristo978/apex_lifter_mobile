@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
 import 'home_screen.dart';
 import 'leaderboard_screen.dart';
@@ -44,6 +45,7 @@ class _MainShellState extends State<MainShell> {
       LeaderboardScreen(),
       ProfileScreen(),
     ];
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       extendBody: true,
@@ -53,24 +55,24 @@ class _MainShellState extends State<MainShell> {
           Positioned(
             left: 0,
             right: 0,
-            bottom: 24,
-            child: SafeArea(
-              child: Center(
-                child: _isApplePlatform
+            bottom: -8,
+            child: Center(
+              child: _isApplePlatform
                     // Real UITabBar via platform view: genuine iOS Liquid
                     // Glass, not a Flutter imitation.
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: CNTabBar(
-                          items: const [
+                          items: [
                             CNTabBarItem(
-                                label: 'Beranda', icon: CNSymbol('house.fill')),
+                                label: l10n.navHome,
+                                icon: const CNSymbol('house.fill')),
                             CNTabBarItem(
-                                label: 'Peringkat',
-                                icon: CNSymbol('chart.bar.fill')),
+                                label: l10n.navLeaderboard,
+                                icon: const CNSymbol('chart.bar.fill')),
                             CNTabBarItem(
-                                label: 'Profil',
-                                icon: CNSymbol('person.crop.circle.fill')),
+                                label: l10n.navProfile,
+                                icon: const CNSymbol('person.crop.circle.fill')),
                           ],
                           currentIndex: _index,
                           onTap: (i) => setState(() => _index = i),
@@ -78,10 +80,9 @@ class _MainShellState extends State<MainShell> {
                         ),
                       )
                     : _GlassNavBar(
-                        index: _index,
-                        onChanged: (i) => setState(() => _index = i),
-                      ),
-              ),
+                      index: _index,
+                      onChanged: (i) => setState(() => _index = i),
+                    ),
             ),
           ),
         ],
@@ -97,19 +98,23 @@ class _GlassNavBar extends StatelessWidget {
   final int index;
   final ValueChanged<int> onChanged;
 
-  static const _items = [
-    (icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Beranda'),
-    (
-      icon: Icons.leaderboard_outlined,
-      activeIcon: Icons.leaderboard,
-      label: 'Peringkat'
-    ),
-    (icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profil'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
+    final items = [
+      (icon: Icons.home_outlined, activeIcon: Icons.home, label: l10n.navHome),
+      (
+        icon: Icons.leaderboard_outlined,
+        activeIcon: Icons.leaderboard,
+        label: l10n.navLeaderboard
+      ),
+      (
+        icon: Icons.person_outline,
+        activeIcon: Icons.person,
+        label: l10n.navProfile
+      ),
+    ];
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(36),
@@ -134,8 +139,8 @@ class _GlassNavBar extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              for (var i = 0; i < _items.length; i++)
-                _navItem(context, i, scheme),
+              for (var i = 0; i < items.length; i++)
+                _navItem(i, items[i], scheme),
             ],
           ),
         ),
@@ -143,9 +148,12 @@ class _GlassNavBar extends StatelessWidget {
     );
   }
 
-  Widget _navItem(BuildContext context, int i, ColorScheme scheme) {
+  Widget _navItem(
+    int i,
+    ({IconData icon, IconData activeIcon, String label}) item,
+    ColorScheme scheme,
+  ) {
     final selected = i == index;
-    final item = _items[i];
 
     return GestureDetector(
       onTap: () => onChanged(i),

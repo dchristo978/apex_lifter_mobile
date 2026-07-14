@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/gym_provider.dart';
 import '../providers/machine_provider.dart';
@@ -41,6 +42,7 @@ class _LogSetSheetState extends State<LogSetSheet> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate() || _machine == null) return;
 
+    final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     try {
@@ -52,28 +54,29 @@ class _LogSetSheetState extends State<LogSetSheet> {
           );
       navigator.pop();
       messenger.showSnackBar(SnackBar(
-        content: Text(
-            'Set tercatat! Estimated 1RM: ${set.estimated1rm.toStringAsFixed(1)} kg'),
+        content: Text(l10n.setLogged(set.estimated1rm.toStringAsFixed(1))),
       ));
     } on ApiException catch (e) {
       messenger.showSnackBar(SnackBar(content: Text(e.message)));
     } catch (_) {
       messenger.showSnackBar(
-          const SnackBar(content: Text('Tidak bisa terhubung ke server.')));
+          SnackBar(content: Text(l10n.cannotConnect)));
     }
   }
 
-  static const _categoryLabels = {
-    'chest': 'Dada',
-    'back': 'Punggung',
-    'shoulders': 'Bahu',
-    'arms': 'Lengan',
-    'legs': 'Kaki',
-    'core': 'Core',
-  };
+  String _categoryLabel(AppLocalizations l10n, String key) => switch (key) {
+        'chest' => l10n.categoryChest,
+        'back' => l10n.categoryBack,
+        'shoulders' => l10n.categoryShoulders,
+        'arms' => l10n.categoryArms,
+        'legs' => l10n.categoryLegs,
+        'core' => l10n.categoryCore,
+        _ => key,
+      };
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final machines = context.watch<MachineProvider>();
     final submitting = context.watch<WorkoutProvider>().submitting;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -110,22 +113,22 @@ class _LogSetSheetState extends State<LogSetSheet> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text('Tambah Set',
+                    Text(l10n.addSet,
                         style: Theme.of(context).textTheme.titleLarge),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<Machine>(
                       initialValue: _machine,
                       isExpanded: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Pilih alat',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l10n.chooseMachine,
+                        border: const OutlineInputBorder(),
                       ),
                       items: [
                         for (final entry in machines.byCategory.entries) ...[
                           DropdownMenuItem<Machine>(
                             enabled: false,
                             child: Text(
-                              _categoryLabels[entry.key] ?? entry.key,
+                              _categoryLabel(l10n, entry.key),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.primary,
@@ -140,7 +143,8 @@ class _LogSetSheetState extends State<LogSetSheet> {
                         ],
                       ],
                       onChanged: (m) => setState(() => _machine = m),
-                      validator: (m) => m == null ? 'Pilih alat dulu' : null,
+                      validator: (m) =>
+                          m == null ? l10n.chooseMachineFirst : null,
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -151,14 +155,14 @@ class _LogSetSheetState extends State<LogSetSheet> {
                             keyboardType:
                                 const TextInputType.numberWithOptions(
                                     decimal: true),
-                            decoration: const InputDecoration(
-                              labelText: 'Beban (kg)',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: l10n.load,
+                              border: const OutlineInputBorder(),
                             ),
                             validator: (v) {
                               final n = double.tryParse(v ?? '');
                               return (n == null || n <= 0)
-                                  ? 'Beban tidak valid'
+                                  ? l10n.invalidLoad
                                   : null;
                             },
                           ),
@@ -168,14 +172,14 @@ class _LogSetSheetState extends State<LogSetSheet> {
                           child: TextFormField(
                             controller: _reps,
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Repetisi',
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              labelText: l10n.reps,
+                              border: const OutlineInputBorder(),
                             ),
                             validator: (v) {
                               final n = int.tryParse(v ?? '');
                               return (n == null || n < 1 || n > 100)
-                                  ? 'Reps 1-100'
+                                  ? l10n.reps1to100
                                   : null;
                             },
                           ),
@@ -184,7 +188,7 @@ class _LogSetSheetState extends State<LogSetSheet> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Reps = 1 masuk leaderboard 1RM murni; reps ≥ 2 masuk leaderboard estimated 1RM.',
+                      l10n.repsHint,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     const SizedBox(height: 20),
@@ -196,7 +200,7 @@ class _LogSetSheetState extends State<LogSetSheet> {
                               width: 16,
                               child: CircularProgressIndicator(strokeWidth: 2))
                           : const Icon(Icons.check),
-                      label: const Text('Simpan Set'),
+                      label: Text(l10n.saveSet),
                     ),
                   ],
                 ),

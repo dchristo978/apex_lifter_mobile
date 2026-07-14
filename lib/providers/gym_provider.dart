@@ -27,6 +27,26 @@ class GymProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Restore the most recent check-in so the home screen and the "who's here"
+  /// feature work across app restarts, not just after a fresh GPS check-in.
+  Future<void> loadLatestCheckin() async {
+    final json = await _api.get('/gyms/checkin/latest');
+    final checkin = json['checkin'] as Map<String, dynamic>?;
+    final gym = checkin?['gym'] as Map<String, dynamic>?;
+    if (gym != null) {
+      checkedInGym = Gym.fromJson(gym);
+      notifyListeners();
+    }
+  }
+
+  /// Lifters currently checked in at the same gym.
+  Future<List<GymPerson>> activePeople(int gymId) async {
+    final json = await _api.get('/gyms/$gymId/active-checkins');
+    return (json['people'] as List)
+        .map((p) => GymPerson.fromJson(p as Map<String, dynamic>))
+        .toList();
+  }
+
   /// GPS check-in: asks for location permission, then lets the backend
   /// match the nearest FTL branch.
   Future<void> checkinWithGps() async {
