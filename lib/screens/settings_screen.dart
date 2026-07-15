@@ -7,6 +7,7 @@ import '../providers/gym_provider.dart';
 import '../providers/leaderboard_provider.dart';
 import '../providers/notification_provider.dart';
 import '../providers/settings_provider.dart';
+import '../providers/social_provider.dart';
 import '../providers/workout_provider.dart';
 import '../services/api_client.dart';
 import '../services/push_service.dart';
@@ -250,6 +251,7 @@ class SettingsScreen extends StatelessWidget {
       context.read<NotificationProvider>().clear();
       context.read<LeaderboardProvider>().clear();
       context.read<GymProvider>().clear();
+      context.read<SocialProvider>().clear();
       messenger.showSnackBar(SnackBar(content: Text(l10n.deleteAccount)));
       Navigator.of(context).popUntil((route) => route.isFirst);
     }
@@ -264,6 +266,7 @@ class SettingsScreen extends StatelessWidget {
     context.read<NotificationProvider>().clear();
     context.read<LeaderboardProvider>().clear();
     context.read<GymProvider>().clear();
+    context.read<SocialProvider>().clear();
     context.read<AuthProvider>().logout();
     // Pop back to the profile tab; the auth switch rebuilds to LoginScreen.
     Navigator.of(context).popUntil((route) => route.isFirst);

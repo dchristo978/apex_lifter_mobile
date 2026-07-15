@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/challenge_detail_screen.dart';
+import '../screens/public_profile_screen.dart';
 import 'api_client.dart';
 
 /// Handles a data/notification message delivered while the app is terminated or
@@ -115,16 +116,29 @@ class PushService {
   /// the app.
   void _handleTap(RemoteMessage message) {
     final challengeId = _challengeIdOf(message);
-    if (challengeId == null) return;
-
-    navigatorKey.currentState?.push(
-      MaterialPageRoute(
-        builder: (_) => ChallengeDetailScreen(
-          challengeId: challengeId,
-          celebrateOnOpen: message.data['type'] == 'challenge_received',
+    if (challengeId != null) {
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (_) => ChallengeDetailScreen(
+            challengeId: challengeId,
+            celebrateOnOpen: message.data['type'] == 'challenge_received',
+          ),
         ),
-      ),
-    );
+      );
+      return;
+    }
+
+    // A new-follower notification deep-links to the follower's profile.
+    if (message.data['type']?.toString() == 'new_follower') {
+      final actorId = int.tryParse(message.data['actor_id']?.toString() ?? '');
+      if (actorId != null) {
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (_) => PublicProfileScreen(userId: actorId),
+          ),
+        );
+      }
+    }
   }
 
   int? _challengeIdOf(RemoteMessage message) {

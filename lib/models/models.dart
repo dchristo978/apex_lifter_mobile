@@ -136,6 +136,10 @@ class PublicProfile {
     this.records = const [],
     this.badges = const [],
     this.medals = 0,
+    this.isSelf = false,
+    this.isFollowing = false,
+    this.followersCount = 0,
+    this.followingCount = 0,
   });
 
   final int id;
@@ -150,6 +154,13 @@ class PublicProfile {
   final double totalVolumeKg;
   final int machinesTrained;
   final double bestEstimated1rm;
+
+  /// Social graph: whether the viewer is this lifter, whether they follow them,
+  /// and this lifter's follower/following totals.
+  final bool isSelf;
+  final bool isFollowing;
+  final int followersCount;
+  final int followingCount;
 
   /// Consecutive weeks (Mon–Sun) with at least one gym session. See the
   /// backend's `User::weekStreak()`.
@@ -186,8 +197,168 @@ class PublicProfile {
           .map((b) => b.toString())
           .toList(),
       medals: json['medals'] as int? ?? 0,
+      isSelf: json['is_self'] as bool? ?? false,
+      isFollowing: json['is_following'] as bool? ?? false,
+      followersCount: json['followers_count'] as int? ?? 0,
+      followingCount: json['following_count'] as int? ?? 0,
     );
   }
+
+  /// A copy with the follow state and counts swapped in, so the profile header
+  /// can update optimistically after a follow/unfollow without a full reload.
+  PublicProfile withFollowState({
+    required bool isFollowing,
+    required int followersCount,
+  }) {
+    return PublicProfile(
+      id: id,
+      name: name,
+      avatarUrl: avatarUrl,
+      gender: gender,
+      ageBracket: ageBracket,
+      weightClass: weightClass,
+      bodyWeightStale: bodyWeightStale,
+      homeGymName: homeGymName,
+      totalSets: totalSets,
+      totalVolumeKg: totalVolumeKg,
+      machinesTrained: machinesTrained,
+      bestEstimated1rm: bestEstimated1rm,
+      weekStreak: weekStreak,
+      records: records,
+      badges: badges,
+      medals: medals,
+      isSelf: isSelf,
+      isFollowing: isFollowing,
+      followersCount: followersCount,
+      followingCount: followingCount,
+    );
+  }
+}
+
+/// A lifter as they appear in a followers/following list.
+class FollowUser {
+  FollowUser({required this.id, required this.name, this.avatarUrl});
+
+  final int id;
+  final String name;
+  final String? avatarUrl;
+
+  factory FollowUser.fromJson(Map<String, dynamic> json) => FollowUser(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        avatarUrl: json['avatar_url'] as String?,
+      );
+}
+
+/// One entry in the social activity feed: a PR, medal, or check-in by a lifter
+/// the viewer follows (or themselves). [meta] holds type-specific display data.
+class FeedItem {
+  FeedItem({
+    required this.id,
+    required this.type,
+    required this.createdAt,
+    required this.actorId,
+    required this.actorName,
+    this.actorAvatarUrl,
+    this.meta = const {},
+    this.kudosCount = 0,
+    this.commentCount = 0,
+    this.viewerKudoed = false,
+  });
+
+  final int id;
+  final String type; // pr | medal | checkin
+  final DateTime createdAt;
+  final int actorId;
+  final String actorName;
+  final String? actorAvatarUrl;
+  final Map<String, dynamic> meta;
+
+  /// Mutable social counters so the feed can update optimistically in place
+  /// after a kudos toggle or a new comment, without refetching the page.
+  int kudosCount;
+  int commentCount;
+  bool viewerKudoed;
+
+  factory FeedItem.fromJson(Map<String, dynamic> json) {
+    final actor = json['actor'] as Map<String, dynamic>?;
+    return FeedItem(
+      id: json['id'] as int,
+      type: json['type'] as String,
+      createdAt:
+          DateTime.tryParse(json['created_at'] as String? ?? '')?.toLocal() ??
+              DateTime.now(),
+      actorId: actor?['id'] as int? ?? 0,
+      actorName: actor?['name'] as String? ?? '',
+      actorAvatarUrl: actor?['avatar_url'] as String?,
+      meta: (json['meta'] as Map<String, dynamic>?) ?? const {},
+      kudosCount: json['kudos_count'] as int? ?? 0,
+      commentCount: json['comment_count'] as int? ?? 0,
+      viewerKudoed: json['viewer_kudoed'] as bool? ?? false,
+    );
+  }
+}
+
+/// A comment on a feed activity.
+class ActivityComment {
+  ActivityComment({
+    required this.id,
+    required this.body,
+    required this.createdAt,
+    required this.isMine,
+    required this.authorId,
+    required this.authorName,
+    this.authorAvatarUrl,
+  });
+
+  final int id;
+  final String body;
+  final DateTime createdAt;
+  final bool isMine;
+  final int authorId;
+  final String authorName;
+  final String? authorAvatarUrl;
+
+  factory ActivityComment.fromJson(Map<String, dynamic> json) {
+    final author = json['author'] as Map<String, dynamic>?;
+    return ActivityComment(
+      id: json['id'] as int,
+      body: json['body'] as String,
+      createdAt:
+          DateTime.tryParse(json['created_at'] as String? ?? '')?.toLocal() ??
+              DateTime.now(),
+      isMine: json['is_mine'] as bool? ?? false,
+      authorId: author?['id'] as int? ?? 0,
+      authorName: author?['name'] as String? ?? '',
+      authorAvatarUrl: author?['avatar_url'] as String?,
+    );
+  }
+}
+
+/// A "who to follow" suggestion with a short reason (gym-mate or popular).
+class FollowSuggestion {
+  FollowSuggestion({
+    required this.id,
+    required this.name,
+    this.avatarUrl,
+    this.followersCount = 0,
+    this.reason = 'popular',
+  });
+
+  final int id;
+  final String name;
+  final String? avatarUrl;
+  final int followersCount;
+  final String reason; // gym | popular
+
+  factory FollowSuggestion.fromJson(Map<String, dynamic> json) =>
+      FollowSuggestion(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        avatarUrl: json['avatar_url'] as String?,
+        followersCount: json['followers_count'] as int? ?? 0,
+        reason: json['reason'] as String? ?? 'popular',
+      );
 }
 
 /// One calendar-day gym session in a lifter's history.
@@ -373,6 +544,8 @@ class RankNotification {
     this.readAt,
     this.type = 'rank',
     this.challengeId,
+    this.actorId,
+    this.actorName,
   });
 
   final int id;
@@ -381,13 +554,18 @@ class RankNotification {
   final DateTime createdAt;
   final DateTime? readAt;
 
-  /// 'rank' for leaderboard alerts, or a 'challenge_*' type that deep-links
-  /// to [challengeId].
+  /// 'rank' for leaderboard alerts, 'challenge_*' deep-linking to [challengeId],
+  /// or 'new_follower' deep-linking to the follower's profile ([actorId]).
   final String type;
   final int? challengeId;
 
+  /// The other user involved (e.g. the new follower), for profile deep-links.
+  final int? actorId;
+  final String? actorName;
+
   bool get isUnread => readAt == null;
   bool get isChallenge => type.startsWith('challenge') && challengeId != null;
+  bool get isFollow => type == 'new_follower' && actorId != null;
 
   factory RankNotification.fromJson(Map<String, dynamic> json) =>
       RankNotification(
@@ -400,6 +578,8 @@ class RankNotification {
             : DateTime.parse(json['read_at'] as String).toLocal(),
         type: json['type'] as String? ?? 'rank',
         challengeId: json['challenge_id'] as int?,
+        actorId: json['actor_id'] as int?,
+        actorName: json['actor_name'] as String?,
       );
 }
 

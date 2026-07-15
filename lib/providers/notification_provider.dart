@@ -38,6 +38,8 @@ class NotificationProvider extends ChangeNotifier {
           readAt: n.readAt ?? DateTime.now(),
           type: n.type,
           challengeId: n.challengeId,
+          actorId: n.actorId,
+          actorName: n.actorName,
         ),
     ];
     notifyListeners();

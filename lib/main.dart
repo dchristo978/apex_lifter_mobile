@@ -10,6 +10,7 @@ import 'providers/leaderboard_provider.dart';
 import 'providers/machine_provider.dart';
 import 'providers/notification_provider.dart';
 import 'providers/settings_provider.dart';
+import 'providers/social_provider.dart';
 import 'providers/workout_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
@@ -42,6 +43,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => LeaderboardProvider(api)),
         ChangeNotifierProvider(create: (_) => NotificationProvider(api)),
         ChangeNotifierProvider(create: (_) => ChallengeProvider(api)),
+        ChangeNotifierProvider(create: (_) => SocialProvider(api)),
       ],
       child: const ApexLifterApp(),
     ),

@@ -544,5 +544,81 @@
   "deleteSetTitle": "Delete this set?",
   "deleteSetWarning": "This removes the set from your history and leaderboards. This cannot be undone.",
   "deleteSetConfirm": "Delete",
-  "deleteSetSuccess": "Set deleted."
+  "deleteSetSuccess": "Set deleted.",
+  "navFeed": "Feed",
+  "feedTitle": "Feed",
+  "feedEmpty": "Your feed is quiet. Follow other lifters to see their PRs, medals, and check-ins here.",
+  "feedEmptyAction": "Find lifters on the leaderboard",
+  "follow": "Follow",
+  "following": "Following",
+  "unfollow": "Unfollow",
+  "followers": "Followers",
+  "followersCount": "{count} followers",
+  "@followersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "followingCount": "{count} following",
+  "@followingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noFollowers": "No followers yet.",
+  "noFollowing": "Not following anyone yet.",
+  "feedPr": "set a new PR on {machine}: {weight} kg × {reps}",
+  "@feedPr": {
+    "placeholders": {
+      "machine": { "type": "String" },
+      "weight": { "type": "String" },
+      "reps": { "type": "int" }
+    }
+  },
+  "feedPrNoMachine": "set a new PR: {weight} kg × {reps}",
+  "@feedPrNoMachine": {
+    "placeholders": {
+      "weight": { "type": "String" },
+      "reps": { "type": "int" }
+    }
+  },
+  "feedMedal": "won a medal on {machine}",
+  "@feedMedal": {
+    "placeholders": {
+      "machine": { "type": "String" }
+    }
+  },
+  "feedMedalVs": "won a medal on {machine}, defeating {name}",
+  "@feedMedalVs": {
+    "placeholders": {
+      "machine": { "type": "String" },
+      "name": { "type": "String" }
+    }
+  },
+  "feedCheckin": "checked in at {gym}",
+  "@feedCheckin": {
+    "placeholders": {
+      "gym": { "type": "String" }
+    }
+  },
+  "kudos": "Kudos",
+  "comments": "Comments",
+  "commentsTitle": "Comments",
+  "noComments": "No comments yet. Be the first to cheer them on.",
+  "addCommentHint": "Add a comment…",
+  "send": "Send",
+  "deleteComment": "Delete comment",
+  "suggestedLifters": "Suggested lifters",
+  "suggestionReasonGym": "Trains at your gym",
+  "suggestionReasonPopular": "Popular lifter",
+  "suggestionFollowers": "{count} followers",
+  "@suggestionFollowers": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

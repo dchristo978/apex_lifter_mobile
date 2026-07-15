@@ -1657,6 +1657,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set deleted.'**
   String get deleteSetSuccess;
+
+  /// No description provided for @navFeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get navFeed;
+
+  /// No description provided for @feedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get feedTitle;
+
+  /// No description provided for @feedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your feed is quiet. Follow other lifters to see their PRs, medals, and check-ins here.'**
+  String get feedEmpty;
+
+  /// No description provided for @feedEmptyAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Find lifters on the leaderboard'**
+  String get feedEmptyAction;
+
+  /// No description provided for @follow.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow'**
+  String get follow;
+
+  /// No description provided for @following.
+  ///
+  /// In en, this message translates to:
+  /// **'Following'**
+  String get following;
+
+  /// No description provided for @unfollow.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfollow'**
+  String get unfollow;
+
+  /// No description provided for @followers.
+  ///
+  /// In en, this message translates to:
+  /// **'Followers'**
+  String get followers;
+
+  /// No description provided for @followersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers'**
+  String followersCount(int count);
+
+  /// No description provided for @followingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} following'**
+  String followingCount(int count);
+
+  /// No description provided for @noFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'No followers yet.'**
+  String get noFollowers;
+
+  /// No description provided for @noFollowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not following anyone yet.'**
+  String get noFollowing;
+
+  /// No description provided for @feedPr.
+  ///
+  /// In en, this message translates to:
+  /// **'set a new PR on {machine}: {weight} kg × {reps}'**
+  String feedPr(String machine, String weight, int reps);
+
+  /// No description provided for @feedPrNoMachine.
+  ///
+  /// In en, this message translates to:
+  /// **'set a new PR: {weight} kg × {reps}'**
+  String feedPrNoMachine(String weight, int reps);
+
+  /// No description provided for @feedMedal.
+  ///
+  /// In en, this message translates to:
+  /// **'won a medal on {machine}'**
+  String feedMedal(String machine);
+
+  /// No description provided for @feedMedalVs.
+  ///
+  /// In en, this message translates to:
+  /// **'won a medal on {machine}, defeating {name}'**
+  String feedMedalVs(String machine, String name);
+
+  /// No description provided for @feedCheckin.
+  ///
+  /// In en, this message translates to:
+  /// **'checked in at {gym}'**
+  String feedCheckin(String gym);
+
+  /// No description provided for @kudos.
+  ///
+  /// In en, this message translates to:
+  /// **'Kudos'**
+  String get kudos;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @commentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get commentsTitle;
+
+  /// No description provided for @noComments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet. Be the first to cheer them on.'**
+  String get noComments;
+
+  /// No description provided for @addCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a comment…'**
+  String get addCommentHint;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @deleteComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete comment'**
+  String get deleteComment;
+
+  /// No description provided for @suggestedLifters.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested lifters'**
+  String get suggestedLifters;
+
+  /// No description provided for @suggestionReasonGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Trains at your gym'**
+  String get suggestionReasonGym;
+
+  /// No description provided for @suggestionReasonPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular lifter'**
+  String get suggestionReasonPopular;
+
+  /// No description provided for @suggestionFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers'**
+  String suggestionFollowers(int count);
 }
 
 class _AppLocalizationsDelegate

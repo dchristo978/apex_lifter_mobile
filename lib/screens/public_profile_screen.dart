@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/auth_provider.dart';
+import '../providers/social_provider.dart';
 import '../services/api_client.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
 import 'create_challenge_screen.dart';
+import 'follow_list_screen.dart';
 import 'medals_screen.dart';
 
 /// Another lifter's public profile plus their lazily-loaded session history.
@@ -31,6 +33,7 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 
   PublicProfile? _profile;
   String? _profileError;
+  bool _followBusy = false;
 
   final List<GymSession> _sessions = [];
   int _nextPage = 1;
@@ -103,6 +106,31 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
     }
   }
 
+  Future<void> _toggleFollow() async {
+    final p = _profile;
+    if (p == null || _followBusy) return;
+    setState(() => _followBusy = true);
+    final social = context.read<SocialProvider>();
+    try {
+      final state = p.isFollowing
+          ? await social.unfollow(widget.userId)
+          : await social.follow(widget.userId);
+      if (mounted) {
+        setState(() => _profile = p.withFollowState(
+              isFollowing: state.isFollowing,
+              followersCount: state.followersCount,
+            ));
+      }
+    } on ApiException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    } finally {
+      if (mounted) setState(() => _followBusy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final myId = context.watch<AuthProvider>().user?.id;
@@ -158,6 +186,42 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           );
         },
       ),
+    );
+  }
+
+  void _openFollowList(FollowListKind kind) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) =>
+            FollowListScreen(userId: widget.userId, kind: kind),
+      ),
+    );
+  }
+
+  Widget _followButton(BuildContext context, PublicProfile p) {
+    final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final child = _followBusy
+        ? const SizedBox(
+            height: 18, width: 18, child: CircularProgressIndicator(strokeWidth: 2))
+        : Text(p.isFollowing ? l10n.following : l10n.follow);
+
+    return SizedBox(
+      width: 200,
+      child: p.isFollowing
+          ? OutlinedButton.icon(
+              onPressed: _followBusy ? null : _toggleFollow,
+              icon: const Icon(Icons.check, size: 18),
+              label: child,
+            )
+          : FilledButton.icon(
+              onPressed: _followBusy ? null : _toggleFollow,
+              icon: const Icon(Icons.person_add_alt_1, size: 18),
+              label: child,
+              style: FilledButton.styleFrom(
+                  backgroundColor: scheme.primary,
+                  foregroundColor: scheme.onPrimary),
+            ),
     );
   }
 
@@ -231,6 +295,17 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
             padding: EdgeInsets.only(top: 8),
             child: _StaleWeightChip(),
           ),
+        const SizedBox(height: 12),
+        _FollowCounts(
+          followers: p.followersCount,
+          following: p.followingCount,
+          onFollowers: () => _openFollowList(FollowListKind.followers),
+          onFollowing: () => _openFollowList(FollowListKind.following),
+        ),
+        if (!p.isSelf) ...[
+          const SizedBox(height: 12),
+          _followButton(context, p),
+        ],
         const SizedBox(height: 16),
         Row(
           children: [
@@ -402,6 +477,56 @@ class _MedalsRow extends StatelessWidget {
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
             if (onTap != null) const Icon(Icons.chevron_right, size: 18),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Tappable followers / following totals, side by side under the name.
+class _FollowCounts extends StatelessWidget {
+  const _FollowCounts({
+    required this.followers,
+    required this.following,
+    required this.onFollowers,
+    required this.onFollowing,
+  });
+
+  final int followers;
+  final int following;
+  final VoidCallback onFollowers;
+  final VoidCallback onFollowing;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _stat(context, followers, l10n.followers, onFollowers),
+        const SizedBox(width: 24),
+        _stat(context, following, l10n.following, onFollowing),
+      ],
+    );
+  }
+
+  Widget _stat(
+      BuildContext context, int value, String label, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        child: Column(
+          children: [
+            Text('$value',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            Text(label, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),

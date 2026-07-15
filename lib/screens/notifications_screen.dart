@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
 import 'challenge_detail_screen.dart';
+import 'public_profile_screen.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -43,28 +44,41 @@ class NotificationsScreen extends StatelessWidget {
                 itemCount: provider.notifications.length,
                 itemBuilder: (context, i) {
                   final n = provider.notifications[i];
-                  return Card(
-                    child: ListTile(
-                      onTap: n.isChallenge
+                  final VoidCallback? onTap = n.isChallenge
+                      ? () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ChallengeDetailScreen(
+                                challengeId: n.challengeId!,
+                                celebrateOnOpen:
+                                    n.type == 'challenge_received',
+                              ),
+                            ),
+                          )
+                      : (n.isFollow
                           ? () => Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => ChallengeDetailScreen(
-                                    challengeId: n.challengeId!,
-                                    celebrateOnOpen:
-                                        n.type == 'challenge_received',
+                                  builder: (_) => PublicProfileScreen(
+                                    userId: n.actorId!,
+                                    initialName: n.actorName,
                                   ),
                                 ),
                               )
-                          : null,
-                      trailing: n.isChallenge
+                          : null);
+
+                  return Card(
+                    child: ListTile(
+                      onTap: onTap,
+                      trailing: (n.isChallenge || n.isFollow)
                           ? const Icon(Icons.chevron_right)
                           : null,
                       leading: Icon(
                         n.isChallenge
                             ? Icons.sports_mma
-                            : (n.isUnread
-                                ? Icons.notifications_active
-                                : Icons.notifications_none),
+                            : (n.isFollow
+                                ? Icons.person_add_alt_1
+                                : (n.isUnread
+                                    ? Icons.notifications_active
+                                    : Icons.notifications_none)),
                         color: n.isUnread
                             ? Theme.of(context).colorScheme.primary
                             : null,

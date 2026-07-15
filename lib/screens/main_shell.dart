@@ -10,6 +10,7 @@ import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
 import '../providers/settings_provider.dart';
 import '../services/push_service.dart';
+import 'feed_screen.dart';
 import 'home_screen.dart';
 import 'leaderboard_screen.dart';
 import 'profile_screen.dart';
@@ -49,6 +50,7 @@ class _MainShellState extends State<MainShell> {
   Widget build(BuildContext context) {
     const screens = [
       HomeScreen(),
+      FeedScreen(),
       LeaderboardScreen(),
       ProfileScreen(),
     ];
@@ -74,6 +76,9 @@ class _MainShellState extends State<MainShell> {
                             CNTabBarItem(
                                 label: l10n.navHome,
                                 icon: const CNSymbol('house.fill')),
+                            CNTabBarItem(
+                                label: l10n.navFeed,
+                                icon: const CNSymbol('bolt.fill')),
                             CNTabBarItem(
                                 label: l10n.navLeaderboard,
                                 icon: const CNSymbol('chart.bar.fill')),
@@ -111,6 +116,11 @@ class _GlassNavBar extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final items = [
       (icon: Icons.home_outlined, activeIcon: Icons.home, label: l10n.navHome),
+      (
+        icon: Icons.bolt_outlined,
+        activeIcon: Icons.bolt,
+        label: l10n.navFeed
+      ),
       (
         icon: Icons.leaderboard_outlined,
         activeIcon: Icons.leaderboard,

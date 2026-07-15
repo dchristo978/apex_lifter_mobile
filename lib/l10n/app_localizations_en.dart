@@ -886,4 +886,105 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteSetSuccess => 'Set deleted.';
+
+  @override
+  String get navFeed => 'Feed';
+
+  @override
+  String get feedTitle => 'Feed';
+
+  @override
+  String get feedEmpty =>
+      'Your feed is quiet. Follow other lifters to see their PRs, medals, and check-ins here.';
+
+  @override
+  String get feedEmptyAction => 'Find lifters on the leaderboard';
+
+  @override
+  String get follow => 'Follow';
+
+  @override
+  String get following => 'Following';
+
+  @override
+  String get unfollow => 'Unfollow';
+
+  @override
+  String get followers => 'Followers';
+
+  @override
+  String followersCount(int count) {
+    return '$count followers';
+  }
+
+  @override
+  String followingCount(int count) {
+    return '$count following';
+  }
+
+  @override
+  String get noFollowers => 'No followers yet.';
+
+  @override
+  String get noFollowing => 'Not following anyone yet.';
+
+  @override
+  String feedPr(String machine, String weight, int reps) {
+    return 'set a new PR on $machine: $weight kg × $reps';
+  }
+
+  @override
+  String feedPrNoMachine(String weight, int reps) {
+    return 'set a new PR: $weight kg × $reps';
+  }
+
+  @override
+  String feedMedal(String machine) {
+    return 'won a medal on $machine';
+  }
+
+  @override
+  String feedMedalVs(String machine, String name) {
+    return 'won a medal on $machine, defeating $name';
+  }
+
+  @override
+  String feedCheckin(String gym) {
+    return 'checked in at $gym';
+  }
+
+  @override
+  String get kudos => 'Kudos';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get commentsTitle => 'Comments';
+
+  @override
+  String get noComments => 'No comments yet. Be the first to cheer them on.';
+
+  @override
+  String get addCommentHint => 'Add a comment…';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get deleteComment => 'Delete comment';
+
+  @override
+  String get suggestedLifters => 'Suggested lifters';
+
+  @override
+  String get suggestionReasonGym => 'Trains at your gym';
+
+  @override
+  String get suggestionReasonPopular => 'Popular lifter';
+
+  @override
+  String suggestionFollowers(int count) {
+    return '$count followers';
+  }
 }

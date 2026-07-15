@@ -891,4 +891,106 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get deleteSetSuccess => 'Set dihapus.';
+
+  @override
+  String get navFeed => 'Beranda';
+
+  @override
+  String get feedTitle => 'Beranda';
+
+  @override
+  String get feedEmpty =>
+      'Berandamu masih sepi. Ikuti lifter lain untuk melihat PR, medali, dan check-in mereka di sini.';
+
+  @override
+  String get feedEmptyAction => 'Cari lifter di papan peringkat';
+
+  @override
+  String get follow => 'Ikuti';
+
+  @override
+  String get following => 'Mengikuti';
+
+  @override
+  String get unfollow => 'Berhenti ikuti';
+
+  @override
+  String get followers => 'Pengikut';
+
+  @override
+  String followersCount(int count) {
+    return '$count pengikut';
+  }
+
+  @override
+  String followingCount(int count) {
+    return '$count diikuti';
+  }
+
+  @override
+  String get noFollowers => 'Belum ada pengikut.';
+
+  @override
+  String get noFollowing => 'Belum mengikuti siapa pun.';
+
+  @override
+  String feedPr(String machine, String weight, int reps) {
+    return 'mencetak PR baru di $machine: $weight kg × $reps';
+  }
+
+  @override
+  String feedPrNoMachine(String weight, int reps) {
+    return 'mencetak PR baru: $weight kg × $reps';
+  }
+
+  @override
+  String feedMedal(String machine) {
+    return 'memenangkan medali di $machine';
+  }
+
+  @override
+  String feedMedalVs(String machine, String name) {
+    return 'memenangkan medali di $machine, mengalahkan $name';
+  }
+
+  @override
+  String feedCheckin(String gym) {
+    return 'check-in di $gym';
+  }
+
+  @override
+  String get kudos => 'Kudos';
+
+  @override
+  String get comments => 'Komentar';
+
+  @override
+  String get commentsTitle => 'Komentar';
+
+  @override
+  String get noComments =>
+      'Belum ada komentar. Jadilah yang pertama menyemangati.';
+
+  @override
+  String get addCommentHint => 'Tulis komentar…';
+
+  @override
+  String get send => 'Kirim';
+
+  @override
+  String get deleteComment => 'Hapus komentar';
+
+  @override
+  String get suggestedLifters => 'Lifter yang disarankan';
+
+  @override
+  String get suggestionReasonGym => 'Latihan di gym-mu';
+
+  @override
+  String get suggestionReasonPopular => 'Lifter populer';
+
+  @override
+  String suggestionFollowers(int count) {
+    return '$count pengikut';
+  }
 }
