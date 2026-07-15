@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Soft maroon glow behind the frosted glass so the blur has something
+          // Soft blue glow behind the frosted glass so the blur has something
           // to catch, matching the glassmorphism used inside the app.
           const _AuroraBackground(),
           SafeArea(
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// The rounded app icon with a soft maroon halo.
+/// The rounded app icon with a soft blue halo.
 class _Logo extends StatelessWidget {
   const _Logo();
 
@@ -248,7 +248,7 @@ class _Logo extends StatelessWidget {
           borderRadius: BorderRadius.circular(26),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFB03A48).withValues(alpha: 0.45),
+              color: const Color(0xFF409CFF).withValues(alpha: 0.45),
               blurRadius: 32,
               spreadRadius: 2,
             ),
@@ -291,58 +291,65 @@ class _GlassField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.06),
+    // The frosted glass fill/blur sits behind in the Stack so it can be clipped
+    // to rounded corners, while the TextFormField renders on top unclipped —
+    // otherwise the floating label (which straddles the top border) gets cropped.
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
-          ),
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: scheme.onSurfaceVariant),
-              floatingLabelStyle: TextStyle(color: scheme.primary),
-              prefixIcon: Icon(icon, color: scheme.onSurfaceVariant),
-              suffixIcon: suffix,
-              filled: false,
-              // The glass container draws the border; keep the field borderless
-              // except for a subtle focus/error highlight.
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide.none,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.06),
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: scheme.primary, width: 1.5),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: scheme.error, width: 1.5),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: BorderSide(color: scheme.error, width: 1.5),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
             ),
-            validator: validator,
           ),
         ),
-      ),
+        TextFormField(
+          controller: controller,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: scheme.onSurfaceVariant),
+            floatingLabelStyle: TextStyle(color: scheme.primary),
+            prefixIcon: Icon(icon, color: scheme.onSurfaceVariant),
+            suffixIcon: suffix,
+            filled: false,
+            // A subtle border at rest, brightening to the primary color on focus.
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.14)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: scheme.primary, width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: scheme.error, width: 1.5),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: BorderSide(color: scheme.error, width: 1.5),
+            ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+          ),
+          validator: validator,
+        ),
+      ],
     );
   }
 }
 
-/// Two soft radial maroon glows on the black background — gives the frosted
+/// Two soft radial blue glows on the black background — gives the frosted
 /// fields something to refract.
 class _AuroraBackground extends StatelessWidget {
   const _AuroraBackground();
@@ -355,7 +362,7 @@ class _AuroraBackground extends StatelessWidget {
           gradient: RadialGradient(
             center: Alignment(0, -0.7),
             radius: 1.1,
-            colors: [Color(0xFF3A1015), Color(0xFF000000)],
+            colors: [Color(0xFF0A2A4D), Color(0xFF000000)],
             stops: [0.0, 0.7],
           ),
         ),
@@ -364,7 +371,7 @@ class _AuroraBackground extends StatelessWidget {
             gradient: RadialGradient(
               center: Alignment(0.9, 0.9),
               radius: 0.9,
-              colors: [Color(0x33800000), Color(0x00000000)],
+              colors: [Color(0x33007AFF), Color(0x00000000)],
               stops: [0.0, 1.0],
             ),
           ),

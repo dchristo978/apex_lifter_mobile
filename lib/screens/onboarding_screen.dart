@@ -153,7 +153,7 @@ class _Slide extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Frosted-glass medallion with a soft maroon halo, echoing the
+          // Frosted-glass medallion with a soft blue halo, echoing the
           // login screen's logo treatment.
           Container(
             width: 180,
@@ -162,7 +162,7 @@ class _Slide extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFB03A48).withValues(alpha: 0.35),
+                  color: const Color(0xFF409CFF).withValues(alpha: 0.35),
                   blurRadius: 48,
                   spreadRadius: 4,
                 ),
@@ -207,7 +207,7 @@ class _Slide extends StatelessWidget {
   }
 }
 
-/// Same soft maroon glow used behind the login screen's frosted glass.
+/// Same soft blue glow used behind the login screen's frosted glass.
 class _AuroraBackground extends StatelessWidget {
   const _AuroraBackground();
 
@@ -219,7 +219,7 @@ class _AuroraBackground extends StatelessWidget {
           gradient: RadialGradient(
             center: Alignment(0, -0.7),
             radius: 1.1,
-            colors: [Color(0xFF3A1015), Color(0xFF000000)],
+            colors: [Color(0xFF0A2A4D), Color(0xFF000000)],
             stops: [0.0, 0.7],
           ),
         ),
@@ -228,7 +228,7 @@ class _AuroraBackground extends StatelessWidget {
             gradient: RadialGradient(
               center: Alignment(0.9, 0.9),
               radius: 0.9,
-              colors: [Color(0x33800000), Color(0x00000000)],
+              colors: [Color(0x33007AFF), Color(0x00000000)],
               stops: [0.0, 1.0],
             ),
           ),

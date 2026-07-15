@@ -38,9 +38,8 @@ void main() {
   );
 }
 
-// Pure black + maroon palette with gray accents.
-const _maroon = Color(0xFF800000);
-const _maroonLight = Color(0xFFB03A48);
+// Pure black + iOS default blue palette with gray accents.
+const _blue = Color(0xFF007AFF);
 const _black = Color(0xFF000000);
 const _grayDark = Color(0xFF1A1A1A);
 const _gray = Color(0xFF2A2A2A);
@@ -48,14 +47,14 @@ const _grayLight = Color(0xFFBDBDBD);
 
 ThemeData _buildTheme() {
   final base = ColorScheme.fromSeed(
-    seedColor: _maroon,
+    seedColor: _blue,
     brightness: Brightness.dark,
   );
 
   final scheme = base.copyWith(
-    primary: _maroonLight,
+    primary: _blue,
     onPrimary: Colors.white,
-    primaryContainer: _maroon,
+    primaryContainer: _blue,
     onPrimaryContainer: Colors.white,
     secondary: _grayLight,
     onSecondary: _black,
@@ -92,7 +91,7 @@ ThemeData _buildTheme() {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: _grayDark,
-      indicatorColor: _maroon,
+      indicatorColor: _blue,
     ),
     cardTheme: const CardThemeData(color: _grayDark),
   );

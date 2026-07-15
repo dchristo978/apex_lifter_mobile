@@ -399,8 +399,8 @@ class _StaleWeightChip extends StatelessWidget {
     return Chip(
       avatar: const Icon(Icons.warning_amber_rounded, size: 18),
       label: Text(AppLocalizations.of(context).staleWeightTitle),
-      backgroundColor: Colors.orange.withValues(alpha: 0.18),
-      side: BorderSide(color: Colors.orange.withValues(alpha: 0.5)),
+      backgroundColor: const Color(0xFF007AFF).withValues(alpha: 0.18),
+      side: BorderSide(color: const Color(0xFF007AFF).withValues(alpha: 0.5)),
     );
   }
 }

@@ -106,10 +106,10 @@ class ProfileScreen extends StatelessWidget {
           if (user.bodyWeightStale) ...[
             const SizedBox(height: 8),
             Card(
-              color: Colors.orange.withValues(alpha: 0.15),
+              color: const Color(0xFF007AFF).withValues(alpha: 0.15),
               child: ListTile(
                 leading: const Icon(Icons.warning_amber_rounded,
-                    color: Colors.orange),
+                    color: Color(0xFF007AFF)),
                 title: Text(l10n.staleWeightTitle),
                 subtitle: Text(l10n.staleWeightBody),
                 trailing: TextButton(

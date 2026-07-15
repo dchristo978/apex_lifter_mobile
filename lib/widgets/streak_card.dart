@@ -17,9 +17,9 @@ class StreakCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final active = weeks > 0;
 
-    // A warm ember gradient for an active streak; a flat muted surface when idle.
-    final flameStart = active ? const Color(0xFFFF8A34) : scheme.surfaceContainerHigh;
-    final flameEnd = active ? const Color(0xFFB03A48) : scheme.surfaceContainerHigh;
+    // A cool blue gradient for an active streak; a flat muted surface when idle.
+    final flameStart = active ? const Color(0xFF409CFF) : scheme.surfaceContainerHigh;
+    final flameEnd = active ? const Color(0xFF007AFF) : scheme.surfaceContainerHigh;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -35,7 +35,7 @@ class StreakCard extends StatelessWidget {
           ),
           border: Border.all(
             color: active
-                ? const Color(0xFFFF8A34).withValues(alpha: 0.45)
+                ? const Color(0xFF409CFF).withValues(alpha: 0.45)
                 : scheme.outlineVariant,
           ),
           borderRadius: BorderRadius.circular(12),
@@ -100,14 +100,14 @@ class _FlameBadge extends StatelessWidget {
             ? const LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFFFFC24B), Color(0xFFFF6B35)],
+                colors: [Color(0xFF5AC8FA), Color(0xFF007AFF)],
               )
             : null,
         color: active ? null : scheme.surfaceContainerHighest,
         boxShadow: active
             ? [
                 BoxShadow(
-                  color: const Color(0xFFFF6B35).withValues(alpha: 0.5),
+                  color: const Color(0xFF007AFF).withValues(alpha: 0.5),
                   blurRadius: 16,
                   spreadRadius: 1,
                 ),
