@@ -410,6 +410,18 @@ abstract class AppLocalizations {
   /// **'Search machine'**
   String get searchMachine;
 
+  /// No description provided for @searchMachineByNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get searchMachineByNameHint;
+
+  /// No description provided for @allMuscleGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allMuscleGroups;
+
   /// No description provided for @noMachinesFound.
   ///
   /// In en, this message translates to:

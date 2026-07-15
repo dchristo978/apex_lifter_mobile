@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/models.dart';
 import '../providers/challenge_provider.dart';
 import '../providers/machine_provider.dart';
 import '../widgets/challenge_widgets.dart';
 import 'challenge_detail_screen.dart';
+import 'machine_picker_screen.dart';
 
 /// Create a challenge against [opponentId]. Machine and target can be
 /// pre-filled (e.g. when launched from one of the opponent's machine records).
@@ -127,6 +129,47 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
     }
   }
 
+  Future<void> _pickMachine() async {
+    final machine = await Navigator.of(context).push<Machine>(
+      MaterialPageRoute(
+        builder: (_) => MachinePickerScreen(selectedMachineId: _machineId),
+      ),
+    );
+    if (machine != null && mounted) {
+      setState(() {
+        _machineId = machine.id;
+        _error = null;
+      });
+    }
+  }
+
+  /// Read-only field that opens the full-screen machine picker.
+  Widget _machineField(
+      BuildContext context, AppLocalizations l10n, List<Machine> machines) {
+    Machine? selected;
+    for (final m in machines) {
+      if (m.id == _machineId) {
+        selected = m;
+        break;
+      }
+    }
+    return InkWell(
+      onTap: _pickMachine,
+      borderRadius: BorderRadius.circular(4),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: l10n.machine,
+          border: const OutlineInputBorder(),
+          suffixIcon: const Icon(Icons.chevron_right),
+        ),
+        isEmpty: selected == null,
+        child: selected == null
+            ? null
+            : Text(selected.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -146,19 +189,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            DropdownButtonFormField<int>(
-              initialValue: _machineId,
-              isExpanded: true,
-              decoration: InputDecoration(
-                labelText: l10n.machine,
-                border: const OutlineInputBorder(),
-              ),
-              items: [
-                for (final m in machines)
-                  DropdownMenuItem(value: m.id, child: Text(m.name)),
-              ],
-              onChanged: (v) => setState(() => _machineId = v),
-            ),
+            _machineField(context, l10n, machines),
             const SizedBox(height: 16),
             TextFormField(
               controller: _weight,

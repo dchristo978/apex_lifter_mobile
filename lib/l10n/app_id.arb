@@ -52,6 +52,8 @@
   "yourPosition": "Posisimu saat ini: #{rank}",
   "selectMachinePrompt": "Pilih alat untuk melihat peringkat.",
   "searchMachine": "Cari alat",
+  "searchMachineByNameHint": "Cari berdasarkan nama",
+  "allMuscleGroups": "Semua",
   "noMachinesFound": "Tidak ada alat yang cocok dengan pencarian.",
   "noOneLogged": "Belum ada yang mencatat set di periode ini.",
   "broadenSearch": "Coba perluas pencarianmu:",

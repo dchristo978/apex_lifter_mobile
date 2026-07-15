@@ -176,6 +176,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchMachine => 'Search machine';
 
   @override
+  String get searchMachineByNameHint => 'Search by name';
+
+  @override
+  String get allMuscleGroups => 'All';
+
+  @override
   String get noMachinesFound => 'No machines match your search.';
 
   @override

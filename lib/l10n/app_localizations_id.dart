@@ -176,6 +176,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get searchMachine => 'Cari alat';
 
   @override
+  String get searchMachineByNameHint => 'Cari berdasarkan nama';
+
+  @override
+  String get allMuscleGroups => 'Semua';
+
+  @override
   String get noMachinesFound => 'Tidak ada alat yang cocok dengan pencarian.';
 
   @override

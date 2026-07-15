@@ -87,6 +87,8 @@
   },
   "selectMachinePrompt": "Select a machine to view the ranking.",
   "searchMachine": "Search machine",
+  "searchMachineByNameHint": "Search by name",
+  "allMuscleGroups": "All",
   "noMachinesFound": "No machines match your search.",
   "noOneLogged": "No one has logged a set in this period yet.",
   "broadenSearch": "Try broadening your search:",
