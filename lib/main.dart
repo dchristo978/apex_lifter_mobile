@@ -13,6 +13,7 @@ import 'providers/settings_provider.dart';
 import 'providers/workout_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
 import 'services/api_client.dart';
 
@@ -137,9 +138,31 @@ class _RootGateState extends State<_RootGate> {
       builder: (context, auth, _) => switch (auth.status) {
         AuthStatus.unknown =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-        AuthStatus.unauthenticated => const LoginScreen(),
+        AuthStatus.unauthenticated => const _OnboardingGate(),
         AuthStatus.authenticated => const MainShell(),
       },
     );
+  }
+}
+
+/// Plays the 3-slide onboarding before showing the login screen. The gate is
+/// rebuilt from scratch whenever auth flips to unauthenticated, so the slides
+/// reappear on every fresh launch and right after a logout.
+class _OnboardingGate extends StatefulWidget {
+  const _OnboardingGate();
+
+  @override
+  State<_OnboardingGate> createState() => _OnboardingGateState();
+}
+
+class _OnboardingGateState extends State<_OnboardingGate> {
+  bool _done = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_done) {
+      return OnboardingScreen(onDone: () => setState(() => _done = true));
+    }
+    return const LoginScreen();
   }
 }

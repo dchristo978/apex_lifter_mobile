@@ -544,6 +544,45 @@ class Challenge {
   }
 }
 
+/// A row on a gym's public leaderboard: the lifter's best set at that gym
+/// within the period, ranked by estimated 1RM.
+class GymLeaderboardEntry {
+  GymLeaderboardEntry({
+    required this.rank,
+    required this.userId,
+    required this.userName,
+    this.avatarUrl,
+    required this.value,
+    required this.weightKg,
+    required this.reps,
+    required this.machineName,
+    required this.performedAt,
+  });
+
+  final int rank;
+  final int userId;
+  final String userName;
+  final String? avatarUrl;
+  final double value;
+  final double weightKg;
+  final int reps;
+  final String machineName;
+  final DateTime performedAt;
+
+  factory GymLeaderboardEntry.fromJson(Map<String, dynamic> json) =>
+      GymLeaderboardEntry(
+        rank: json['rank'] as int,
+        userId: json['user_id'] as int,
+        userName: json['user_name'] as String,
+        avatarUrl: json['avatar_url'] as String?,
+        value: _toDouble(json['value']),
+        weightKg: _toDouble(json['weight_kg']),
+        reps: json['reps'] as int,
+        machineName: json['machine_name'] as String,
+        performedAt: DateTime.parse(json['performed_at'] as String).toLocal(),
+      );
+}
+
 class CheckinResult {
   CheckinResult({required this.gym, required this.distanceM});
 

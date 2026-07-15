@@ -724,4 +724,57 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get later => 'Nanti';
+
+  @override
+  String get gymLocations => 'Lokasi Gym';
+
+  @override
+  String get exploreGyms => 'Jelajahi gym';
+
+  @override
+  String get noGymsFound => 'Belum ada gym terdaftar.';
+
+  @override
+  String get gymLeaderboardEmpty => 'Belum ada angkatan tercatat di gym ini.';
+
+  @override
+  String gymEntrySubtitle(String weight, int reps, String machine) {
+    return '$weight kg × $reps reps · $machine';
+  }
+
+  @override
+  String get challengeAction => 'Tantang';
+
+  @override
+  String get loginToChallenge => 'Masuk untuk menantang lifter lain.';
+
+  @override
+  String get onboardingTitle1 => 'Catat Setiap Repetisi';
+
+  @override
+  String get onboardingBody1 =>
+      'Catat set-mu dalam hitungan detik dan lihat estimasi 1RM-mu terus naik — progresmu tercatat dalam grafik.';
+
+  @override
+  String get onboardingTitle2 => 'Kuasai Gym-mu';
+
+  @override
+  String get onboardingBody2 =>
+      'Check-in dengan GPS, lihat siapa yang sedang latihan, dan panjat papan peringkat mingguan di setiap mesin.';
+
+  @override
+  String get onboardingTitle3 => 'Tantang Siapa Saja';
+
+  @override
+  String get onboardingBody3 =>
+      'Duel satu lawan satu, unggah video bukti, dan biarkan arena menentukan pemenangnya.';
+
+  @override
+  String get skip => 'Lewati';
+
+  @override
+  String get next => 'Lanjut';
+
+  @override
+  String get getStarted => 'Mulai Sekarang';
 }

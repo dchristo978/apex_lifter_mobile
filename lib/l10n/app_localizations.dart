@@ -1357,6 +1357,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get later;
+
+  /// No description provided for @gymLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym Locations'**
+  String get gymLocations;
+
+  /// No description provided for @exploreGyms.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore gyms'**
+  String get exploreGyms;
+
+  /// No description provided for @noGymsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No gyms registered yet.'**
+  String get noGymsFound;
+
+  /// No description provided for @gymLeaderboardEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No lifts logged at this gym yet.'**
+  String get gymLeaderboardEmpty;
+
+  /// No description provided for @gymEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} kg × {reps} reps · {machine}'**
+  String gymEntrySubtitle(String weight, int reps, String machine);
+
+  /// No description provided for @challengeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge'**
+  String get challengeAction;
+
+  /// No description provided for @loginToChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in to challenge other lifters.'**
+  String get loginToChallenge;
+
+  /// No description provided for @onboardingTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Every Rep'**
+  String get onboardingTitle1;
+
+  /// No description provided for @onboardingBody1.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your sets in seconds and watch your estimated 1RM climb — your progress, charted.'**
+  String get onboardingBody1;
+
+  /// No description provided for @onboardingTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Rule Your Gym'**
+  String get onboardingTitle2;
+
+  /// No description provided for @onboardingBody2.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in with GPS, see who\'s training right now, and climb the weekly leaderboard on every machine.'**
+  String get onboardingBody2;
+
+  /// No description provided for @onboardingTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge Anyone'**
+  String get onboardingTitle3;
+
+  /// No description provided for @onboardingBody3.
+  ///
+  /// In en, this message translates to:
+  /// **'Go head-to-head, upload proof videos, and let the arena decide the winner.'**
+  String get onboardingBody3;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStarted;
 }
 
 class _AppLocalizationsDelegate

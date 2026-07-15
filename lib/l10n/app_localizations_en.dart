@@ -721,4 +721,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get later => 'Later';
+
+  @override
+  String get gymLocations => 'Gym Locations';
+
+  @override
+  String get exploreGyms => 'Explore gyms';
+
+  @override
+  String get noGymsFound => 'No gyms registered yet.';
+
+  @override
+  String get gymLeaderboardEmpty => 'No lifts logged at this gym yet.';
+
+  @override
+  String gymEntrySubtitle(String weight, int reps, String machine) {
+    return '$weight kg × $reps reps · $machine';
+  }
+
+  @override
+  String get challengeAction => 'Challenge';
+
+  @override
+  String get loginToChallenge => 'Log in to challenge other lifters.';
+
+  @override
+  String get onboardingTitle1 => 'Track Every Rep';
+
+  @override
+  String get onboardingBody1 =>
+      'Log your sets in seconds and watch your estimated 1RM climb — your progress, charted.';
+
+  @override
+  String get onboardingTitle2 => 'Rule Your Gym';
+
+  @override
+  String get onboardingBody2 =>
+      'Check in with GPS, see who\'s training right now, and climb the weekly leaderboard on every machine.';
+
+  @override
+  String get onboardingTitle3 => 'Challenge Anyone';
+
+  @override
+  String get onboardingBody3 =>
+      'Go head-to-head, upload proof videos, and let the arena decide the winner.';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get getStarted => 'Get Started';
 }

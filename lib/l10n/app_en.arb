@@ -1,25 +1,20 @@
 {
   "@@locale": "en",
-
   "appTitle": "Apex Lifter",
-
   "navHome": "Home",
   "navLeaderboard": "Leaderboard",
   "navProfile": "Profile",
-
   "cancel": "Cancel",
   "save": "Save",
   "remove": "Remove",
   "update": "Update",
   "cannotConnect": "Could not connect to the server.",
-
   "email": "Email",
   "password": "Password",
   "invalidEmail": "Invalid email",
   "passwordRequired": "Password is required",
   "login": "Log in",
   "noAccountRegister": "Don't have an account? Sign up",
-
   "registerTitle": "Create account",
   "name": "Name",
   "nameRequired": "Name is required",
@@ -32,17 +27,24 @@
   "birthDateRequired": "Birth date is required.",
   "bodyWeightOptional": "Body weight (kg) — optional",
   "register": "Sign up",
-
   "greeting": "Hi, {name} 💪",
   "@greeting": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "notifications": "Notifications",
   "addSet": "Add Set",
   "gymCheckin": "Gym Check-in",
   "checkedInAt": "You checked in at {gym}",
   "@checkedInAt": {
-    "placeholders": { "gym": { "type": "String" } }
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
   },
   "whoIsHere": "Who's here?",
   "notCheckedIn": "Not checked in. Check-in is optional — you can still log sets without it.",
@@ -50,7 +52,6 @@
   "recentSets": "Recent Sets",
   "noSetsYet": "No sets logged yet. Start lifting! 🏋️",
   "machine": "Machine",
-
   "leaderboard": "Leaderboard",
   "pure1rm": "Pure 1RM",
   "est1rmMulti": "Est. 1RM (multi-rep)",
@@ -60,16 +61,28 @@
   "allAges": "All Ages",
   "ageFilter": "Age {bracket}",
   "@ageFilter": {
-    "placeholders": { "bracket": { "type": "String" } }
+    "placeholders": {
+      "bracket": {
+        "type": "String"
+      }
+    }
   },
   "allWeights": "All BW",
   "weightFilter": "BW {weightClass} kg",
   "@weightFilter": {
-    "placeholders": { "weightClass": { "type": "String" } }
+    "placeholders": {
+      "weightClass": {
+        "type": "String"
+      }
+    }
   },
   "yourPosition": "Your current position: #{rank}",
   "@yourPosition": {
-    "placeholders": { "rank": { "type": "int" } }
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    }
   },
   "selectMachinePrompt": "Select a machine to view the ranking.",
   "searchMachine": "Search machine",
@@ -83,28 +96,56 @@
   "orPickAnotherMachine": "or go back and choose another machine",
   "youSuffix": "{name} (you)",
   "@youSuffix": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "entrySubtitle": "{weight} kg × {reps} reps",
   "@entrySubtitle": {
-    "placeholders": { "weight": { "type": "String" }, "reps": { "type": "int" } }
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
   },
-
   "profile": "Profile",
   "settings": "Settings",
   "age": "Age",
   "ageValue": "{age} yr (bracket {bracket})",
   "@ageValue": {
-    "placeholders": { "age": { "type": "int" }, "bracket": { "type": "String" } }
+    "placeholders": {
+      "age": {
+        "type": "int"
+      },
+      "bracket": {
+        "type": "String"
+      }
+    }
   },
   "bodyWeight": "Body weight",
   "updatedOn": "Updated {date}",
   "@updatedOn": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "weightWithClass": "{weight} kg (class {weightClass})",
   "@weightWithClass": {
-    "placeholders": { "weight": { "type": "String" }, "weightClass": { "type": "String" } }
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "weightClass": {
+        "type": "String"
+      }
+    }
   },
   "notSet": "Not set",
   "staleWeightTitle": "Body weight expired",
@@ -120,11 +161,14 @@
   "openSettings": "Open Settings",
   "avatarUploadFailed": "Failed to upload photo: {error}",
   "@avatarUploadFailed": {
-    "placeholders": { "error": { "type": "String" } }
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
   },
   "updateBodyWeight": "Update body weight",
   "bodyWeightKg": "Body weight (kg)",
-
   "pushNotifications": "Push notifications",
   "pushNotificationsSubtitle": "Receive rank change alerts",
   "language": "Language",
@@ -135,7 +179,6 @@
   "editProfilePhoto": "Edit profile photo",
   "account": "Account",
   "profileUpdated": "Profile updated.",
-
   "categoryChest": "Chest",
   "categoryBack": "Back",
   "categoryShoulders": "Shoulders",
@@ -144,7 +187,11 @@
   "categoryCore": "Core",
   "setLogged": "Set logged! Estimated 1RM: {value} kg",
   "@setLogged": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
   "chooseMachine": "Choose machine",
   "chooseMachineFirst": "Choose a machine first",
@@ -154,38 +201,57 @@
   "reps1to100": "Reps 1-100",
   "repsHint": "Reps = 1 counts toward the pure 1RM leaderboard; reps ≥ 2 count toward the estimated 1RM leaderboard.",
   "saveSet": "Save Set",
-
   "markRead": "Mark read",
   "noNotifications": "No notifications yet.\nHold your position! 🏆",
-
   "atGym": "At the Gym",
   "noRecentCheckins": "No one has checked in here in the last 3 hours.",
   "liftersHere": "{count} lifters training here",
   "@liftersHere": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "you": "(you)",
   "checkedInTime": "Checked in {time}",
   "@checkedInTime": {
-    "placeholders": { "time": { "type": "String" } }
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
-
   "progressTitle": "Progress · {machine}",
   "@progressTitle": {
-    "placeholders": { "machine": { "type": "String" } }
+    "placeholders": {
+      "machine": {
+        "type": "String"
+      }
+    }
   },
   "needTwoDays": "Need at least 2 training days on this machine to\nshow a progress chart. Keep lifting! 🏋️",
   "est1rmOverTime": "Estimated 1RM over time",
   "deltaSince": "{delta} kg since {date}",
   "@deltaSince": {
-    "placeholders": { "delta": { "type": "String" }, "date": { "type": "String" } }
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "dailyRecord": "Daily record",
   "est1rmValue": "{value} kg est. 1RM",
   "@est1rmValue": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
-
   "sessionHistory": "Gym Session History",
   "statSets": "Sets",
   "statMachines": "Machines",
@@ -194,48 +260,79 @@
   "streakTitle": "Weekly streak",
   "weekStreakLabel": "{count, plural, =0{No streak} =1{1 week} other{{count} weeks}}",
   "@weekStreakLabel": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "streakActiveHint": "One session a week keeps it alive 🔥",
   "streakStartHint": "Train this week to start a streak 🔥",
   "noBadges": "No champion badges yet. Badges appear when the weekly leaderboard resets.",
   "classLabel": "class {weightClass}",
   "@classLabel": {
-    "placeholders": { "weightClass": { "type": "String" } }
+    "placeholders": {
+      "weightClass": {
+        "type": "String"
+      }
+    }
   },
   "setCountLabel": "{count} set",
   "@setCountLabel": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "topMachineLabel": "top: {machine} {value}kg",
   "@topMachineLabel": {
-    "placeholders": { "machine": { "type": "String" }, "value": { "type": "String" } }
+    "placeholders": {
+      "machine": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
   },
-
   "machineRecords": "Machine Records",
   "noMachineRecords": "No records yet. Log a set to set a record! 🏋️",
   "recordLift": "{weight} kg × {reps}",
   "@recordLift": {
-    "placeholders": { "weight": { "type": "String" }, "reps": { "type": "int" } }
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
   },
   "recordEst1rm": "{value} kg est. 1RM",
   "@recordEst1rm": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
   "featured": "Featured",
-
   "featuredMachines": "Featured Machines",
   "featuredMachinesHint": "Pick up to 3 machines to pin to the top of your public profile, in the order you want them shown.",
   "editFeaturedMachines": "Edit featured machines",
   "noFeaturedMachines": "No featured machines yet",
   "featuredCount": "{count} of 3 selected",
   "@featuredCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "addMachine": "Add machine",
   "featuredLimitReached": "You can feature at most 3 machines.",
   "dragToReorder": "Drag to reorder",
-
   "challenge": "Challenge",
   "challengeArena": "Challenge Arena",
   "challenges": "Challenges",
@@ -244,14 +341,26 @@
   "tabMedals": "Medals",
   "newChallenge": "New Challenge",
   "challengeOpponent": "Challenging {name}",
-  "@challengeOpponent": { "placeholders": { "name": { "type": "String" } } },
+  "@challengeOpponent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "chooseOpponent": "Choose an opponent from the leaderboard or a profile.",
   "targetWeightKgLabel": "Weight (kg)",
   "targetRepsLabel": "Reps",
   "targetSetsLabel": "Sets",
   "sendChallenge": "Send Challenge",
   "challengeSent": "Challenge sent to {name}!",
-  "@challengeSent": { "placeholders": { "name": { "type": "String" } } },
+  "@challengeSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "vs": "VS",
   "statusPending": "Awaiting proof",
   "statusActive": "Judging in Arena",
@@ -268,13 +377,31 @@
   "judge": "Judge",
   "alreadyJudged": "You've judged this challenge.",
   "votingEndsIn": "Voting ends {time}",
-  "@votingEndsIn": { "placeholders": { "time": { "type": "String" } } },
+  "@votingEndsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "votingClosed": "Voting window closed — awaiting result",
   "winnerLabel": "Winner: {name}",
-  "@winnerLabel": { "placeholders": { "name": { "type": "String" } } },
+  "@winnerLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "youWon": "You won this challenge! 🏅",
   "medalsWithCount": "{count} medals",
-  "@medalsWithCount": { "placeholders": { "count": { "type": "int" } } },
+  "@medalsWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "noMedalsYet": "No medals yet. Win a challenge to earn one!",
   "noArenaChallenges": "No challenges to judge right now.",
   "noChallengesYet": "No challenges yet. Challenge someone from the leaderboard!",
@@ -285,7 +412,13 @@
   "criteriaRepsSets": "Reps & sets completed",
   "whoWon": "Who performed it validly?",
   "voteWins": "{name} wins",
-  "@voteWins": { "placeholders": { "name": { "type": "String" } } },
+  "@voteWins": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "voteInvalid": "Neither — invalid",
   "reasonLabel": "Reason",
   "reasonRequired": "Please choose a reason.",
@@ -300,11 +433,61 @@
   "reasonOther": "Other",
   "proofRequired": "Record a proof video to submit.",
   "challengeTarget": "{weight} kg × {reps} reps × {sets} sets",
-  "@challengeTarget": { "placeholders": { "weight": { "type": "String" }, "reps": { "type": "int" }, "sets": { "type": "int" } } },
+  "@challengeTarget": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
   "tallyApproveReject": "{approve} approve · {reject} reject",
-  "@tallyApproveReject": { "placeholders": { "approve": { "type": "int" }, "reject": { "type": "int" } } },
+  "@tallyApproveReject": {
+    "placeholders": {
+      "approve": {
+        "type": "int"
+      },
+      "reject": {
+        "type": "int"
+      }
+    }
+  },
   "couldNotOpenVideo": "Could not open the video.",
   "challengeCreatedRecordNow": "Challenge created! Record your proof now?",
   "recordNow": "Record now",
-  "later": "Later"
+  "later": "Later",
+  "gymLocations": "Gym Locations",
+  "exploreGyms": "Explore gyms",
+  "noGymsFound": "No gyms registered yet.",
+  "gymLeaderboardEmpty": "No lifts logged at this gym yet.",
+  "gymEntrySubtitle": "{weight} kg × {reps} reps · {machine}",
+  "@gymEntrySubtitle": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "machine": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeAction": "Challenge",
+  "loginToChallenge": "Log in to challenge other lifters.",
+  "onboardingTitle1": "Track Every Rep",
+  "onboardingBody1": "Log your sets in seconds and watch your estimated 1RM climb — your progress, charted.",
+  "onboardingTitle2": "Rule Your Gym",
+  "onboardingBody2": "Check in with GPS, see who's training right now, and climb the weekly leaderboard on every machine.",
+  "onboardingTitle3": "Challenge Anyone",
+  "onboardingBody3": "Go head-to-head, upload proof videos, and let the arena decide the winner.",
+  "skip": "Skip",
+  "next": "Next",
+  "getStarted": "Get Started"
 }

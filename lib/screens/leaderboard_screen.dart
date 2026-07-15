@@ -5,6 +5,7 @@ import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/machine_provider.dart';
 import 'challenges_screen.dart';
+import 'gyms_screen.dart';
 import 'machine_leaderboard_screen.dart';
 
 /// Leaderboard tab: a searchable list of every machine, grouped by muscle
@@ -43,6 +44,13 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       appBar: AppBar(
         title: Text(l10n.leaderboard),
         actions: [
+          IconButton(
+            tooltip: l10n.gymLocations,
+            icon: const Icon(Icons.location_on_outlined),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const GymsScreen()),
+            ),
+          ),
           IconButton(
             tooltip: l10n.challengeArena,
             icon: const Icon(Icons.stadium),

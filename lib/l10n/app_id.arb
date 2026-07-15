@@ -1,25 +1,20 @@
 {
   "@@locale": "id",
-
   "appTitle": "Apex Lifter",
-
   "navHome": "Beranda",
   "navLeaderboard": "Peringkat",
   "navProfile": "Profil",
-
   "cancel": "Batal",
   "save": "Simpan",
   "remove": "Hapus",
   "update": "Perbarui",
   "cannotConnect": "Tidak bisa terhubung ke server.",
-
   "email": "Email",
   "password": "Password",
   "invalidEmail": "Email tidak valid",
   "passwordRequired": "Password wajib diisi",
   "login": "Masuk",
   "noAccountRegister": "Belum punya akun? Daftar",
-
   "registerTitle": "Daftar Akun",
   "name": "Nama",
   "nameRequired": "Nama wajib diisi",
@@ -32,7 +27,6 @@
   "birthDateRequired": "Tanggal lahir wajib diisi.",
   "bodyWeightOptional": "Berat badan (kg) — opsional",
   "register": "Daftar",
-
   "greeting": "Halo, {name} 💪",
   "notifications": "Notifikasi",
   "addSet": "Tambah Set",
@@ -44,7 +38,6 @@
   "recentSets": "Riwayat Set Terakhir",
   "noSetsYet": "Belum ada set tercatat. Mulai angkat! 🏋️",
   "machine": "Alat",
-
   "leaderboard": "Leaderboard",
   "pure1rm": "1RM Murni",
   "est1rmMulti": "Est. 1RM (multi-rep)",
@@ -68,7 +61,6 @@
   "orPickAnotherMachine": "atau kembali dan pilih alat lain",
   "youSuffix": "{name} (kamu)",
   "entrySubtitle": "{weight} kg × {reps} reps",
-
   "profile": "Profil",
   "settings": "Pengaturan",
   "age": "Umur",
@@ -91,7 +83,6 @@
   "avatarUploadFailed": "Gagal mengunggah foto: {error}",
   "updateBodyWeight": "Perbarui berat badan",
   "bodyWeightKg": "Berat badan (kg)",
-
   "pushNotifications": "Notifikasi push",
   "pushNotificationsSubtitle": "Terima peringatan perubahan peringkat",
   "language": "Bahasa",
@@ -102,7 +93,6 @@
   "editProfilePhoto": "Edit foto profil",
   "account": "Akun",
   "profileUpdated": "Profil diperbarui.",
-
   "categoryChest": "Dada",
   "categoryBack": "Punggung",
   "categoryShoulders": "Bahu",
@@ -118,23 +108,19 @@
   "reps1to100": "Reps 1-100",
   "repsHint": "Reps = 1 masuk leaderboard 1RM murni; reps ≥ 2 masuk leaderboard estimated 1RM.",
   "saveSet": "Simpan Set",
-
   "markRead": "Tandai dibaca",
   "noNotifications": "Belum ada notifikasi.\nTetap jaga posisimu! 🏆",
-
   "atGym": "Sedang di Gym",
   "noRecentCheckins": "Belum ada yang check-in di sini dalam 3 jam terakhir.",
   "liftersHere": "{count} lifter sedang latihan di sini",
   "you": "(kamu)",
   "checkedInTime": "Check-in {time}",
-
   "progressTitle": "Progres · {machine}",
   "needTwoDays": "Butuh minimal 2 hari latihan di alat ini untuk\nmenampilkan grafik progres. Terus angkat! 🏋️",
   "est1rmOverTime": "Estimasi 1RM dari waktu ke waktu",
   "deltaSince": "{delta} kg sejak {date}",
   "dailyRecord": "Rekor per hari",
   "est1rmValue": "{value} kg est. 1RM",
-
   "sessionHistory": "Riwayat Sesi Gym",
   "statSets": "Set",
   "statMachines": "Alat",
@@ -143,7 +129,11 @@
   "streakTitle": "Streak mingguan",
   "weekStreakLabel": "{count, plural, =0{Belum ada streak} =1{1 minggu} other{{count} minggu}}",
   "@weekStreakLabel": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "streakActiveHint": "Satu sesi seminggu untuk menjaganya 🔥",
   "streakStartHint": "Latihan minggu ini untuk memulai streak 🔥",
@@ -151,13 +141,11 @@
   "classLabel": "kelas {weightClass}",
   "setCountLabel": "{count} set",
   "topMachineLabel": "top: {machine} {value}kg",
-
   "machineRecords": "Rekor Alat",
   "noMachineRecords": "Belum ada rekor. Catat set untuk membuat rekor! 🏋️",
   "recordLift": "{weight} kg × {reps}",
   "recordEst1rm": "{value} kg est. 1RM",
   "featured": "Unggulan",
-
   "featuredMachines": "Alat Unggulan",
   "featuredMachinesHint": "Pilih maksimal 3 alat untuk disematkan di bagian atas profil publikmu, sesuai urutan yang kamu inginkan.",
   "editFeaturedMachines": "Atur alat unggulan",
@@ -166,7 +154,6 @@
   "addMachine": "Tambah alat",
   "featuredLimitReached": "Kamu hanya bisa menyematkan maksimal 3 alat.",
   "dragToReorder": "Seret untuk mengubah urutan",
-
   "challenge": "Tantang",
   "challengeArena": "Arena Challenge",
   "challenges": "Challenge",
@@ -175,14 +162,26 @@
   "tabMedals": "Medali",
   "newChallenge": "Challenge Baru",
   "challengeOpponent": "Menantang {name}",
-  "@challengeOpponent": { "placeholders": { "name": { "type": "String" } } },
+  "@challengeOpponent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "chooseOpponent": "Pilih lawan dari papan peringkat atau profil.",
   "targetWeightKgLabel": "Beban (kg)",
   "targetRepsLabel": "Repetisi",
   "targetSetsLabel": "Set",
   "sendChallenge": "Kirim Challenge",
   "challengeSent": "Challenge dikirim ke {name}!",
-  "@challengeSent": { "placeholders": { "name": { "type": "String" } } },
+  "@challengeSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "vs": "VS",
   "statusPending": "Menunggu bukti",
   "statusActive": "Dinilai di Arena",
@@ -199,13 +198,31 @@
   "judge": "Nilai",
   "alreadyJudged": "Kamu sudah menilai challenge ini.",
   "votingEndsIn": "Voting berakhir {time}",
-  "@votingEndsIn": { "placeholders": { "time": { "type": "String" } } },
+  "@votingEndsIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "votingClosed": "Jendela voting ditutup — menunggu hasil",
   "winnerLabel": "Pemenang: {name}",
-  "@winnerLabel": { "placeholders": { "name": { "type": "String" } } },
+  "@winnerLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "youWon": "Kamu memenangkan challenge ini! 🏅",
   "medalsWithCount": "{count} medali",
-  "@medalsWithCount": { "placeholders": { "count": { "type": "int" } } },
+  "@medalsWithCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "noMedalsYet": "Belum ada medali. Menangkan challenge untuk mendapatkannya!",
   "noArenaChallenges": "Belum ada challenge untuk dinilai saat ini.",
   "noChallengesYet": "Belum ada challenge. Tantang seseorang dari papan peringkat!",
@@ -216,7 +233,13 @@
   "criteriaRepsSets": "Repetisi & set terpenuhi",
   "whoWon": "Siapa yang melakukannya dengan sah?",
   "voteWins": "{name} menang",
-  "@voteWins": { "placeholders": { "name": { "type": "String" } } },
+  "@voteWins": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "voteInvalid": "Tidak keduanya — tidak sah",
   "reasonLabel": "Alasan",
   "reasonRequired": "Silakan pilih alasan.",
@@ -231,11 +254,48 @@
   "reasonOther": "Lainnya",
   "proofRequired": "Rekam video bukti untuk mengirim.",
   "challengeTarget": "{weight} kg × {reps} rep × {sets} set",
-  "@challengeTarget": { "placeholders": { "weight": { "type": "String" }, "reps": { "type": "int" }, "sets": { "type": "int" } } },
+  "@challengeTarget": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
   "tallyApproveReject": "{approve} setuju · {reject} tolak",
-  "@tallyApproveReject": { "placeholders": { "approve": { "type": "int" }, "reject": { "type": "int" } } },
+  "@tallyApproveReject": {
+    "placeholders": {
+      "approve": {
+        "type": "int"
+      },
+      "reject": {
+        "type": "int"
+      }
+    }
+  },
   "couldNotOpenVideo": "Tidak dapat membuka video.",
   "challengeCreatedRecordNow": "Challenge dibuat! Rekam buktimu sekarang?",
   "recordNow": "Rekam sekarang",
-  "later": "Nanti"
+  "later": "Nanti",
+  "gymLocations": "Lokasi Gym",
+  "exploreGyms": "Jelajahi gym",
+  "noGymsFound": "Belum ada gym terdaftar.",
+  "gymLeaderboardEmpty": "Belum ada angkatan tercatat di gym ini.",
+  "gymEntrySubtitle": "{weight} kg × {reps} reps · {machine}",
+  "challengeAction": "Tantang",
+  "loginToChallenge": "Masuk untuk menantang lifter lain.",
+  "onboardingTitle1": "Catat Setiap Repetisi",
+  "onboardingBody1": "Catat set-mu dalam hitungan detik dan lihat estimasi 1RM-mu terus naik — progresmu tercatat dalam grafik.",
+  "onboardingTitle2": "Kuasai Gym-mu",
+  "onboardingBody2": "Check-in dengan GPS, lihat siapa yang sedang latihan, dan panjat papan peringkat mingguan di setiap mesin.",
+  "onboardingTitle3": "Tantang Siapa Saja",
+  "onboardingBody3": "Duel satu lawan satu, unggah video bukti, dan biarkan arena menentukan pemenangnya.",
+  "skip": "Lewati",
+  "next": "Lanjut",
+  "getStarted": "Mulai Sekarang"
 }

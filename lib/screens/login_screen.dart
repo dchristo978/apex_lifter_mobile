@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_client.dart';
+import 'gyms_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -38,6 +39,11 @@ class _LoginScreenState extends State<LoginScreen> {
             email: _email.text.trim(),
             password: _password.text,
           );
+      // A guest may reach this screen pushed on top of the public gym pages;
+      // unwind to the root so the freshly authenticated shell is visible.
+      if (mounted) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      }
     } on ApiException catch (e) {
       setState(() => _error = e.message);
     } catch (_) {
@@ -166,6 +172,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (_) => const RegisterScreen()),
                         ),
                         child: Text(l10n.noAccountRegister),
+                      ),
+                      TextButton.icon(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const GymsScreen()),
+                        ),
+                        icon: const Icon(Icons.location_on_outlined, size: 18),
+                        label: Text(l10n.exploreGyms),
                       ),
                     ],
                   ),

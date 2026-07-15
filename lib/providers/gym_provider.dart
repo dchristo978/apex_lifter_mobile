@@ -39,6 +39,17 @@ class GymProvider extends ChangeNotifier {
     }
   }
 
+  /// Public per-gym leaderboard — works without a logged-in session.
+  Future<List<GymLeaderboardEntry>> gymLeaderboard(
+    int gymId, {
+    String period = 'weekly',
+  }) async {
+    final json = await _api.get('/gyms/$gymId/leaderboard', {'period': period});
+    return (json['entries'] as List)
+        .map((e) => GymLeaderboardEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   /// Lifters currently checked in at the same gym.
   Future<List<GymPerson>> activePeople(int gymId) async {
     final json = await _api.get('/gyms/$gymId/active-checkins');
