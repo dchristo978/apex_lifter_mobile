@@ -21,7 +21,22 @@ class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _obscure = true;
+  bool _rememberMe = false;
   String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    // Prefill the email for a returning user who previously chose "Remember me".
+    context.read<AuthProvider>().rememberedEmail().then((email) {
+      if (email != null && mounted) {
+        setState(() {
+          _email.text = email;
+          _rememberMe = true;
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -38,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await context.read<AuthProvider>().login(
             email: _email.text.trim(),
             password: _password.text,
+            rememberMe: _rememberMe,
           );
       // A guest may reach this screen pushed on top of the public gym pages;
       // unwind to the root so the freshly authenticated shell is visible.
@@ -126,6 +142,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         validator: (v) => (v == null || v.isEmpty)
                             ? l10n.passwordRequired
                             : null,
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: Checkbox(
+                              value: _rememberMe,
+                              onChanged: (v) =>
+                                  setState(() => _rememberMe = v ?? false),
+                              side: BorderSide(
+                                  color: scheme.onSurfaceVariant, width: 1.5),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () =>
+                                setState(() => _rememberMe = !_rememberMe),
+                            child: Text(
+                              l10n.rememberMe,
+                              style: TextStyle(color: scheme.onSurfaceVariant),
+                            ),
+                          ),
+                        ],
                       ),
                       if (_error != null) ...[
                         const SizedBox(height: 14),

@@ -10,11 +10,19 @@ class AuthProvider extends ChangeNotifier {
   AuthProvider(this._api);
 
   static const _tokenKey = 'auth_token';
+  static const _rememberEmailKey = 'remember_email';
 
   final ApiClient _api;
   AuthStatus status = AuthStatus.unknown;
   User? user;
   bool loading = false;
+
+  /// The email a returning user asked us to remember, or `null` if they opted
+  /// out. Used to prefill the login form after they've logged out.
+  Future<String?> rememberedEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_rememberEmailKey);
+  }
 
   /// Restore a persisted session on app start.
   Future<void> bootstrap() async {
@@ -58,8 +66,21 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> login({required String email, required String password}) async {
+  Future<void> login({
+    required String email,
+    required String password,
+    bool rememberMe = false,
+  }) async {
     await _authenticate('/auth/login', {'email': email, 'password': password});
+
+    // Only reached when authentication succeeds. Persist (or clear) the email
+    // so the login form can prefill it next time. The password is never stored.
+    final prefs = await SharedPreferences.getInstance();
+    if (rememberMe) {
+      await prefs.setString(_rememberEmailKey, email);
+    } else {
+      await prefs.remove(_rememberEmailKey);
+    }
   }
 
   Future<void> _authenticate(String path, Map<String, dynamic> body) async {

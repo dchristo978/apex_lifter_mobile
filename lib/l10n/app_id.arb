@@ -14,6 +14,7 @@
   "invalidEmail": "Email tidak valid",
   "passwordRequired": "Password wajib diisi",
   "login": "Masuk",
+  "rememberMe": "Ingat saya",
   "noAccountRegister": "Belum punya akun? Daftar",
   "registerTitle": "Daftar Akun",
   "name": "Nama",

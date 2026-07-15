@@ -51,6 +51,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get login => 'Masuk';
 
   @override
+  String get rememberMe => 'Ingat saya';
+
+  @override
   String get noAccountRegister => 'Belum punya akun? Daftar';
 
   @override

@@ -14,6 +14,7 @@
   "invalidEmail": "Invalid email",
   "passwordRequired": "Password is required",
   "login": "Log in",
+  "rememberMe": "Remember me",
   "noAccountRegister": "Don't have an account? Sign up",
   "registerTitle": "Create account",
   "name": "Name",
