@@ -61,8 +61,8 @@ class PushService {
     final settings = await FirebaseMessaging.instance.requestPermission();
     if (settings.authorizationStatus == AuthorizationStatus.denied) return;
 
-    final token = await FirebaseMessaging.instance.getToken();
-    if (token != null) await _syncToken(token);
+    // final token = await FirebaseMessaging.instance.getToken();
+    // if (token != null) await _syncToken(token);
   }
 
   /// Stop pushing to this device: clear the token on the server and locally.
