@@ -9,6 +9,7 @@ import '../providers/notification_provider.dart';
 import '../providers/settings_provider.dart';
 import '../providers/workout_provider.dart';
 import '../services/api_client.dart';
+import '../services/push_service.dart';
 import '../widgets/avatar_uploader.dart';
 import 'edit_profile_screen.dart';
 
@@ -58,7 +59,12 @@ class SettingsScreen extends StatelessWidget {
                   title: Text(l10n.pushNotifications),
                   subtitle: Text(l10n.pushNotificationsSubtitle),
                   value: settings.pushEnabled,
-                  onChanged: (v) => settings.setPushEnabled(v),
+                  onChanged: (v) {
+                    settings.setPushEnabled(v);
+                    // Reflect the choice on the device/server immediately.
+                    final push = context.read<PushService>();
+                    v ? push.register() : push.unregister();
+                  },
                 ),
                 const Divider(height: 1),
                 ListTile(
@@ -237,6 +243,8 @@ class SettingsScreen extends StatelessWidget {
     passwordController.dispose();
 
     if (deleted == true && context.mounted) {
+      // The account (and its stored token) is gone; drop the device token too.
+      context.read<PushService>().unregister();
       // Clear per-user provider state, mirroring logout.
       context.read<WorkoutProvider>().clear();
       context.read<NotificationProvider>().clear();
@@ -247,8 +255,11 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  void _logout(BuildContext context) {
-    // Clear per-user state so the next account doesn't see stale data.
+  Future<void> _logout(BuildContext context) async {
+    // Stop push to this device while we still hold a valid token (the request
+    // needs auth), then clear per-user state so the next account sees nothing.
+    await context.read<PushService>().unregister();
+    if (!context.mounted) return;
     context.read<WorkoutProvider>().clear();
     context.read<NotificationProvider>().clear();
     context.read<LeaderboardProvider>().clear();

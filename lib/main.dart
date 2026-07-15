@@ -16,14 +16,24 @@ import 'screens/main_shell.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
 import 'services/api_client.dart';
+import 'services/push_service.dart';
 
-void main() {
+/// Lets the push service navigate on notification taps without a BuildContext.
+final navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   final api = ApiClient();
+  final push = PushService(api, navigatorKey: navigatorKey);
+  // Sets push up if Firebase is configured; a no-op otherwise.
+  await push.init();
 
   runApp(
     MultiProvider(
       providers: [
         Provider<ApiClient>.value(value: api),
+        Provider<PushService>.value(value: push),
         ChangeNotifierProvider(create: (_) => SettingsProvider()..load()),
         ChangeNotifierProvider(create: (_) => AuthProvider(api)..bootstrap()),
         ChangeNotifierProvider(create: (_) => GymProvider(api)),
@@ -109,6 +119,7 @@ class ApexLifterApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: _buildTheme(),
       locale: locale,
+      navigatorKey: navigatorKey,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const _RootGate(),

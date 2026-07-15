@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880254972139",
+    "project_id": "apex-lifter",
+    "storage_bucket": "apex-lifter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880254972139:android:a265f7a4cf114b9ff20eae",
+        "android_client_info": {
+          "package_name": "com.apex.apexlifter.android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlWvNgiU-ErpqfMrkKr_BVA0H_aELvXnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -54,6 +54,17 @@ Pattern: screens read providers via `context.watch`/`context.read`; providers ca
 
 `lib/widgets/confetti_burst.dart` exposes a fire-and-forget `celebrate(context)` overlay (two gold cannons). It fires when you: create a challenge, judge one in the arena, open a challenge you won, open a received challenge from a notification, open a medal case that has medals, or tap any medal.
 
+### Push notifications (FCM)
+
+`lib/services/push_service.dart` handles Firebase Cloud Messaging: it requests permission and registers the device token (sent to the backend as `fcm_token` on `PATCH /profile`) after login and whenever the lifter turns push on in Settings, refreshes the token when it rotates, and deep-links notification taps to the right challenge — mirroring the in-app feed. The token is cleared on logout, account deletion, and when push is switched off.
+
+**Firebase is optional at build time.** `PushService.init()` initializes Firebase inside a `try/catch`; if the project isn't configured yet, push silently disables and the app runs on in-app notifications alone. To turn it on:
+
+1. Create a Firebase project (same one as the backend) and register the Android + iOS apps.
+2. Run `flutterfire configure` (or add `android/app/google-services.json` and `ios/Runner/GoogleService-Info.plist` manually, plus the Google Services Gradle plugin).
+3. iOS only: upload an APNs auth key to Firebase, and enable **Push Notifications** + **Background Modes → Remote notifications** capabilities in Xcode.
+4. Configure the backend's `FCM_PROJECT_ID` / `FCM_CREDENTIALS` (see the backend README).
+
 ## Getting started
 
 1. Run the backend (see its README), seed demo data, keep it on port 8000.

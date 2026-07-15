@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
+import '../providers/settings_provider.dart';
+import '../services/push_service.dart';
 import 'home_screen.dart';
 import 'leaderboard_screen.dart';
 import 'profile_screen.dart';
@@ -32,9 +34,14 @@ class _MainShellState extends State<MainShell> {
   @override
   void initState() {
     super.initState();
-    // Refresh the notification badge on app open.
+    // Refresh the notification badge on app open, and register this device for
+    // push (unless the lifter has opted out in settings).
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       context.read<NotificationProvider>().refresh().catchError((_) {});
+      if (context.read<SettingsProvider>().pushEnabled) {
+        context.read<PushService>().register();
+      }
     });
   }
 

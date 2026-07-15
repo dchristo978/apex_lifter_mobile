@@ -1,4 +1,4 @@
-package com.example.apex_lifter_mobile
+package com.apex.apexlifter.android
 
 import io.flutter.embedding.android.FlutterActivity
 
