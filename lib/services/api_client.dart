@@ -97,6 +97,15 @@ class ApiClient {
     ));
   }
 
+  Future<Map<String, dynamic>> delete(String path,
+      [Map<String, dynamic>? body]) async {
+    return _handle(await http.delete(
+      Uri.parse('$baseUrl$path'),
+      headers: _headers,
+      body: body == null ? null : jsonEncode(body),
+    ));
+  }
+
   Map<String, dynamic> _handle(http.Response response) {
     final Map<String, dynamic> json = response.body.isEmpty
         ? {}

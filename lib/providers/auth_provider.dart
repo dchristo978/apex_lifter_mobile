@@ -101,6 +101,27 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  /// Ask the server to email a reset code. Always succeeds (the server gives an
+  /// identical response whether or not the email is registered), so the UI must
+  /// not reveal whether an account exists.
+  Future<void> forgotPassword(String email) async {
+    await _api.post('/auth/forgot-password', {'email': email});
+  }
+
+  /// Complete a reset with the emailed code. On success the server returns a
+  /// fresh session token, so the lifter lands signed in.
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String password,
+  }) async {
+    await _authenticate('/auth/reset-password', {
+      'email': email,
+      'code': code,
+      'password': password,
+    });
+  }
+
   Future<void> updateProfile(Map<String, dynamic> fields) async {
     final json = await _api.patch('/profile', fields);
     user = User.fromJson(json['user'] as Map<String, dynamic>);
@@ -115,6 +136,20 @@ class AuthProvider extends ChangeNotifier {
       filename: filename,
     );
     user = User.fromJson(json['user'] as Map<String, dynamic>);
+    notifyListeners();
+  }
+
+  /// Permanently delete the account after re-entering the password, then drop
+  /// the local session exactly as logout does.
+  Future<void> deleteAccount(String password) async {
+    await _api.delete('/auth/account', {'password': password});
+    _api.token = null;
+    user = null;
+    status = AuthStatus.unauthenticated;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_tokenKey);
+    await prefs.remove(_rememberEmailKey);
     notifyListeners();
   }
 

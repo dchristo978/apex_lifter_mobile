@@ -8,6 +8,7 @@ import '../providers/leaderboard_provider.dart';
 import '../providers/notification_provider.dart';
 import '../providers/settings_provider.dart';
 import '../providers/workout_provider.dart';
+import '../services/api_client.dart';
 import '../widgets/avatar_uploader.dart';
 import 'edit_profile_screen.dart';
 
@@ -80,6 +81,19 @@ class SettingsScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
             label: Text(l10n.logout),
           ),
+          const SizedBox(height: 24),
+          _sectionLabel(context, l10n.dangerZone),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.delete_forever_outlined,
+                  color: Theme.of(context).colorScheme.error),
+              title: Text(
+                l10n.deleteAccount,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+              onTap: () => _confirmDeleteAccount(context),
+            ),
+          ),
         ],
       ),
     );
@@ -127,6 +141,110 @@ class SettingsScreen extends StatelessWidget {
           : null,
       onTap: () => Navigator.of(dialogContext).pop(locale),
     );
+  }
+
+  /// Two-step account deletion: a warning dialog that requires re-entering the
+  /// password, then the API call. On success the auth switch rebuilds to the
+  /// login screen just as logout does.
+  Future<void> _confirmDeleteAccount(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final auth = context.read<AuthProvider>();
+
+    final passwordController = TextEditingController();
+    var busy = false;
+    String? error;
+
+    final deleted = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        final scheme = Theme.of(dialogContext).colorScheme;
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            Future<void> submit() async {
+              if (passwordController.text.isEmpty) {
+                setDialogState(() => error = l10n.passwordRequired);
+                return;
+              }
+              setDialogState(() {
+                busy = true;
+                error = null;
+              });
+              try {
+                await auth.deleteAccount(passwordController.text);
+                if (dialogContext.mounted) Navigator.of(dialogContext).pop(true);
+              } on ApiException catch (e) {
+                setDialogState(() {
+                  busy = false;
+                  error = e.message;
+                });
+              } catch (_) {
+                setDialogState(() {
+                  busy = false;
+                  error = l10n.cannotConnect;
+                });
+              }
+            }
+
+            return AlertDialog(
+              title: Text(l10n.deleteAccountTitle),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(l10n.deleteAccountWarning),
+                  const SizedBox(height: 16),
+                  Text(l10n.deleteAccountPasswordPrompt),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    enabled: !busy,
+                    decoration: InputDecoration(
+                      labelText: l10n.password,
+                      border: const OutlineInputBorder(),
+                      errorText: error,
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: busy
+                      ? null
+                      : () => Navigator.of(dialogContext).pop(false),
+                  child: Text(l10n.cancel),
+                ),
+                FilledButton(
+                  style: FilledButton.styleFrom(backgroundColor: scheme.error),
+                  onPressed: busy ? null : submit,
+                  child: busy
+                      ? const SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Text(l10n.deleteAccountConfirm),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    passwordController.dispose();
+
+    if (deleted == true && context.mounted) {
+      // Clear per-user provider state, mirroring logout.
+      context.read<WorkoutProvider>().clear();
+      context.read<NotificationProvider>().clear();
+      context.read<LeaderboardProvider>().clear();
+      context.read<GymProvider>().clear();
+      messenger.showSnackBar(SnackBar(content: Text(l10n.deleteAccount)));
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
   }
 
   void _logout(BuildContext context) {

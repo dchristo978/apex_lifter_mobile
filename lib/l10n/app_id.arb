@@ -331,5 +331,21 @@
   "onboardingBody3": "Duel satu lawan satu, unggah video bukti, dan biarkan arena menentukan pemenangnya.",
   "skip": "Lewati",
   "next": "Lanjut",
-  "getStarted": "Mulai Sekarang"
+  "getStarted": "Mulai Sekarang",
+  "forgotPassword": "Lupa password?",
+  "forgotPasswordTitle": "Atur ulang password",
+  "forgotPasswordIntro": "Masukkan email akun Anda dan kami akan mengirimkan kode reset.",
+  "sendResetCode": "Kirim kode reset",
+  "resetCodeSent": "Jika email tersebut terdaftar, kode reset sedang dikirim. Masukkan kode di bawah beserta password baru Anda.",
+  "resetCode": "Kode reset",
+  "resetCodeRequired": "Masukkan kode dari email",
+  "newPassword": "Password baru",
+  "resetPassword": "Atur ulang password",
+  "resetPasswordDone": "Password diperbarui. Anda sudah masuk.",
+  "deleteAccount": "Hapus akun",
+  "deleteAccountTitle": "Hapus akun?",
+  "deleteAccountWarning": "Ini menghapus permanen akun, riwayat latihan, check-in, tantangan, dan medali Anda. Tindakan ini tidak bisa dibatalkan.",
+  "deleteAccountPasswordPrompt": "Masukkan password Anda untuk konfirmasi.",
+  "deleteAccountConfirm": "Hapus permanen",
+  "dangerZone": "Zona berbahaya"
 }

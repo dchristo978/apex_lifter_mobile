@@ -823,4 +823,56 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get getStarted => 'Mulai Sekarang';
+
+  @override
+  String get forgotPassword => 'Lupa password?';
+
+  @override
+  String get forgotPasswordTitle => 'Atur ulang password';
+
+  @override
+  String get forgotPasswordIntro =>
+      'Masukkan email akun Anda dan kami akan mengirimkan kode reset.';
+
+  @override
+  String get sendResetCode => 'Kirim kode reset';
+
+  @override
+  String get resetCodeSent =>
+      'Jika email tersebut terdaftar, kode reset sedang dikirim. Masukkan kode di bawah beserta password baru Anda.';
+
+  @override
+  String get resetCode => 'Kode reset';
+
+  @override
+  String get resetCodeRequired => 'Masukkan kode dari email';
+
+  @override
+  String get newPassword => 'Password baru';
+
+  @override
+  String get resetPassword => 'Atur ulang password';
+
+  @override
+  String get resetPasswordDone => 'Password diperbarui. Anda sudah masuk.';
+
+  @override
+  String get deleteAccount => 'Hapus akun';
+
+  @override
+  String get deleteAccountTitle => 'Hapus akun?';
+
+  @override
+  String get deleteAccountWarning =>
+      'Ini menghapus permanen akun, riwayat latihan, check-in, tantangan, dan medali Anda. Tindakan ini tidak bisa dibatalkan.';
+
+  @override
+  String get deleteAccountPasswordPrompt =>
+      'Masukkan password Anda untuk konfirmasi.';
+
+  @override
+  String get deleteAccountConfirm => 'Hapus permanen';
+
+  @override
+  String get dangerZone => 'Zona berbahaya';
 }

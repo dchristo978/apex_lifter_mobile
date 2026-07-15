@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_client.dart';
+import 'forgot_password_screen.dart';
 import 'gyms_screen.dart';
 import 'register_screen.dart';
 
@@ -165,6 +166,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               l10n.rememberMe,
                               style: TextStyle(color: scheme.onSurfaceVariant),
                             ),
+                          ),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => ForgotPasswordScreen(
+                                  initialEmail: _email.text.trim().isEmpty
+                                      ? null
+                                      : _email.text.trim(),
+                                ),
+                              ),
+                            ),
+                            child: Text(l10n.forgotPassword),
                           ),
                         ],
                       ),

@@ -819,4 +819,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getStarted => 'Get Started';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get forgotPasswordTitle => 'Reset password';
+
+  @override
+  String get forgotPasswordIntro =>
+      'Enter the email for your account and we\'ll send you a reset code.';
+
+  @override
+  String get sendResetCode => 'Send reset code';
+
+  @override
+  String get resetCodeSent =>
+      'If that email is registered, a reset code is on its way. Enter it below with your new password.';
+
+  @override
+  String get resetCode => 'Reset code';
+
+  @override
+  String get resetCodeRequired => 'Enter the code from the email';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get resetPassword => 'Reset password';
+
+  @override
+  String get resetPasswordDone => 'Password updated. You\'re signed in.';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountTitle => 'Delete account?';
+
+  @override
+  String get deleteAccountWarning =>
+      'This permanently deletes your account, workout history, check-ins, challenges, and medals. This cannot be undone.';
+
+  @override
+  String get deleteAccountPasswordPrompt => 'Enter your password to confirm.';
+
+  @override
+  String get deleteAccountConfirm => 'Delete permanently';
+
+  @override
+  String get dangerZone => 'Danger zone';
 }

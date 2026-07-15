@@ -523,5 +523,21 @@
   "onboardingBody3": "Go head-to-head, upload proof videos, and let the arena decide the winner.",
   "skip": "Skip",
   "next": "Next",
-  "getStarted": "Get Started"
+  "getStarted": "Get Started",
+  "forgotPassword": "Forgot password?",
+  "forgotPasswordTitle": "Reset password",
+  "forgotPasswordIntro": "Enter the email for your account and we'll send you a reset code.",
+  "sendResetCode": "Send reset code",
+  "resetCodeSent": "If that email is registered, a reset code is on its way. Enter it below with your new password.",
+  "resetCode": "Reset code",
+  "resetCodeRequired": "Enter the code from the email",
+  "newPassword": "New password",
+  "resetPassword": "Reset password",
+  "resetPasswordDone": "Password updated. You're signed in.",
+  "deleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete account?",
+  "deleteAccountWarning": "This permanently deletes your account, workout history, check-ins, challenges, and medals. This cannot be undone.",
+  "deleteAccountPasswordPrompt": "Enter your password to confirm.",
+  "deleteAccountConfirm": "Delete permanently",
+  "dangerZone": "Danger zone"
 }

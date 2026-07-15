@@ -47,7 +47,8 @@ Pattern: screens read providers via `context.watch`/`context.read`; providers ca
 | `challenges_screen.dart`, `create_challenge_screen.dart`, `challenge_detail_screen.dart` | The Arena (judge others with criteria + reason codes), your challenges, proof-video upload |
 | `medals_screen.dart` | **Medal Case** — gold "trophy room" listing every challenge win; owners attach a story to each medal (max 100 words, live word counter) |
 | `notifications_screen.dart` | Rank alerts and challenge deep links |
-| `settings_screen.dart` | Language (EN/ID) and preferences |
+| `login_screen.dart`, `forgot_password_screen.dart` | Sign in; reset a forgotten password with an emailed code (request code → enter code + new password → signed in) |
+| `settings_screen.dart` | Language (EN/ID), preferences, and permanent account deletion (password-confirmed) |
 
 ### Confetti moments
 
