@@ -643,6 +643,43 @@ class AppLocalizationsId extends AppLocalizations {
       'Belum ada medali. Menangkan challenge untuk mendapatkannya!';
 
   @override
+  String get medalCase => 'Koleksi Medali';
+
+  @override
+  String get viewMedalCase => 'Lihat koleksi medali';
+
+  @override
+  String medalDefeated(String name) {
+    return 'Mengalahkan $name';
+  }
+
+  @override
+  String medalWonOn(String date) {
+    return 'Menang $date';
+  }
+
+  @override
+  String get medalStoryTitle => 'Ceritanya';
+
+  @override
+  String get addMedalStory => 'Tulis cerita';
+
+  @override
+  String get editMedalStory => 'Ubah cerita';
+
+  @override
+  String get medalStoryHint =>
+      'Cerita di balik kemenangan ini — maksimal 100 kata';
+
+  @override
+  String wordsOf100(int count) {
+    return '$count/100 kata';
+  }
+
+  @override
+  String get storyTooLong => 'Maksimal 100 kata';
+
+  @override
   String get noArenaChallenges => 'Belum ada challenge untuk dinilai saat ini.';
 
   @override

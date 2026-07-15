@@ -227,6 +227,37 @@
     }
   },
   "noMedalsYet": "Belum ada medali. Menangkan challenge untuk mendapatkannya!",
+  "medalCase": "Koleksi Medali",
+  "viewMedalCase": "Lihat koleksi medali",
+  "medalDefeated": "Mengalahkan {name}",
+  "@medalDefeated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "medalWonOn": "Menang {date}",
+  "@medalWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "medalStoryTitle": "Ceritanya",
+  "addMedalStory": "Tulis cerita",
+  "editMedalStory": "Ubah cerita",
+  "medalStoryHint": "Cerita di balik kemenangan ini — maksimal 100 kata",
+  "wordsOf100": "{count}/100 kata",
+  "@wordsOf100": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storyTooLong": "Maksimal 100 kata",
   "noArenaChallenges": "Belum ada challenge untuk dinilai saat ini.",
   "noChallengesYet": "Belum ada challenge. Tantang seseorang dari papan peringkat!",
   "judgementTitle": "Nilai angkatan",

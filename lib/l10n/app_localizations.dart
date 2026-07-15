@@ -1208,6 +1208,66 @@ abstract class AppLocalizations {
   /// **'No medals yet. Win a challenge to earn one!'**
   String get noMedalsYet;
 
+  /// No description provided for @medalCase.
+  ///
+  /// In en, this message translates to:
+  /// **'Medal Case'**
+  String get medalCase;
+
+  /// No description provided for @viewMedalCase.
+  ///
+  /// In en, this message translates to:
+  /// **'View medal case'**
+  String get viewMedalCase;
+
+  /// No description provided for @medalDefeated.
+  ///
+  /// In en, this message translates to:
+  /// **'Defeated {name}'**
+  String medalDefeated(String name);
+
+  /// No description provided for @medalWonOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Won {date}'**
+  String medalWonOn(String date);
+
+  /// No description provided for @medalStoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The story'**
+  String get medalStoryTitle;
+
+  /// No description provided for @addMedalStory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a story'**
+  String get addMedalStory;
+
+  /// No description provided for @editMedalStory.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit story'**
+  String get editMedalStory;
+
+  /// No description provided for @medalStoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The story behind this win — max 100 words'**
+  String get medalStoryHint;
+
+  /// No description provided for @wordsOf100.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}/100 words'**
+  String wordsOf100(int count);
+
+  /// No description provided for @storyTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it under 100 words'**
+  String get storyTooLong;
+
   /// No description provided for @noArenaChallenges.
   ///
   /// In en, this message translates to:

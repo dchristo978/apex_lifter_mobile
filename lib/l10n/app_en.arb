@@ -406,6 +406,37 @@
     }
   },
   "noMedalsYet": "No medals yet. Win a challenge to earn one!",
+  "medalCase": "Medal Case",
+  "viewMedalCase": "View medal case",
+  "medalDefeated": "Defeated {name}",
+  "@medalDefeated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "medalWonOn": "Won {date}",
+  "@medalWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "medalStoryTitle": "The story",
+  "addMedalStory": "Add a story",
+  "editMedalStory": "Edit story",
+  "medalStoryHint": "The story behind this win — max 100 words",
+  "wordsOf100": "{count}/100 words",
+  "@wordsOf100": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "storyTooLong": "Keep it under 100 words",
   "noArenaChallenges": "No challenges to judge right now.",
   "noChallengesYet": "No challenges yet. Challenge someone from the leaderboard!",
   "judgementTitle": "Judge the lift",

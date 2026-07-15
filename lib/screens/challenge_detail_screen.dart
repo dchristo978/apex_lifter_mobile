@@ -6,12 +6,21 @@ import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/challenge_provider.dart';
 import '../widgets/challenge_widgets.dart';
+import '../widgets/confetti_burst.dart';
 import '../widgets/user_avatar.dart';
 
 class ChallengeDetailScreen extends StatefulWidget {
-  const ChallengeDetailScreen({super.key, required this.challengeId});
+  const ChallengeDetailScreen({
+    super.key,
+    required this.challengeId,
+    this.celebrateOnOpen = false,
+  });
 
   final int challengeId;
+
+  /// Blast confetti once the challenge loads — set when opening a freshly
+  /// received challenge from the notifications screen.
+  final bool celebrateOnOpen;
 
   @override
   State<ChallengeDetailScreen> createState() => _ChallengeDetailScreenState();
@@ -21,6 +30,7 @@ class _ChallengeDetailScreenState extends State<ChallengeDetailScreen> {
   Challenge? _challenge;
   String? _error;
   bool _busy = false;
+  bool _celebratedWin = false;
 
   @override
   void initState() {
@@ -31,7 +41,17 @@ class _ChallengeDetailScreenState extends State<ChallengeDetailScreen> {
   Future<void> _load() async {
     try {
       final c = await context.read<ChallengeProvider>().fetch(widget.challengeId);
-      if (mounted) setState(() => _challenge = c);
+      if (mounted) {
+        setState(() => _challenge = c);
+        // One-time ovation: seeing the challenge you won, or opening one you
+        // just received from a notification.
+        if (!_celebratedWin &&
+            ((c.status == 'completed' && _isMeWinner(c)) ||
+                widget.celebrateOnOpen)) {
+          _celebratedWin = true;
+          celebrate(context);
+        }
+      }
     } catch (e) {
       if (mounted) setState(() => _error = e.toString());
     }
@@ -228,7 +248,10 @@ class _ChallengeDetailScreenState extends State<ChallengeDetailScreen> {
             ? null
             : () async {
                 final voted = await showVoteSheet(context, c);
-                if (voted) _load();
+                if (voted && context.mounted) {
+                  celebrate(context);
+                  _load();
+                }
               },
         icon: const Icon(Icons.gavel),
         label: Text(l10n.judge),

@@ -8,6 +8,7 @@ import '../widgets/avatar_uploader.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
 import 'featured_machines_screen.dart';
+import 'medals_screen.dart';
 import 'public_profile_screen.dart';
 import 'settings_screen.dart';
 
@@ -124,6 +125,21 @@ class ProfileScreen extends StatelessWidget {
             l10n.tapWeightHint,
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              leading: const Text('🏅', style: TextStyle(fontSize: 22)),
+              title: Text(l10n.medalCase),
+              subtitle: Text(l10n.viewMedalCase),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MedalsScreen(
+                      userId: user.id, initialName: user.name),
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Card(

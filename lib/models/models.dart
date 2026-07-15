@@ -544,6 +544,65 @@ class Challenge {
   }
 }
 
+/// One medal in a lifter's medal case — a challenge they won, plus the
+/// free-text story the owner attached to it (max 100 words, API-enforced).
+class Medal {
+  Medal({
+    required this.challengeId,
+    this.machineName,
+    this.gymName,
+    this.defeated,
+    required this.targetWeightKg,
+    required this.targetReps,
+    required this.targetSets,
+    this.wonAt,
+    this.note,
+  });
+
+  final int challengeId;
+  final String? machineName;
+  final String? gymName;
+
+  /// The lifter beaten in this challenge.
+  final ChallengeParticipant? defeated;
+  final double targetWeightKg;
+  final int targetReps;
+  final int targetSets;
+  final DateTime? wonAt;
+
+  /// The owner's story behind the win.
+  final String? note;
+
+  Medal copyWith({String? note}) => Medal(
+        challengeId: challengeId,
+        machineName: machineName,
+        gymName: gymName,
+        defeated: defeated,
+        targetWeightKg: targetWeightKg,
+        targetReps: targetReps,
+        targetSets: targetSets,
+        wonAt: wonAt,
+        note: note,
+      );
+
+  factory Medal.fromJson(Map<String, dynamic> json) => Medal(
+        challengeId: json['challenge_id'] as int,
+        machineName: json['machine_name'] as String?,
+        gymName: json['gym_name'] as String?,
+        defeated: json['defeated'] == null
+            ? null
+            : ChallengeParticipant.fromJson(
+                json['defeated'] as Map<String, dynamic>),
+        targetWeightKg: _toDouble(json['target_weight_kg']),
+        targetReps: json['target_reps'] as int,
+        targetSets: json['target_sets'] as int,
+        wonAt: json['won_at'] == null
+            ? null
+            : DateTime.parse(json['won_at'] as String).toLocal(),
+        note: json['note'] as String?,
+      );
+}
+
 /// A row on a gym's public leaderboard: the lifter's best set at that gym
 /// within the period, ranked by estimated 1RM.
 class GymLeaderboardEntry {

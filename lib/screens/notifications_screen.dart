@@ -49,7 +49,10 @@ class NotificationsScreen extends StatelessWidget {
                           ? () => Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) => ChallengeDetailScreen(
-                                      challengeId: n.challengeId!),
+                                    challengeId: n.challengeId!,
+                                    celebrateOnOpen:
+                                        n.type == 'challenge_received',
+                                  ),
                                 ),
                               )
                           : null,

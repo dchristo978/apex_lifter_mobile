@@ -9,6 +9,7 @@ import '../services/api_client.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
 import 'create_challenge_screen.dart';
+import 'medals_screen.dart';
 
 /// Another lifter's public profile plus their lazily-loaded session history.
 class PublicProfileScreen extends StatefulWidget {
@@ -206,7 +207,15 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
         if (p.medals > 0)
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: _MedalsRow(count: p.medals),
+            child: _MedalsRow(
+              count: p.medals,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MedalsScreen(
+                      userId: widget.userId, initialName: p.name),
+                ),
+              ),
+            ),
           ),
         const SizedBox(height: 12),
         Text(p.name, style: Theme.of(context).textTheme.headlineSmall),
@@ -364,29 +373,38 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 }
 
 /// Row of medal icons shown under the avatar; one 🏅 per win, up to 5, then a
-/// "+N" overflow, with the total count.
+/// "+N" overflow, with the total count. Tapping it opens the medal case.
 class _MedalsRow extends StatelessWidget {
-  const _MedalsRow({required this.count});
+  const _MedalsRow({required this.count, this.onTap});
 
   final int count;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final shown = count > 5 ? 5 : count;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var i = 0; i < shown; i++)
-          const Text('🏅', style: TextStyle(fontSize: 18)),
-        const SizedBox(width: 4),
-        Text(
-          AppLocalizations.of(context).medalsWithCount(count),
-          style: Theme.of(context)
-              .textTheme
-              .labelLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (var i = 0; i < shown; i++)
+              const Text('🏅', style: TextStyle(fontSize: 18)),
+            const SizedBox(width: 4),
+            Text(
+              AppLocalizations.of(context).medalsWithCount(count),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            if (onTap != null) const Icon(Icons.chevron_right, size: 18),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

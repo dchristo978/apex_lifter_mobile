@@ -640,6 +640,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noMedalsYet => 'No medals yet. Win a challenge to earn one!';
 
   @override
+  String get medalCase => 'Medal Case';
+
+  @override
+  String get viewMedalCase => 'View medal case';
+
+  @override
+  String medalDefeated(String name) {
+    return 'Defeated $name';
+  }
+
+  @override
+  String medalWonOn(String date) {
+    return 'Won $date';
+  }
+
+  @override
+  String get medalStoryTitle => 'The story';
+
+  @override
+  String get addMedalStory => 'Add a story';
+
+  @override
+  String get editMedalStory => 'Edit story';
+
+  @override
+  String get medalStoryHint => 'The story behind this win — max 100 words';
+
+  @override
+  String wordsOf100(int count) {
+    return '$count/100 words';
+  }
+
+  @override
+  String get storyTooLong => 'Keep it under 100 words';
+
+  @override
   String get noArenaChallenges => 'No challenges to judge right now.';
 
   @override

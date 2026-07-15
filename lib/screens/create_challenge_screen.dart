@@ -6,6 +6,7 @@ import '../models/models.dart';
 import '../providers/challenge_provider.dart';
 import '../providers/machine_provider.dart';
 import '../widgets/challenge_widgets.dart';
+import '../widgets/confetti_burst.dart';
 import 'challenge_detail_screen.dart';
 import 'machine_picker_screen.dart';
 
@@ -86,6 +87,7 @@ class _CreateChallengeScreenState extends State<CreateChallengeScreen> {
         targetSets: int.parse(_sets.text),
       );
       if (!mounted) return;
+      celebrate(context);
       final messenger = ScaffoldMessenger.of(context);
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.challengeSent(widget.opponentName))),
