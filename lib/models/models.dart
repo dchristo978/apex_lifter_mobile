@@ -834,3 +834,195 @@ class CheckinResult {
   final Gym gym;
   final int distanceM;
 }
+
+/// One day on the training-frequency heatmap: the calendar date and how many
+/// sets were logged that day. Empty days are absent (the grid fills them in).
+class HeatmapDay {
+  HeatmapDay({required this.date, required this.count});
+
+  final DateTime date;
+  final int count;
+
+  factory HeatmapDay.fromJson(Map<String, dynamic> json) => HeatmapDay(
+        date: DateTime.parse(json['date'] as String),
+        count: json['count'] as int,
+      );
+}
+
+/// The full training-frequency heatmap: a date range and its non-empty days.
+class Heatmap {
+  Heatmap({required this.start, required this.end, required this.days});
+
+  final DateTime start;
+  final DateTime end;
+
+  /// Keyed by `yyyy-MM-dd` for O(1) lookup while painting the grid.
+  final Map<String, int> days;
+
+  int countFor(DateTime day) =>
+      days['${day.year.toString().padLeft(4, '0')}-'
+          '${day.month.toString().padLeft(2, '0')}-'
+          '${day.day.toString().padLeft(2, '0')}'] ??
+      0;
+
+  factory Heatmap.fromJson(Map<String, dynamic> json) {
+    final days = <String, int>{};
+    for (final d in (json['days'] as List)) {
+      final day = HeatmapDay.fromJson(d as Map<String, dynamic>);
+      days[d['date'] as String] = day.count;
+    }
+    return Heatmap(
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
+      days: days,
+    );
+  }
+}
+
+/// Training volume for one muscle group over the activation window.
+class MuscleStat {
+  MuscleStat({
+    required this.group,
+    required this.sets,
+    required this.volumeKg,
+    this.lastTrained,
+    this.daysSince,
+  });
+
+  final String group;
+  final int sets;
+  final double volumeKg;
+  final DateTime? lastTrained;
+  final int? daysSince;
+
+  factory MuscleStat.fromJson(Map<String, dynamic> json) => MuscleStat(
+        group: json['group'] as String,
+        sets: json['sets'] as int,
+        volumeKg: _toDouble(json['volume_kg']),
+        lastTrained: json['last_trained'] == null
+            ? null
+            : DateTime.parse(json['last_trained'] as String),
+        daysSince: json['days_since'] as int?,
+      );
+}
+
+/// Per-muscle-group activation over a trailing window. Drives both the 3D
+/// muscle model (which groups to light up, and how intensely) and the radar.
+class MuscleActivation {
+  MuscleActivation({
+    required this.days,
+    required this.balanceGroups,
+    required this.groups,
+    required this.trained,
+    required this.neglected,
+  });
+
+  final int days;
+  final List<String> balanceGroups;
+  final List<MuscleStat> groups;
+  final List<String> trained;
+  final List<String> neglected;
+
+  /// Group name → its stat, for quick lookups while rendering.
+  Map<String, MuscleStat> get byGroup => {for (final g in groups) g.group: g};
+
+  /// The busiest single group's set count, used to normalise intensities.
+  int get maxSets =>
+      groups.fold(0, (m, g) => g.sets > m ? g.sets : m);
+
+  /// 0..1 activation intensity for a group (0 when untrained this window).
+  double intensityFor(String group) {
+    final stat = byGroup[group];
+    if (stat == null || maxSets == 0) return 0;
+    return stat.sets / maxSets;
+  }
+
+  factory MuscleActivation.fromJson(Map<String, dynamic> json) =>
+      MuscleActivation(
+        days: json['days'] as int,
+        balanceGroups: ((json['balance_groups'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList(),
+        groups: ((json['groups'] as List?) ?? const [])
+            .map((g) => MuscleStat.fromJson(g as Map<String, dynamic>))
+            .toList(),
+        trained: ((json['trained'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList(),
+        neglected: ((json['neglected'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList(),
+      );
+}
+
+/// A lifter's best 1RM on one standard barbell lift, placed against
+/// body-weight-relative population norms.
+class StrengthLift {
+  StrengthLift({
+    required this.machineId,
+    required this.name,
+    required this.best1rm,
+    required this.ratio,
+    required this.level,
+    required this.levelIndex,
+    this.nextLevel,
+    this.nextTargetKg,
+    required this.thresholdsKg,
+    required this.levelNames,
+  });
+
+  final int machineId;
+  final String name;
+  final double best1rm;
+  final double ratio;
+  final String level;
+
+  /// 0 = Untrained, 1..5 = Beginner..Elite.
+  final int levelIndex;
+  final String? nextLevel;
+  final double? nextTargetKg;
+  final List<double> thresholdsKg;
+  final List<String> levelNames;
+
+  factory StrengthLift.fromJson(Map<String, dynamic> json) => StrengthLift(
+        machineId: json['machine_id'] as int,
+        name: json['name'] as String,
+        best1rm: _toDouble(json['best_1rm']),
+        ratio: _toDouble(json['ratio']),
+        level: json['level'] as String,
+        levelIndex: json['level_index'] as int,
+        nextLevel: json['next_level'] as String?,
+        nextTargetKg: _toDoubleOrNull(json['next_target_kg']),
+        thresholdsKg: ((json['thresholds_kg'] as List?) ?? const [])
+            .map((e) => _toDouble(e))
+            .toList(),
+        levelNames: ((json['level_names'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList(),
+      );
+}
+
+/// The strength-standards panel: the lifter's stats plus each ranked lift.
+class StrengthStandards {
+  StrengthStandards({
+    required this.needsProfile,
+    this.bodyWeightKg,
+    this.gender,
+    required this.lifts,
+  });
+
+  final bool needsProfile;
+  final double? bodyWeightKg;
+  final String? gender;
+  final List<StrengthLift> lifts;
+
+  factory StrengthStandards.fromJson(Map<String, dynamic> json) =>
+      StrengthStandards(
+        needsProfile: json['needs_profile'] as bool? ?? false,
+        bodyWeightKg: _toDoubleOrNull(json['body_weight_kg']),
+        gender: json['gender'] as String?,
+        lifts: ((json['lifts'] as List?) ?? const [])
+            .map((l) => StrengthLift.fromJson(l as Map<String, dynamic>))
+            .toList(),
+      );
+}

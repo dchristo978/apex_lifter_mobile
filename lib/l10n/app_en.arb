@@ -620,5 +620,63 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "muscleModelTitle": "Muscle map",
+  "muscleModelSubtitle": "Muscles you trained in the last 7 days.",
+  "muscleModelTrainedCount": "{count} muscle groups trained this week",
+  "@muscleModelTrainedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "viewIn3d": "View in 3D",
+  "frontView": "FRONT",
+  "backView": "BACK",
+  "swipeToRotate": "Swipe to rotate",
+  "noMuscleTrained": "No muscles trained in the last 7 days. Time to hit the gym!",
+  "trainedThisWeek": "Trained this week",
+  "insightsTitle": "Insights",
+  "insightsSubtitle": "Frequency, muscle balance & strength standards",
+  "trainingFrequency": "Training frequency",
+  "heatmapSummary": "{total} sets across {days} active days in the past year",
+  "@heatmapSummary": {
+    "placeholders": {
+      "total": { "type": "int" },
+      "days": { "type": "int" }
+    }
+  },
+  "less": "Less",
+  "more": "More",
+  "muscleBalance": "Muscle balance",
+  "muscleBalanceCaption": "Sets per muscle group over the last 30 days",
+  "neglectedMuscles": "You've skipped {groups} in the last {days} days 😏",
+  "@neglectedMuscles": {
+    "placeholders": {
+      "groups": { "type": "String" },
+      "days": { "type": "int" }
+    }
+  },
+  "strengthStandards": "Strength standards",
+  "standardsNeedProfile": "Set your body weight and gender in your profile to see how your lifts stack up.",
+  "standardsNoLifts": "Log a Bench Press, Squat, Deadlift or Overhead Press (barbell) to see your standards.",
+  "standardsBest": "Best 1RM {kg} kg · {ratio}× body weight",
+  "@standardsBest": {
+    "placeholders": {
+      "kg": { "type": "String" },
+      "ratio": { "type": "String" }
+    }
+  },
+  "standardsNext": "Next: {level} at {kg} kg",
+  "@standardsNext": {
+    "placeholders": {
+      "level": { "type": "String" },
+      "kg": { "type": "String" }
+    }
+  },
+  "levelUntrained": "Untrained",
+  "levelBeginner": "Beginner",
+  "levelNovice": "Novice",
+  "levelIntermediate": "Intermediate",
+  "levelAdvanced": "Advanced",
+  "levelElite": "Elite"
 }

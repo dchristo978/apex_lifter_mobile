@@ -1825,6 +1825,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} followers'**
   String suggestionFollowers(int count);
+
+  /// No description provided for @muscleModelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle map'**
+  String get muscleModelTitle;
+
+  /// No description provided for @muscleModelSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscles you trained in the last 7 days.'**
+  String get muscleModelSubtitle;
+
+  /// No description provided for @muscleModelTrainedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} muscle groups trained this week'**
+  String muscleModelTrainedCount(int count);
+
+  /// No description provided for @viewIn3d.
+  ///
+  /// In en, this message translates to:
+  /// **'View in 3D'**
+  String get viewIn3d;
+
+  /// No description provided for @frontView.
+  ///
+  /// In en, this message translates to:
+  /// **'FRONT'**
+  String get frontView;
+
+  /// No description provided for @backView.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK'**
+  String get backView;
+
+  /// No description provided for @swipeToRotate.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to rotate'**
+  String get swipeToRotate;
+
+  /// No description provided for @noMuscleTrained.
+  ///
+  /// In en, this message translates to:
+  /// **'No muscles trained in the last 7 days. Time to hit the gym!'**
+  String get noMuscleTrained;
+
+  /// No description provided for @trainedThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Trained this week'**
+  String get trainedThisWeek;
+
+  /// No description provided for @insightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get insightsTitle;
+
+  /// No description provided for @insightsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency, muscle balance & strength standards'**
+  String get insightsSubtitle;
+
+  /// No description provided for @trainingFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Training frequency'**
+  String get trainingFrequency;
+
+  /// No description provided for @heatmapSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} sets across {days} active days in the past year'**
+  String heatmapSummary(int total, int days);
+
+  /// No description provided for @less.
+  ///
+  /// In en, this message translates to:
+  /// **'Less'**
+  String get less;
+
+  /// No description provided for @more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get more;
+
+  /// No description provided for @muscleBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle balance'**
+  String get muscleBalance;
+
+  /// No description provided for @muscleBalanceCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets per muscle group over the last 30 days'**
+  String get muscleBalanceCaption;
+
+  /// No description provided for @neglectedMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve skipped {groups} in the last {days} days 😏'**
+  String neglectedMuscles(String groups, int days);
+
+  /// No description provided for @strengthStandards.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength standards'**
+  String get strengthStandards;
+
+  /// No description provided for @standardsNeedProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your body weight and gender in your profile to see how your lifts stack up.'**
+  String get standardsNeedProfile;
+
+  /// No description provided for @standardsNoLifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a Bench Press, Squat, Deadlift or Overhead Press (barbell) to see your standards.'**
+  String get standardsNoLifts;
+
+  /// No description provided for @standardsBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best 1RM {kg} kg · {ratio}× body weight'**
+  String standardsBest(String kg, String ratio);
+
+  /// No description provided for @standardsNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {level} at {kg} kg'**
+  String standardsNext(String level, String kg);
+
+  /// No description provided for @levelUntrained.
+  ///
+  /// In en, this message translates to:
+  /// **'Untrained'**
+  String get levelUntrained;
+
+  /// No description provided for @levelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get levelBeginner;
+
+  /// No description provided for @levelNovice.
+  ///
+  /// In en, this message translates to:
+  /// **'Novice'**
+  String get levelNovice;
+
+  /// No description provided for @levelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get levelIntermediate;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get levelAdvanced;
+
+  /// No description provided for @levelElite.
+  ///
+  /// In en, this message translates to:
+  /// **'Elite'**
+  String get levelElite;
 }
 
 class _AppLocalizationsDelegate

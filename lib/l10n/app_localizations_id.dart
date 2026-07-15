@@ -993,4 +993,107 @@ class AppLocalizationsId extends AppLocalizations {
   String suggestionFollowers(int count) {
     return '$count pengikut';
   }
+
+  @override
+  String get muscleModelTitle => 'Peta otot';
+
+  @override
+  String get muscleModelSubtitle =>
+      'Otot yang kamu latih dalam 7 hari terakhir.';
+
+  @override
+  String muscleModelTrainedCount(int count) {
+    return '$count kelompok otot dilatih minggu ini';
+  }
+
+  @override
+  String get viewIn3d => 'Lihat dalam 3D';
+
+  @override
+  String get frontView => 'DEPAN';
+
+  @override
+  String get backView => 'BELAKANG';
+
+  @override
+  String get swipeToRotate => 'Geser untuk memutar';
+
+  @override
+  String get noMuscleTrained =>
+      'Belum ada otot yang dilatih dalam 7 hari terakhir. Waktunya ke gym!';
+
+  @override
+  String get trainedThisWeek => 'Dilatih minggu ini';
+
+  @override
+  String get insightsTitle => 'Wawasan';
+
+  @override
+  String get insightsSubtitle =>
+      'Frekuensi, keseimbangan otot & standar kekuatan';
+
+  @override
+  String get trainingFrequency => 'Frekuensi latihan';
+
+  @override
+  String heatmapSummary(int total, int days) {
+    return '$total set dalam $days hari aktif setahun terakhir';
+  }
+
+  @override
+  String get less => 'Sedikit';
+
+  @override
+  String get more => 'Banyak';
+
+  @override
+  String get muscleBalance => 'Keseimbangan otot';
+
+  @override
+  String get muscleBalanceCaption =>
+      'Set per kelompok otot dalam 30 hari terakhir';
+
+  @override
+  String neglectedMuscles(String groups, int days) {
+    return 'Kamu melewatkan $groups dalam $days hari terakhir 😏';
+  }
+
+  @override
+  String get strengthStandards => 'Standar kekuatan';
+
+  @override
+  String get standardsNeedProfile =>
+      'Atur berat badan dan jenis kelamin di profilmu untuk melihat perbandingan angkatanmu.';
+
+  @override
+  String get standardsNoLifts =>
+      'Catat Bench Press, Squat, Deadlift, atau Overhead Press (barbell) untuk melihat standarmu.';
+
+  @override
+  String standardsBest(String kg, String ratio) {
+    return '1RM terbaik $kg kg · $ratio× berat badan';
+  }
+
+  @override
+  String standardsNext(String level, String kg) {
+    return 'Berikutnya: $level di $kg kg';
+  }
+
+  @override
+  String get levelUntrained => 'Belum terlatih';
+
+  @override
+  String get levelBeginner => 'Pemula';
+
+  @override
+  String get levelNovice => 'Dasar';
+
+  @override
+  String get levelIntermediate => 'Menengah';
+
+  @override
+  String get levelAdvanced => 'Mahir';
+
+  @override
+  String get levelElite => 'Elit';
 }

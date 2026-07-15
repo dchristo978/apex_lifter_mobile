@@ -3,12 +3,17 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/models.dart';
 import '../providers/auth_provider.dart';
+import '../services/api_client.dart';
 import '../widgets/avatar_uploader.dart';
+import '../widgets/muscle_body.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
 import 'featured_machines_screen.dart';
+import 'insights_screen.dart';
 import 'medals_screen.dart';
+import 'muscle_model_screen.dart';
 import 'public_profile_screen.dart';
 import 'settings_screen.dart';
 
@@ -70,6 +75,20 @@ class ProfileScreen extends StatelessWidget {
           Center(child: Text(user.email)),
           const SizedBox(height: 20),
           StreakCard(weeks: user.weekStreak),
+          const SizedBox(height: 16),
+          const _MusclePreview(),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.insights_outlined),
+              title: Text(l10n.insightsTitle),
+              subtitle: Text(l10n.insightsSubtitle),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const InsightsScreen()),
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Card(
             child: Column(
@@ -208,5 +227,103 @@ class ProfileScreen extends StatelessWidget {
     if (value != null && value > 0) {
       await auth.updateProfile({'body_weight_kg': value});
     }
+  }
+}
+
+/// A tappable preview of this week's muscle activation: a small front figure
+/// with the muscles trained in the last 7 days shaded blue. Opens the rotatable
+/// 3D muscle model. Fetches its own data so the profile stays a cheap list.
+class _MusclePreview extends StatefulWidget {
+  const _MusclePreview();
+
+  @override
+  State<_MusclePreview> createState() => _MusclePreviewState();
+}
+
+class _MusclePreviewState extends State<_MusclePreview> {
+  MuscleActivation? _data;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final api = context.read<ApiClient>();
+      final json = await api.get('/insights/muscle-activation', {'days': '7'});
+      if (mounted) setState(() => _data = MuscleActivation.fromJson(json));
+    } catch (_) {
+      if (mounted) setState(() => _failed = true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final data = _data;
+    final active = data?.trained.toSet() ?? const <String>{};
+    final intensity = data == null
+        ? const <String, double>{}
+        : {for (final g in data.groups) g.group: data.intensityFor(g.group)};
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const MuscleModelScreen()),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              SizedBox(
+                height: 120,
+                child: _failed
+                    ? const Icon(Icons.accessibility_new, size: 60)
+                    : MuscleBody(
+                        activeGroups: active,
+                        intensity: intensity,
+                      ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.muscleModelTitle,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 6),
+                    Text(
+                      data == null
+                          ? l10n.muscleModelSubtitle
+                          : (active.isEmpty
+                              ? l10n.noMuscleTrained
+                              : l10n.muscleModelTrainedCount(active.length)),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(Icons.threed_rotation,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.primary),
+                        const SizedBox(width: 6),
+                        Text(l10n.viewIn3d,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -987,4 +987,106 @@ class AppLocalizationsEn extends AppLocalizations {
   String suggestionFollowers(int count) {
     return '$count followers';
   }
+
+  @override
+  String get muscleModelTitle => 'Muscle map';
+
+  @override
+  String get muscleModelSubtitle => 'Muscles you trained in the last 7 days.';
+
+  @override
+  String muscleModelTrainedCount(int count) {
+    return '$count muscle groups trained this week';
+  }
+
+  @override
+  String get viewIn3d => 'View in 3D';
+
+  @override
+  String get frontView => 'FRONT';
+
+  @override
+  String get backView => 'BACK';
+
+  @override
+  String get swipeToRotate => 'Swipe to rotate';
+
+  @override
+  String get noMuscleTrained =>
+      'No muscles trained in the last 7 days. Time to hit the gym!';
+
+  @override
+  String get trainedThisWeek => 'Trained this week';
+
+  @override
+  String get insightsTitle => 'Insights';
+
+  @override
+  String get insightsSubtitle =>
+      'Frequency, muscle balance & strength standards';
+
+  @override
+  String get trainingFrequency => 'Training frequency';
+
+  @override
+  String heatmapSummary(int total, int days) {
+    return '$total sets across $days active days in the past year';
+  }
+
+  @override
+  String get less => 'Less';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get muscleBalance => 'Muscle balance';
+
+  @override
+  String get muscleBalanceCaption =>
+      'Sets per muscle group over the last 30 days';
+
+  @override
+  String neglectedMuscles(String groups, int days) {
+    return 'You\'ve skipped $groups in the last $days days 😏';
+  }
+
+  @override
+  String get strengthStandards => 'Strength standards';
+
+  @override
+  String get standardsNeedProfile =>
+      'Set your body weight and gender in your profile to see how your lifts stack up.';
+
+  @override
+  String get standardsNoLifts =>
+      'Log a Bench Press, Squat, Deadlift or Overhead Press (barbell) to see your standards.';
+
+  @override
+  String standardsBest(String kg, String ratio) {
+    return 'Best 1RM $kg kg · $ratio× body weight';
+  }
+
+  @override
+  String standardsNext(String level, String kg) {
+    return 'Next: $level at $kg kg';
+  }
+
+  @override
+  String get levelUntrained => 'Untrained';
+
+  @override
+  String get levelBeginner => 'Beginner';
+
+  @override
+  String get levelNovice => 'Novice';
+
+  @override
+  String get levelIntermediate => 'Intermediate';
+
+  @override
+  String get levelAdvanced => 'Advanced';
+
+  @override
+  String get levelElite => 'Elite';
 }
