@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/avatar_uploader.dart';
+import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
 import 'featured_machines_screen.dart';
 import 'public_profile_screen.dart';
@@ -66,7 +67,9 @@ class ProfileScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall),
           ),
           Center(child: Text(user.email)),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+          StreakCard(weeks: user.weekStreak),
+          const SizedBox(height: 16),
           Card(
             child: Column(
               children: [

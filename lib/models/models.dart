@@ -18,6 +18,7 @@ class User {
     this.bodyWeightStale = false,
     this.avatarUrl,
     this.featuredMachineIds = const [],
+    this.weekStreak = 0,
   });
 
   final int id;
@@ -35,6 +36,10 @@ class User {
 
   /// Up to 3 machine ids the user pins to the top of their public profile.
   final List<int> featuredMachineIds;
+
+  /// Consecutive weeks (Mon–Sun) with at least one gym session. See the
+  /// backend's `User::weekStreak()`.
+  final int weekStreak;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json['id'] as int,
@@ -54,6 +59,7 @@ class User {
         featuredMachineIds: ((json['featured_machine_ids'] as List?) ?? const [])
             .map((e) => e as int)
             .toList(),
+        weekStreak: json['week_streak'] as int? ?? 0,
       );
 }
 
@@ -126,8 +132,10 @@ class PublicProfile {
     required this.totalVolumeKg,
     required this.machinesTrained,
     required this.bestEstimated1rm,
+    this.weekStreak = 0,
     this.records = const [],
     this.badges = const [],
+    this.medals = 0,
   });
 
   final int id;
@@ -143,9 +151,16 @@ class PublicProfile {
   final int machinesTrained;
   final double bestEstimated1rm;
 
+  /// Consecutive weeks (Mon–Sun) with at least one gym session. See the
+  /// backend's `User::weekStreak()`.
+  final int weekStreak;
+
   /// Heaviest lift per machine, featured machines first (see backend).
   final List<MachineRecord> records;
   final List<String> badges;
+
+  /// Challenge medals — one per challenge won. Shown under the avatar.
+  final int medals;
 
   factory PublicProfile.fromJson(Map<String, dynamic> json) {
     final stats = json['stats'] as Map<String, dynamic>;
@@ -163,12 +178,14 @@ class PublicProfile {
       totalVolumeKg: _toDouble(stats['total_volume_kg']),
       machinesTrained: stats['machines_trained'] as int,
       bestEstimated1rm: _toDouble(stats['best_estimated_1rm'] ?? 0),
+      weekStreak: stats['week_streak'] as int? ?? 0,
       records: ((json['records'] as List?) ?? const [])
           .map((r) => MachineRecord.fromJson(r as Map<String, dynamic>))
           .toList(),
       badges: ((json['badges'] as List?) ?? const [])
           .map((b) => b.toString())
           .toList(),
+      medals: json['medals'] as int? ?? 0,
     );
   }
 }
@@ -257,6 +274,7 @@ class Machine {
     required this.name,
     required this.brand,
     required this.category,
+    this.muscleGroup,
     this.description,
   });
 
@@ -264,6 +282,9 @@ class Machine {
   final String name;
   final String brand;
   final String category;
+
+  /// Fine-grained muscle group as shown in the gym catalogue (e.g. "Quadriceps").
+  final String? muscleGroup;
   final String? description;
 
   factory Machine.fromJson(Map<String, dynamic> json) => Machine(
@@ -271,6 +292,7 @@ class Machine {
         name: json['name'] as String,
         brand: json['brand'] as String,
         category: json['category'] as String,
+        muscleGroup: json['muscle_group'] as String?,
         description: json['description'] as String?,
       );
 }
@@ -343,6 +365,8 @@ class RankNotification {
     required this.body,
     required this.createdAt,
     this.readAt,
+    this.type = 'rank',
+    this.challengeId,
   });
 
   final int id;
@@ -351,7 +375,13 @@ class RankNotification {
   final DateTime createdAt;
   final DateTime? readAt;
 
+  /// 'rank' for leaderboard alerts, or a 'challenge_*' type that deep-links
+  /// to [challengeId].
+  final String type;
+  final int? challengeId;
+
   bool get isUnread => readAt == null;
+  bool get isChallenge => type.startsWith('challenge') && challengeId != null;
 
   factory RankNotification.fromJson(Map<String, dynamic> json) =>
       RankNotification(
@@ -362,7 +392,156 @@ class RankNotification {
         readAt: json['read_at'] == null
             ? null
             : DateTime.parse(json['read_at'] as String).toLocal(),
+        type: json['type'] as String? ?? 'rank',
+        challengeId: json['challenge_id'] as int?,
       );
+}
+
+/// A lifter on either side of a challenge (or its winner).
+class ChallengeParticipant {
+  ChallengeParticipant({required this.id, required this.name, this.avatarUrl});
+
+  final int id;
+  final String name;
+  final String? avatarUrl;
+
+  factory ChallengeParticipant.fromJson(Map<String, dynamic> json) =>
+      ChallengeParticipant(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        avatarUrl: json['avatar_url'] as String?,
+      );
+}
+
+/// Arena vote tally for a challenge.
+class ChallengeTally {
+  ChallengeTally({
+    required this.challenger,
+    required this.opponent,
+    required this.invalid,
+    required this.approvers,
+    required this.rejecters,
+    required this.total,
+  });
+
+  final int challenger;
+  final int opponent;
+  final int invalid;
+  final int approvers;
+  final int rejecters;
+  final int total;
+
+  factory ChallengeTally.fromJson(Map<String, dynamic>? json) => ChallengeTally(
+        challenger: json?['challenger'] as int? ?? 0,
+        opponent: json?['opponent'] as int? ?? 0,
+        invalid: json?['invalid'] as int? ?? 0,
+        approvers: json?['approvers'] as int? ?? 0,
+        rejecters: json?['rejecters'] as int? ?? 0,
+        total: json?['total'] as int? ?? 0,
+      );
+}
+
+/// A head-to-head challenge and its arena-judging state.
+class Challenge {
+  Challenge({
+    required this.id,
+    required this.status,
+    this.machineId,
+    this.machineName,
+    this.machineMuscleGroup,
+    this.gymName,
+    required this.targetWeightKg,
+    required this.targetReps,
+    required this.targetSets,
+    this.challenger,
+    this.opponent,
+    required this.challengerSubmitted,
+    required this.opponentSubmitted,
+    this.challengerVideoUrl,
+    this.opponentVideoUrl,
+    this.votingEndsAt,
+    this.winnerId,
+    this.winner,
+    this.createdAt,
+    required this.myRole,
+    required this.iSubmitted,
+    this.myVote,
+    required this.canVote,
+    required this.tally,
+  });
+
+  final int id;
+
+  /// pending | active | completed | declined | cancelled
+  final String status;
+  final int? machineId;
+  final String? machineName;
+  final String? machineMuscleGroup;
+  final String? gymName;
+  final double targetWeightKg;
+  final int targetReps;
+  final int targetSets;
+  final ChallengeParticipant? challenger;
+  final ChallengeParticipant? opponent;
+  final bool challengerSubmitted;
+  final bool opponentSubmitted;
+  final String? challengerVideoUrl;
+  final String? opponentVideoUrl;
+  final DateTime? votingEndsAt;
+  final int? winnerId;
+  final ChallengeParticipant? winner;
+  final DateTime? createdAt;
+
+  /// challenger | opponent | judge
+  final String myRole;
+  final bool iSubmitted;
+
+  /// challenger | opponent | invalid — the current user's arena vote, if any.
+  final String? myVote;
+  final bool canVote;
+  final ChallengeTally tally;
+
+  bool get isParticipant => myRole == 'challenger' || myRole == 'opponent';
+
+  factory Challenge.fromJson(Map<String, dynamic> json) {
+    final machine = json['machine'] as Map<String, dynamic>?;
+    final gym = json['gym'] as Map<String, dynamic>?;
+    ChallengeParticipant? part(String key) {
+      final m = json[key] as Map<String, dynamic>?;
+      return m == null ? null : ChallengeParticipant.fromJson(m);
+    }
+
+    return Challenge(
+      id: json['id'] as int,
+      status: json['status'] as String,
+      machineId: machine?['id'] as int?,
+      machineName: machine?['name'] as String?,
+      machineMuscleGroup: machine?['muscle_group'] as String?,
+      gymName: gym?['name'] as String?,
+      targetWeightKg: _toDouble(json['target_weight_kg']),
+      targetReps: json['target_reps'] as int,
+      targetSets: json['target_sets'] as int,
+      challenger: part('challenger'),
+      opponent: part('opponent'),
+      challengerSubmitted: json['challenger_submitted'] as bool? ?? false,
+      opponentSubmitted: json['opponent_submitted'] as bool? ?? false,
+      challengerVideoUrl: json['challenger_video_url'] as String?,
+      opponentVideoUrl: json['opponent_video_url'] as String?,
+      votingEndsAt: json['voting_ends_at'] == null
+          ? null
+          : DateTime.parse(json['voting_ends_at'] as String).toLocal(),
+      winnerId: json['winner_id'] as int?,
+      winner: part('winner'),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String).toLocal(),
+      myRole: json['my_role'] as String? ?? 'judge',
+      iSubmitted: json['i_submitted'] as bool? ?? false,
+      myVote: json['my_vote'] as String?,
+      canVote: json['can_vote'] as bool? ?? false,
+      tally: ChallengeTally.fromJson(json['tally'] as Map<String, dynamic>?),
+    );
+  }
 }
 
 class CheckinResult {

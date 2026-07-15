@@ -398,6 +398,18 @@ abstract class AppLocalizations {
   /// **'Select a machine to view the ranking.'**
   String get selectMachinePrompt;
 
+  /// No description provided for @searchMachine.
+  ///
+  /// In en, this message translates to:
+  /// **'Search machine'**
+  String get searchMachine;
+
+  /// No description provided for @noMachinesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No machines match your search.'**
+  String get noMachinesFound;
+
   /// No description provided for @noOneLogged.
   ///
   /// In en, this message translates to:
@@ -437,7 +449,7 @@ abstract class AppLocalizations {
   /// No description provided for @orPickAnotherMachine.
   ///
   /// In en, this message translates to:
-  /// **'or pick another machine from the dropdown above'**
+  /// **'or go back and choose another machine'**
   String get orPickAnotherMachine;
 
   /// No description provided for @youSuffix.
@@ -535,6 +547,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile photo updated.'**
   String get avatarUpdated;
+
+  /// No description provided for @photoSourceCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get photoSourceCamera;
+
+  /// No description provided for @photoSourceGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get photoSourceGallery;
+
+  /// No description provided for @permissionNeededTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission needed'**
+  String get permissionNeededTitle;
+
+  /// No description provided for @permissionNeededBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Access was denied. Open Settings to enable it for Apex Lifter.'**
+  String get permissionNeededBody;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
 
   /// No description provided for @avatarUploadFailed.
   ///
@@ -812,6 +854,30 @@ abstract class AppLocalizations {
   /// **'Total volume'**
   String get totalVolume;
 
+  /// No description provided for @streakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly streak'**
+  String get streakTitle;
+
+  /// No description provided for @weekStreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No streak} =1{1 week} other{{count} weeks}}'**
+  String weekStreakLabel(int count);
+
+  /// No description provided for @streakActiveHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One session a week keeps it alive 🔥'**
+  String get streakActiveHint;
+
+  /// No description provided for @streakStartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Train this week to start a streak 🔥'**
+  String get streakStartHint;
+
   /// No description provided for @noBadges.
   ///
   /// In en, this message translates to:
@@ -913,6 +979,384 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drag to reorder'**
   String get dragToReorder;
+
+  /// No description provided for @challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge'**
+  String get challenge;
+
+  /// No description provided for @challengeArena.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge Arena'**
+  String get challengeArena;
+
+  /// No description provided for @challenges.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenges'**
+  String get challenges;
+
+  /// No description provided for @tabArena.
+  ///
+  /// In en, this message translates to:
+  /// **'Arena'**
+  String get tabArena;
+
+  /// No description provided for @tabMine.
+  ///
+  /// In en, this message translates to:
+  /// **'Mine'**
+  String get tabMine;
+
+  /// No description provided for @tabMedals.
+  ///
+  /// In en, this message translates to:
+  /// **'Medals'**
+  String get tabMedals;
+
+  /// No description provided for @newChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'New Challenge'**
+  String get newChallenge;
+
+  /// No description provided for @challengeOpponent.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenging {name}'**
+  String challengeOpponent(String name);
+
+  /// No description provided for @chooseOpponent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an opponent from the leaderboard or a profile.'**
+  String get chooseOpponent;
+
+  /// No description provided for @targetWeightKgLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight (kg)'**
+  String get targetWeightKgLabel;
+
+  /// No description provided for @targetRepsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get targetRepsLabel;
+
+  /// No description provided for @targetSetsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get targetSetsLabel;
+
+  /// No description provided for @sendChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Challenge'**
+  String get sendChallenge;
+
+  /// No description provided for @challengeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge sent to {name}!'**
+  String challengeSent(String name);
+
+  /// No description provided for @vs.
+  ///
+  /// In en, this message translates to:
+  /// **'VS'**
+  String get vs;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting proof'**
+  String get statusPending;
+
+  /// No description provided for @statusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Judging in Arena'**
+  String get statusActive;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get statusCompleted;
+
+  /// No description provided for @statusDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get statusDeclined;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @recordProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Record proof'**
+  String get recordProof;
+
+  /// No description provided for @reRecordProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-record proof'**
+  String get reRecordProof;
+
+  /// No description provided for @proofSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Proof submitted ✓'**
+  String get proofSubmitted;
+
+  /// No description provided for @awaitingOpponentProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for the other lifter\'s proof.'**
+  String get awaitingOpponentProof;
+
+  /// No description provided for @watchChallengerProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch challenger\'s proof'**
+  String get watchChallengerProof;
+
+  /// No description provided for @watchOpponentProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch opponent\'s proof'**
+  String get watchOpponentProof;
+
+  /// No description provided for @declineChallenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get declineChallenge;
+
+  /// No description provided for @judge.
+  ///
+  /// In en, this message translates to:
+  /// **'Judge'**
+  String get judge;
+
+  /// No description provided for @alreadyJudged.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve judged this challenge.'**
+  String get alreadyJudged;
+
+  /// No description provided for @votingEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting ends {time}'**
+  String votingEndsIn(String time);
+
+  /// No description provided for @votingClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Voting window closed — awaiting result'**
+  String get votingClosed;
+
+  /// No description provided for @winnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Winner: {name}'**
+  String winnerLabel(String name);
+
+  /// No description provided for @youWon.
+  ///
+  /// In en, this message translates to:
+  /// **'You won this challenge! 🏅'**
+  String get youWon;
+
+  /// No description provided for @medalsWithCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} medals'**
+  String medalsWithCount(int count);
+
+  /// No description provided for @noMedalsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No medals yet. Win a challenge to earn one!'**
+  String get noMedalsYet;
+
+  /// No description provided for @noArenaChallenges.
+  ///
+  /// In en, this message translates to:
+  /// **'No challenges to judge right now.'**
+  String get noArenaChallenges;
+
+  /// No description provided for @noChallengesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No challenges yet. Challenge someone from the leaderboard!'**
+  String get noChallengesYet;
+
+  /// No description provided for @judgementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Judge the lift'**
+  String get judgementTitle;
+
+  /// No description provided for @criteriaLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Load / weight is correct'**
+  String get criteriaLoad;
+
+  /// No description provided for @criteriaForm.
+  ///
+  /// In en, this message translates to:
+  /// **'Form is valid'**
+  String get criteriaForm;
+
+  /// No description provided for @criteriaMachine.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct machine used'**
+  String get criteriaMachine;
+
+  /// No description provided for @criteriaRepsSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps & sets completed'**
+  String get criteriaRepsSets;
+
+  /// No description provided for @whoWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Who performed it validly?'**
+  String get whoWon;
+
+  /// No description provided for @voteWins.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} wins'**
+  String voteWins(String name);
+
+  /// No description provided for @voteInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither — invalid'**
+  String get voteInvalid;
+
+  /// No description provided for @reasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get reasonLabel;
+
+  /// No description provided for @reasonRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose a reason.'**
+  String get reasonRequired;
+
+  /// No description provided for @reasonNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note'**
+  String get reasonNote;
+
+  /// No description provided for @submitJudgement.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit judgement'**
+  String get submitJudgement;
+
+  /// No description provided for @reasonLoadTooLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Load looks lighter than claimed'**
+  String get reasonLoadTooLight;
+
+  /// No description provided for @reasonIncompleteReps.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps/sets not completed'**
+  String get reasonIncompleteReps;
+
+  /// No description provided for @reasonWrongMachine.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong machine used'**
+  String get reasonWrongMachine;
+
+  /// No description provided for @reasonBadForm.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid form / cheating'**
+  String get reasonBadForm;
+
+  /// No description provided for @reasonPartialRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Partial range of motion'**
+  String get reasonPartialRange;
+
+  /// No description provided for @reasonVideoUnclear.
+  ///
+  /// In en, this message translates to:
+  /// **'Video unclear / unconvincing'**
+  String get reasonVideoUnclear;
+
+  /// No description provided for @reasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get reasonOther;
+
+  /// No description provided for @proofRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a proof video to submit.'**
+  String get proofRequired;
+
+  /// No description provided for @challengeTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} kg × {reps} reps × {sets} sets'**
+  String challengeTarget(String weight, int reps, int sets);
+
+  /// No description provided for @tallyApproveReject.
+  ///
+  /// In en, this message translates to:
+  /// **'{approve} approve · {reject} reject'**
+  String tallyApproveReject(int approve, int reject);
+
+  /// No description provided for @couldNotOpenVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the video.'**
+  String get couldNotOpenVideo;
+
+  /// No description provided for @challengeCreatedRecordNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge created! Record your proof now?'**
+  String get challengeCreatedRecordNow;
+
+  /// No description provided for @recordNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Record now'**
+  String get recordNow;
+
+  /// No description provided for @later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get later;
 }
 
 class _AppLocalizationsDelegate

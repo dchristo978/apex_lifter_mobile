@@ -170,6 +170,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get selectMachinePrompt => 'Pilih alat untuk melihat peringkat.';
 
   @override
+  String get searchMachine => 'Cari alat';
+
+  @override
+  String get noMachinesFound => 'Tidak ada alat yang cocok dengan pencarian.';
+
+  @override
   String get noOneLogged => 'Belum ada yang mencatat set di periode ini.';
 
   @override
@@ -188,8 +194,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get clearFilters => 'Hapus filter gender, umur & BB';
 
   @override
-  String get orPickAnotherMachine =>
-      'atau pilih alat lain lewat dropdown di atas';
+  String get orPickAnotherMachine => 'atau kembali dan pilih alat lain';
 
   @override
   String youSuffix(String name) {
@@ -250,6 +255,22 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get avatarUpdated => 'Foto profil diperbarui.';
+
+  @override
+  String get photoSourceCamera => 'Ambil foto';
+
+  @override
+  String get photoSourceGallery => 'Pilih dari galeri';
+
+  @override
+  String get permissionNeededTitle => 'Izin diperlukan';
+
+  @override
+  String get permissionNeededBody =>
+      'Akses ditolak. Buka Pengaturan untuk mengaktifkannya bagi Apex Lifter.';
+
+  @override
+  String get openSettings => 'Buka Pengaturan';
 
   @override
   String avatarUploadFailed(String error) {
@@ -409,6 +430,27 @@ class AppLocalizationsId extends AppLocalizations {
   String get totalVolume => 'Total volume';
 
   @override
+  String get streakTitle => 'Streak mingguan';
+
+  @override
+  String weekStreakLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minggu',
+      one: '1 minggu',
+      zero: 'Belum ada streak',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get streakActiveHint => 'Satu sesi seminggu untuk menjaganya 🔥';
+
+  @override
+  String get streakStartHint => 'Latihan minggu ini untuk memulai streak 🔥';
+
+  @override
   String get noBadges =>
       'Belum ada badge juara. Badge muncul saat leaderboard mingguan direset.';
 
@@ -474,4 +516,212 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get dragToReorder => 'Seret untuk mengubah urutan';
+
+  @override
+  String get challenge => 'Tantang';
+
+  @override
+  String get challengeArena => 'Arena Challenge';
+
+  @override
+  String get challenges => 'Challenge';
+
+  @override
+  String get tabArena => 'Arena';
+
+  @override
+  String get tabMine => 'Milikku';
+
+  @override
+  String get tabMedals => 'Medali';
+
+  @override
+  String get newChallenge => 'Challenge Baru';
+
+  @override
+  String challengeOpponent(String name) {
+    return 'Menantang $name';
+  }
+
+  @override
+  String get chooseOpponent => 'Pilih lawan dari papan peringkat atau profil.';
+
+  @override
+  String get targetWeightKgLabel => 'Beban (kg)';
+
+  @override
+  String get targetRepsLabel => 'Repetisi';
+
+  @override
+  String get targetSetsLabel => 'Set';
+
+  @override
+  String get sendChallenge => 'Kirim Challenge';
+
+  @override
+  String challengeSent(String name) {
+    return 'Challenge dikirim ke $name!';
+  }
+
+  @override
+  String get vs => 'VS';
+
+  @override
+  String get statusPending => 'Menunggu bukti';
+
+  @override
+  String get statusActive => 'Dinilai di Arena';
+
+  @override
+  String get statusCompleted => 'Selesai';
+
+  @override
+  String get statusDeclined => 'Ditolak';
+
+  @override
+  String get statusCancelled => 'Dibatalkan';
+
+  @override
+  String get recordProof => 'Rekam bukti';
+
+  @override
+  String get reRecordProof => 'Rekam ulang bukti';
+
+  @override
+  String get proofSubmitted => 'Bukti terkirim ✓';
+
+  @override
+  String get awaitingOpponentProof => 'Menunggu bukti dari lawan.';
+
+  @override
+  String get watchChallengerProof => 'Lihat bukti penantang';
+
+  @override
+  String get watchOpponentProof => 'Lihat bukti lawan';
+
+  @override
+  String get declineChallenge => 'Tolak';
+
+  @override
+  String get judge => 'Nilai';
+
+  @override
+  String get alreadyJudged => 'Kamu sudah menilai challenge ini.';
+
+  @override
+  String votingEndsIn(String time) {
+    return 'Voting berakhir $time';
+  }
+
+  @override
+  String get votingClosed => 'Jendela voting ditutup — menunggu hasil';
+
+  @override
+  String winnerLabel(String name) {
+    return 'Pemenang: $name';
+  }
+
+  @override
+  String get youWon => 'Kamu memenangkan challenge ini! 🏅';
+
+  @override
+  String medalsWithCount(int count) {
+    return '$count medali';
+  }
+
+  @override
+  String get noMedalsYet =>
+      'Belum ada medali. Menangkan challenge untuk mendapatkannya!';
+
+  @override
+  String get noArenaChallenges => 'Belum ada challenge untuk dinilai saat ini.';
+
+  @override
+  String get noChallengesYet =>
+      'Belum ada challenge. Tantang seseorang dari papan peringkat!';
+
+  @override
+  String get judgementTitle => 'Nilai angkatan';
+
+  @override
+  String get criteriaLoad => 'Beban / berat sesuai';
+
+  @override
+  String get criteriaForm => 'Form sah';
+
+  @override
+  String get criteriaMachine => 'Alat yang dipakai benar';
+
+  @override
+  String get criteriaRepsSets => 'Repetisi & set terpenuhi';
+
+  @override
+  String get whoWon => 'Siapa yang melakukannya dengan sah?';
+
+  @override
+  String voteWins(String name) {
+    return '$name menang';
+  }
+
+  @override
+  String get voteInvalid => 'Tidak keduanya — tidak sah';
+
+  @override
+  String get reasonLabel => 'Alasan';
+
+  @override
+  String get reasonRequired => 'Silakan pilih alasan.';
+
+  @override
+  String get reasonNote => 'Tambahkan catatan';
+
+  @override
+  String get submitJudgement => 'Kirim penilaian';
+
+  @override
+  String get reasonLoadTooLight => 'Beban terlihat lebih ringan dari klaim';
+
+  @override
+  String get reasonIncompleteReps => 'Repetisi/set tidak terpenuhi';
+
+  @override
+  String get reasonWrongMachine => 'Alat yang digunakan salah';
+
+  @override
+  String get reasonBadForm => 'Form tidak sah / curang';
+
+  @override
+  String get reasonPartialRange => 'Rentang gerak tidak penuh';
+
+  @override
+  String get reasonVideoUnclear => 'Video tidak jelas / tidak meyakinkan';
+
+  @override
+  String get reasonOther => 'Lainnya';
+
+  @override
+  String get proofRequired => 'Rekam video bukti untuk mengirim.';
+
+  @override
+  String challengeTarget(String weight, int reps, int sets) {
+    return '$weight kg × $reps rep × $sets set';
+  }
+
+  @override
+  String tallyApproveReject(int approve, int reject) {
+    return '$approve setuju · $reject tolak';
+  }
+
+  @override
+  String get couldNotOpenVideo => 'Tidak dapat membuka video.';
+
+  @override
+  String get challengeCreatedRecordNow =>
+      'Challenge dibuat! Rekam buktimu sekarang?';
+
+  @override
+  String get recordNow => 'Rekam sekarang';
+
+  @override
+  String get later => 'Nanti';
 }

@@ -170,6 +170,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectMachinePrompt => 'Select a machine to view the ranking.';
 
   @override
+  String get searchMachine => 'Search machine';
+
+  @override
+  String get noMachinesFound => 'No machines match your search.';
+
+  @override
   String get noOneLogged => 'No one has logged a set in this period yet.';
 
   @override
@@ -188,8 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFilters => 'Clear gender, age & BW filters';
 
   @override
-  String get orPickAnotherMachine =>
-      'or pick another machine from the dropdown above';
+  String get orPickAnotherMachine => 'or go back and choose another machine';
 
   @override
   String youSuffix(String name) {
@@ -250,6 +255,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avatarUpdated => 'Profile photo updated.';
+
+  @override
+  String get photoSourceCamera => 'Take a photo';
+
+  @override
+  String get photoSourceGallery => 'Choose from gallery';
+
+  @override
+  String get permissionNeededTitle => 'Permission needed';
+
+  @override
+  String get permissionNeededBody =>
+      'Access was denied. Open Settings to enable it for Apex Lifter.';
+
+  @override
+  String get openSettings => 'Open Settings';
 
   @override
   String avatarUploadFailed(String error) {
@@ -407,6 +428,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalVolume => 'Total volume';
 
   @override
+  String get streakTitle => 'Weekly streak';
+
+  @override
+  String weekStreakLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks',
+      one: '1 week',
+      zero: 'No streak',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get streakActiveHint => 'One session a week keeps it alive 🔥';
+
+  @override
+  String get streakStartHint => 'Train this week to start a streak 🔥';
+
+  @override
   String get noBadges =>
       'No champion badges yet. Badges appear when the weekly leaderboard resets.';
 
@@ -471,4 +513,212 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dragToReorder => 'Drag to reorder';
+
+  @override
+  String get challenge => 'Challenge';
+
+  @override
+  String get challengeArena => 'Challenge Arena';
+
+  @override
+  String get challenges => 'Challenges';
+
+  @override
+  String get tabArena => 'Arena';
+
+  @override
+  String get tabMine => 'Mine';
+
+  @override
+  String get tabMedals => 'Medals';
+
+  @override
+  String get newChallenge => 'New Challenge';
+
+  @override
+  String challengeOpponent(String name) {
+    return 'Challenging $name';
+  }
+
+  @override
+  String get chooseOpponent =>
+      'Choose an opponent from the leaderboard or a profile.';
+
+  @override
+  String get targetWeightKgLabel => 'Weight (kg)';
+
+  @override
+  String get targetRepsLabel => 'Reps';
+
+  @override
+  String get targetSetsLabel => 'Sets';
+
+  @override
+  String get sendChallenge => 'Send Challenge';
+
+  @override
+  String challengeSent(String name) {
+    return 'Challenge sent to $name!';
+  }
+
+  @override
+  String get vs => 'VS';
+
+  @override
+  String get statusPending => 'Awaiting proof';
+
+  @override
+  String get statusActive => 'Judging in Arena';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusDeclined => 'Declined';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get recordProof => 'Record proof';
+
+  @override
+  String get reRecordProof => 'Re-record proof';
+
+  @override
+  String get proofSubmitted => 'Proof submitted ✓';
+
+  @override
+  String get awaitingOpponentProof => 'Waiting for the other lifter\'s proof.';
+
+  @override
+  String get watchChallengerProof => 'Watch challenger\'s proof';
+
+  @override
+  String get watchOpponentProof => 'Watch opponent\'s proof';
+
+  @override
+  String get declineChallenge => 'Decline';
+
+  @override
+  String get judge => 'Judge';
+
+  @override
+  String get alreadyJudged => 'You\'ve judged this challenge.';
+
+  @override
+  String votingEndsIn(String time) {
+    return 'Voting ends $time';
+  }
+
+  @override
+  String get votingClosed => 'Voting window closed — awaiting result';
+
+  @override
+  String winnerLabel(String name) {
+    return 'Winner: $name';
+  }
+
+  @override
+  String get youWon => 'You won this challenge! 🏅';
+
+  @override
+  String medalsWithCount(int count) {
+    return '$count medals';
+  }
+
+  @override
+  String get noMedalsYet => 'No medals yet. Win a challenge to earn one!';
+
+  @override
+  String get noArenaChallenges => 'No challenges to judge right now.';
+
+  @override
+  String get noChallengesYet =>
+      'No challenges yet. Challenge someone from the leaderboard!';
+
+  @override
+  String get judgementTitle => 'Judge the lift';
+
+  @override
+  String get criteriaLoad => 'Load / weight is correct';
+
+  @override
+  String get criteriaForm => 'Form is valid';
+
+  @override
+  String get criteriaMachine => 'Correct machine used';
+
+  @override
+  String get criteriaRepsSets => 'Reps & sets completed';
+
+  @override
+  String get whoWon => 'Who performed it validly?';
+
+  @override
+  String voteWins(String name) {
+    return '$name wins';
+  }
+
+  @override
+  String get voteInvalid => 'Neither — invalid';
+
+  @override
+  String get reasonLabel => 'Reason';
+
+  @override
+  String get reasonRequired => 'Please choose a reason.';
+
+  @override
+  String get reasonNote => 'Add a note';
+
+  @override
+  String get submitJudgement => 'Submit judgement';
+
+  @override
+  String get reasonLoadTooLight => 'Load looks lighter than claimed';
+
+  @override
+  String get reasonIncompleteReps => 'Reps/sets not completed';
+
+  @override
+  String get reasonWrongMachine => 'Wrong machine used';
+
+  @override
+  String get reasonBadForm => 'Invalid form / cheating';
+
+  @override
+  String get reasonPartialRange => 'Partial range of motion';
+
+  @override
+  String get reasonVideoUnclear => 'Video unclear / unconvincing';
+
+  @override
+  String get reasonOther => 'Other';
+
+  @override
+  String get proofRequired => 'Record a proof video to submit.';
+
+  @override
+  String challengeTarget(String weight, int reps, int sets) {
+    return '$weight kg × $reps reps × $sets sets';
+  }
+
+  @override
+  String tallyApproveReject(int approve, int reject) {
+    return '$approve approve · $reject reject';
+  }
+
+  @override
+  String get couldNotOpenVideo => 'Could not open the video.';
+
+  @override
+  String get challengeCreatedRecordNow =>
+      'Challenge created! Record your proof now?';
+
+  @override
+  String get recordNow => 'Record now';
+
+  @override
+  String get later => 'Later';
 }

@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../models/models.dart';
+import '../providers/auth_provider.dart';
 import '../services/api_client.dart';
+import '../widgets/streak_card.dart';
 import '../widgets/user_avatar.dart';
+import 'create_challenge_screen.dart';
 
 /// Another lifter's public profile plus their lazily-loaded session history.
 class PublicProfileScreen extends StatefulWidget {
@@ -101,11 +104,25 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final myId = context.watch<AuthProvider>().user?.id;
+    final isSelf = myId == widget.userId;
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-          title: Text(_profile?.name ??
-              widget.initialName ??
-              AppLocalizations.of(context).profile)),
+        title: Text(_profile?.name ?? widget.initialName ?? l10n.profile),
+        actions: [
+          if (!isSelf)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: TextButton.icon(
+                onPressed: () => _startChallenge(),
+                icon: const Icon(Icons.sports_mma, size: 18),
+                label: Text(l10n.challenge),
+              ),
+            ),
+        ],
+      ),
       body: ListView.builder(
         controller: _scrollController,
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 140),
@@ -143,6 +160,22 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
     );
   }
 
+  void _startChallenge({MachineRecord? record}) {
+    final name = _profile?.name ?? widget.initialName ?? '';
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => CreateChallengeScreen(
+          opponentId: widget.userId,
+          opponentName: name,
+          initialMachineId: record?.machineId,
+          initialWeightKg: record?.weightKg,
+          initialReps: record?.reps,
+          initialSets: 1,
+        ),
+      ),
+    );
+  }
+
   Widget _header(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     if (_profileError != null) {
@@ -170,6 +203,11 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
     return Column(
       children: [
         UserAvatar(name: p.name, avatarUrl: p.avatarUrl, radius: 44),
+        if (p.medals > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: _MedalsRow(count: p.medals),
+          ),
         const SizedBox(height: 12),
         Text(p.name, style: Theme.of(context).textTheme.headlineSmall),
         if (subtitle.isNotEmpty)
@@ -193,6 +231,8 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
                 context, p.bestEstimated1rm.toStringAsFixed(0), l10n.statBest1rm),
           ],
         ),
+        const SizedBox(height: 8),
+        StreakCard(weeks: p.weekStreak),
         const SizedBox(height: 8),
         Card(
           child: ListTile(
@@ -219,6 +259,8 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
 
   Widget _records(BuildContext context, List<MachineRecord> records) {
     final l10n = AppLocalizations.of(context);
+    final canChallenge =
+        context.read<AuthProvider>().user?.id != widget.userId;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -237,13 +279,14 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
         else
           // The first 3 are the lifter's featured (pinned) machines.
           for (var i = 0; i < records.length; i++)
-            _recordTile(context, records[i], featured: i < 3),
+            _recordTile(context, records[i],
+                featured: i < 3, canChallenge: canChallenge),
       ],
     );
   }
 
   Widget _recordTile(BuildContext context, MachineRecord r,
-      {required bool featured}) {
+      {required bool featured, required bool canChallenge}) {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     return Card(
@@ -258,12 +301,24 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
           if (r.machineBrand != null) r.machineBrand!,
           l10n.recordEst1rm(r.estimated1rm.toStringAsFixed(0)),
         ].join(' · ')),
-        trailing: Text(
-          l10n.recordLift(r.weightKg.toStringAsFixed(0), r.reps),
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.w600),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.recordLift(r.weightKg.toStringAsFixed(0), r.reps),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            if (canChallenge)
+              IconButton(
+                tooltip: l10n.challenge,
+                visualDensity: VisualDensity.compact,
+                icon: Icon(Icons.sports_mma, color: scheme.primary),
+                onPressed: () => _startChallenge(record: r),
+              ),
+          ],
         ),
       ),
     );
@@ -304,6 +359,34 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
         ].join(' · ')),
         trailing: Text('${s.totalVolumeKg.toStringAsFixed(0)} kg'),
       ),
+    );
+  }
+}
+
+/// Row of medal icons shown under the avatar; one 🏅 per win, up to 5, then a
+/// "+N" overflow, with the total count.
+class _MedalsRow extends StatelessWidget {
+  const _MedalsRow({required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final shown = count > 5 ? 5 : count;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var i = 0; i < shown; i++)
+          const Text('🏅', style: TextStyle(fontSize: 18)),
+        const SizedBox(width: 4),
+        Text(
+          AppLocalizations.of(context).medalsWithCount(count),
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

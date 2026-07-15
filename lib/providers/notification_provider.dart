@@ -36,6 +36,8 @@ class NotificationProvider extends ChangeNotifier {
           body: n.body,
           createdAt: n.createdAt,
           readAt: n.readAt ?? DateTime.now(),
+          type: n.type,
+          challengeId: n.challengeId,
         ),
     ];
     notifyListeners();

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
 import '../providers/notification_provider.dart';
+import 'challenge_detail_screen.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -44,10 +45,23 @@ class NotificationsScreen extends StatelessWidget {
                   final n = provider.notifications[i];
                   return Card(
                     child: ListTile(
+                      onTap: n.isChallenge
+                          ? () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => ChallengeDetailScreen(
+                                      challengeId: n.challengeId!),
+                                ),
+                              )
+                          : null,
+                      trailing: n.isChallenge
+                          ? const Icon(Icons.chevron_right)
+                          : null,
                       leading: Icon(
-                        n.isUnread
-                            ? Icons.notifications_active
-                            : Icons.notifications_none,
+                        n.isChallenge
+                            ? Icons.sports_mma
+                            : (n.isUnread
+                                ? Icons.notifications_active
+                                : Icons.notifications_none),
                         color: n.isUnread
                             ? Theme.of(context).colorScheme.primary
                             : null,

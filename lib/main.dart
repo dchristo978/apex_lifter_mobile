@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
 import 'providers/auth_provider.dart';
+import 'providers/challenge_provider.dart';
 import 'providers/gym_provider.dart';
 import 'providers/leaderboard_provider.dart';
 import 'providers/machine_provider.dart';
@@ -12,6 +13,7 @@ import 'providers/settings_provider.dart';
 import 'providers/workout_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
+import 'screens/splash_screen.dart';
 import 'services/api_client.dart';
 
 void main() {
@@ -28,6 +30,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => WorkoutProvider(api)),
         ChangeNotifierProvider(create: (_) => LeaderboardProvider(api)),
         ChangeNotifierProvider(create: (_) => NotificationProvider(api)),
+        ChangeNotifierProvider(create: (_) => ChallengeProvider(api)),
       ],
       child: const ApexLifterApp(),
     ),
@@ -108,14 +111,35 @@ class ApexLifterApp extends StatelessWidget {
       locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: Consumer<AuthProvider>(
-        builder: (context, auth, _) => switch (auth.status) {
-          AuthStatus.unknown =>
-            const Scaffold(body: Center(child: CircularProgressIndicator())),
-          AuthStatus.unauthenticated => const LoginScreen(),
-          AuthStatus.authenticated => const MainShell(),
-        },
-      ),
+      home: const _RootGate(),
+    );
+  }
+}
+
+/// Shows the branded [SplashScreen] first (which also requests core
+/// permissions), then routes to login or the app shell based on auth state.
+class _RootGate extends StatefulWidget {
+  const _RootGate();
+
+  @override
+  State<_RootGate> createState() => _RootGateState();
+}
+
+class _RootGateState extends State<_RootGate> {
+  bool _splashDone = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_splashDone) {
+      return SplashScreen(onDone: () => setState(() => _splashDone = true));
+    }
+    return Consumer<AuthProvider>(
+      builder: (context, auth, _) => switch (auth.status) {
+        AuthStatus.unknown =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+        AuthStatus.unauthenticated => const LoginScreen(),
+        AuthStatus.authenticated => const MainShell(),
+      },
     );
   }
 }

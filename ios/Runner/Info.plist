@@ -47,6 +47,12 @@
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Apex Lifter menggunakan lokasi untuk check-in otomatis di gym terdekat.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Apex Lifter memakai kamera untuk mengambil foto profil dan merekam video bukti challenge.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Apex Lifter mengakses galeri untuk memilih foto profil dan video bukti challenge.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Apex Lifter memakai mikrofon saat merekam video bukti challenge.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>

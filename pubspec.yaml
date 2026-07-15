@@ -43,6 +43,8 @@ dependencies:
   intl: ^0.20.2
   cupertino_native: ^0.1.1
   image_picker: ^1.1.2
+  permission_handler: ^12.0.3
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,15 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.14.3
+
+# App launcher icon generation (run: dart run flutter_launcher_icons).
+# Source is the de-bordered arm mark (white corners removed).
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/icon/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +79,9 @@ flutter:
 
   # Generate localization classes from the ARB files in lib/l10n.
   generate: true
+
+  assets:
+    - assets/icon/app_icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

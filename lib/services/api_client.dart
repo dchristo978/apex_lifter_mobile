@@ -70,6 +70,24 @@ class ApiClient {
     return _handle(await http.Response.fromStream(streamed));
   }
 
+  /// Multipart upload of a file already on disk (e.g. a proof video),
+  /// streamed from its path so large files don't sit fully in memory.
+  Future<Map<String, dynamic>> uploadFile(
+    String path, {
+    required String field,
+    required String filePath,
+  }) async {
+    final request = http.MultipartRequest('POST', Uri.parse('$baseUrl$path'))
+      ..headers.addAll({
+        'Accept': 'application/json',
+        if (_token != null) 'Authorization': 'Bearer $_token',
+      })
+      ..files.add(await http.MultipartFile.fromPath(field, filePath));
+
+    final streamed = await request.send();
+    return _handle(await http.Response.fromStream(streamed));
+  }
+
   Future<Map<String, dynamic>> patch(String path,
       Map<String, dynamic> body) async {
     return _handle(await http.patch(
