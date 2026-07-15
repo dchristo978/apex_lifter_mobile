@@ -870,4 +870,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dangerZone => 'Danger zone';
+
+  @override
+  String get deleteSet => 'Delete set';
+
+  @override
+  String get deleteSetTitle => 'Delete this set?';
+
+  @override
+  String get deleteSetWarning =>
+      'This removes the set from your history and leaderboards. This cannot be undone.';
+
+  @override
+  String get deleteSetConfirm => 'Delete';
+
+  @override
+  String get deleteSetSuccess => 'Set deleted.';
 }

@@ -47,4 +47,10 @@ class WorkoutProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> deleteSet(int id) async {
+    await _api.delete('/workout-sets/$id');
+    history.removeWhere((s) => s.id == id);
+    notifyListeners();
+  }
 }

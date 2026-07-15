@@ -875,4 +875,20 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get dangerZone => 'Zona berbahaya';
+
+  @override
+  String get deleteSet => 'Hapus set';
+
+  @override
+  String get deleteSetTitle => 'Hapus set ini?';
+
+  @override
+  String get deleteSetWarning =>
+      'Ini menghapus set dari riwayat dan papan peringkatmu. Tindakan ini tidak bisa dibatalkan.';
+
+  @override
+  String get deleteSetConfirm => 'Hapus';
+
+  @override
+  String get deleteSetSuccess => 'Set dihapus.';
 }

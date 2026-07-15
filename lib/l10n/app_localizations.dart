@@ -1627,6 +1627,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Danger zone'**
   String get dangerZone;
+
+  /// No description provided for @deleteSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete set'**
+  String get deleteSet;
+
+  /// No description provided for @deleteSetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this set?'**
+  String get deleteSetTitle;
+
+  /// No description provided for @deleteSetWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the set from your history and leaderboards. This cannot be undone.'**
+  String get deleteSetWarning;
+
+  /// No description provided for @deleteSetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteSetConfirm;
+
+  /// No description provided for @deleteSetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Set deleted.'**
+  String get deleteSetSuccess;
 }
 
 class _AppLocalizationsDelegate

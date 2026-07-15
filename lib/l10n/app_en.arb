@@ -539,5 +539,10 @@
   "deleteAccountWarning": "This permanently deletes your account, workout history, check-ins, challenges, and medals. This cannot be undone.",
   "deleteAccountPasswordPrompt": "Enter your password to confirm.",
   "deleteAccountConfirm": "Delete permanently",
-  "dangerZone": "Danger zone"
+  "dangerZone": "Danger zone",
+  "deleteSet": "Delete set",
+  "deleteSetTitle": "Delete this set?",
+  "deleteSetWarning": "This removes the set from your history and leaderboards. This cannot be undone.",
+  "deleteSetConfirm": "Delete",
+  "deleteSetSuccess": "Set deleted."
 }

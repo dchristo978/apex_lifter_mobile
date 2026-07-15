@@ -3,10 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/models.dart';
 import '../providers/auth_provider.dart';
 import '../providers/gym_provider.dart';
 import '../providers/notification_provider.dart';
 import '../providers/workout_provider.dart';
+import '../services/api_client.dart';
 import 'gym_presence_screen.dart';
 import 'log_set_sheet.dart';
 import 'notifications_screen.dart';
@@ -36,6 +38,40 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.transparent,
       builder: (_) => const LogSetSheet(),
     );
+  }
+
+  Future<void> _confirmDeleteSet(WorkoutSet set) async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.deleteSetTitle),
+        content: Text(l10n.deleteSetWarning),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(l10n.deleteSetConfirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await context.read<WorkoutProvider>().deleteSet(set.id);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.deleteSetSuccess)));
+    } on ApiException catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   @override
@@ -169,6 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 )
                             : null,
+                        onLongPress:
+                            set.isDeletable ? () => _confirmDeleteSet(set) : null,
                       ),
                     ),
                   ),

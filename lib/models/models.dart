@@ -316,6 +316,12 @@ class WorkoutSet {
   final int? machineId;
   final String? machineName;
 
+  /// Must match WorkoutSet::EDIT_WINDOW_MINUTES on the backend.
+  static const editWindowMinutes = 30;
+
+  bool get isDeletable =>
+      DateTime.now().difference(performedAt).inMinutes < editWindowMinutes;
+
   factory WorkoutSet.fromJson(Map<String, dynamic> json) => WorkoutSet(
         id: json['id'] as int,
         weightKg: _toDouble(json['weight_kg']),
