@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/api_client.dart';
+import '../widgets/muscle_3d_view.dart';
 import '../widgets/muscle_body.dart';
 
 /// A rotatable 3D-style muscle model. The lifter drags left/right to spin the
@@ -25,6 +26,10 @@ class _MuscleModelScreenState extends State<MuscleModelScreen>
 
   /// Rotation about the vertical axis, in radians. 0 = facing front.
   double _angle = 0;
+
+  /// Prefer the real 3D (flutter_scene) model; flip to the CustomPaint mesh if
+  /// the GPU scene fails to load or render (unsupported device, etc.).
+  bool _use3d = true;
   late final AnimationController _spin;
   Animation<double>? _snap;
 
@@ -111,29 +116,45 @@ class _MuscleModelScreenState extends State<MuscleModelScreen>
     return Column(
       children: [
         const SizedBox(height: 8),
-        Text(
-          _showingFront ? l10n.frontView : l10n.backView,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                letterSpacing: 1.2,
-              ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onHorizontalDragUpdate: _onDragUpdate,
-            onHorizontalDragEnd: _onDragEnd,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: _RotatingBody(
-                  angle: _angle,
-                  activeGroups: active,
-                  intensity: intensity,
+        // The 3D scene rotates freely, so the FRONT/BACK caption only applies
+        // to the CustomPaint fallback.
+        if (!_use3d)
+          Text(
+            _showingFront ? l10n.frontView : l10n.backView,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  letterSpacing: 1.2,
                 ),
-              ),
-            ),
-          ),
+          )
+        else
+          const SizedBox(height: 20),
+        Expanded(
+          child: _use3d
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Muscle3DView(
+                    activeGroups: active,
+                    intensity: intensity,
+                    onError: (_) {
+                      if (mounted) setState(() => _use3d = false);
+                    },
+                  ),
+                )
+              : GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onHorizontalDragUpdate: _onDragUpdate,
+                  onHorizontalDragEnd: _onDragEnd,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: _RotatingBody(
+                        angle: _angle,
+                        activeGroups: active,
+                        intensity: intensity,
+                      ),
+                    ),
+                  ),
+                ),
         ),
         _DragHint(text: l10n.swipeToRotate),
         _TrainedSummary(data: data),

@@ -158,6 +158,27 @@ class _Mesh {
   int get vertexCount => pos.length ~/ 3;
 }
 
+/// Public snapshot of the rest-pose mesh geometry, used by the offline GLB
+/// exporter (tool/export_muscle_glb) so the shipped 3D model is the exact
+/// same body the [CustomPaint] path draws.
+class MuscleMeshExport {
+  MuscleMeshExport(
+      this.positions, this.normals, this.groupOfVertex, this.triangles,
+      this.groupNames);
+
+  /// x,y,z triples in the 200×440 design space.
+  final Float32List positions;
+  final Float32List normals;
+
+  /// Per-vertex muscle set: -1 for plain skin, else an index into [groupNames].
+  final Int16List groupOfVertex;
+  final Uint16List triangles;
+
+  /// Each entry is the list of backend `muscle_group` names a set covers
+  /// (e.g. `['Quadriceps','Adductors']`).
+  final List<List<String>> groupNames;
+}
+
 class MuscleBodyPainter extends CustomPainter {
   MuscleBodyPainter({
     required this.yaw,
@@ -177,6 +198,13 @@ class MuscleBodyPainter extends CustomPainter {
   static const Color _blueHigh = Color(0xFF0A3EA0);
 
   static final _Mesh _mesh = _buildMesh();
+
+  /// Geometry snapshot for the offline GLB exporter.
+  static MuscleMeshExport exportMesh() {
+    final m = _buildMesh();
+    return MuscleMeshExport(
+        m.pos, m.normal, m.setId, m.tris, m.groupSets);
+  }
 
   // Reusable per-frame scratch buffers (the mesh is a static singleton, so
   // these are sized once) — no per-frame allocations beyond the engine copy.
