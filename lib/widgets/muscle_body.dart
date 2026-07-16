@@ -379,8 +379,8 @@ class MuscleBodyPainter extends CustomPainter {
     void tube({
       required double y0,
       required double y1,
-      required double cx0,
-      required double cx1,
+      required List<(double, double)> cxPts,
+      List<(double, double)> czPts = const [(0, 0), (1, 0)],
       required List<(double, double)> rPts,
       double zRatio = 1,
       required int rings,
@@ -403,7 +403,8 @@ class MuscleBodyPainter extends CustomPainter {
           r *= math.sqrt(math.max(0.0, 1 - u * u));
         }
         final y = y0 + (y1 - y0) * t;
-        final cx = cx0 + (cx1 - cx0) * t;
+        final cx = profile(cxPts, t);
+        final cz = profile(czPts, t);
         for (var j = 0; j < segs; j++) {
           final th = -math.pi + 2 * math.pi * j / segs;
           // Strongest patch owns the vertex's tint (by its smooth band
@@ -423,7 +424,7 @@ class MuscleBodyPainter extends CustomPainter {
           pos
             ..add(cx + (r + disp) * math.sin(th))
             ..add(y)
-            ..add((r * zRatio + disp) * math.cos(th));
+            ..add(cz + (r * zRatio + disp) * math.cos(th));
           setId.add(bestSet);
           setWeight.add(bestW.clamp(0.0, 1.0));
         }
@@ -443,17 +444,22 @@ class MuscleBodyPainter extends CustomPainter {
 
     /// An ellipsoid (head, hands, feet) — poles as degenerate rings.
     void ellipsoid(double cx, double cy, double cz, double rx, double ry,
-        double rz, int latN, int segs) {
+        double rz, int latN, int segs,
+        {double rotY = 0}) {
       final base = pos.length ~/ 3;
+      final cosR = math.cos(rotY);
+      final sinR = math.sin(rotY);
       for (var i = 0; i <= latN; i++) {
         final phi = -math.pi / 2 + math.pi * i / latN;
         final c = math.cos(phi);
         for (var j = 0; j < segs; j++) {
           final th = -math.pi + 2 * math.pi * j / segs;
+          final x0 = rx * c * math.sin(th);
+          final z0 = rz * c * math.cos(th);
           pos
-            ..add(cx + rx * c * math.sin(th))
+            ..add(cx + x0 * cosR + z0 * sinR)
             ..add(cy + ry * math.sin(phi))
-            ..add(cz + rz * c * math.cos(th));
+            ..add(cz - x0 * sinR + z0 * cosR);
           setId.add(-1);
           setWeight.add(0);
         }
@@ -512,32 +518,38 @@ class MuscleBodyPainter extends CustomPainter {
       return (t, th) => (1 - depth) + depth * math.cos(freq * th + shear * t);
     }
 
+    // Classic figure proportions on a 7.5-head canon (head unit ≈ 58 of
+    // the 440-tall design space): chin ~66, shoulders ~96, nipples ~126,
+    // navel ~182, crotch ~240 (half height), knees ~325, soles ~422. The
+    // torso carries an S-posture (chest proud, pelvis tucked) via its
+    // curved z centerline.
+
     // ── Torso: bodybuilder V-taper with full musculature ───────────────────
     tube(
-      y0: 78,
-      y1: 216,
-      cx0: 100,
-      cx1: 100,
+      y0: 88,
+      y1: 240,
+      cxPts: const [(0, 100), (1, 100)],
+      czPts: const [(0, 3), (0.35, 4), (0.6, 1), (1, -3)],
       rPts: const [
-        (0, 36),
-        (0.07, 40),
-        (0.3, 37),
-        (0.62, 25.5),
-        (0.85, 27.5),
-        (1, 26),
+        (0, 34),
+        (0.1, 39),
+        (0.35, 35.5),
+        (0.6, 25),
+        (0.82, 28),
+        (1, 26.5),
       ],
       zRatio: 0.6,
       rings: 176,
       segs: 132,
-      capTop: 0.06,
+      capTop: 0.08,
       capBottom: 0.12,
       bias: 0.8,
       patches: [
         // Traps rising toward the neck, split by the spine, fiber-striated.
         _Patch(const ['Traps'],
             t0: 0.0,
-            t1: 0.13,
-            tf: 0.07,
+            t1: 0.10,
+            tf: 0.06,
             aCenter: math.pi,
             aHalf: 1.5,
             af: 0.4,
@@ -545,9 +557,9 @@ class MuscleBodyPainter extends CustomPainter {
             grooves: const [(math.pi, 0.08, 0.55)],
             mod: fibers(10, 8, 0.05)),
         // Pec plates: deep sternum cleft, separation from the delts, and a
-        // fan of fiber striations.
+        // subtle fan of fiber striations.
         _Patch(const ['Chest'],
-            t0: 0.05,
+            t0: 0.07,
             t1: 0.28,
             tf: 0.05,
             aHalf: 1.02,
@@ -559,42 +571,42 @@ class MuscleBodyPainter extends CustomPainter {
               (-1.05, 0.10, 0.5),
             ],
             mod: (t, th) =>
-                0.965 + 0.035 * math.cos(2 * math.pi * (t - 0.05) / 0.05)),
+                0.965 + 0.035 * math.cos(2 * math.pi * (t - 0.07) / 0.05)),
         // Crease under the pecs.
         _Patch(const [],
-            t0: 0.28, t1: 0.33, tf: 0.02, aHalf: 0.85, af: 0.2, bulge: -1.8),
+            t0: 0.28, t1: 0.325, tf: 0.02, aHalf: 0.85, af: 0.2, bulge: -1.8),
         // Six-pack rows with the linea alba down the middle.
         _Patch(const ['Abdominals'],
-            t0: 0.36,
-            t1: 0.88,
+            t0: 0.34,
+            t1: 0.82,
             tf: 0.05,
             aHalf: 0.34,
             af: 0.12,
             bulge: 3.4,
             grooves: const [(0, 0.08, 0.65)],
-            mod: rows(0.36, 0.15)),
+            mod: rows(0.34, 0.13)),
         // Obliques rippling down the flank.
         _Patch(const ['Abdominals'],
-            t0: 0.42,
-            t1: 0.86,
+            t0: 0.38,
+            t1: 0.80,
             tf: 0.06,
             aCenter: 0.62,
             aHalf: 0.2,
             bulge: 2.0,
-            mod: rows(0.42, 0.11)),
+            mod: rows(0.38, 0.10)),
         // Serratus fingers under the armpit.
         _Patch(const ['Abdominals'],
-            t0: 0.3,
-            t1: 0.48,
+            t0: 0.27,
+            t1: 0.44,
             tf: 0.04,
             aCenter: 0.98,
             aHalf: 0.18,
             bulge: 1.6,
-            mod: rows(0.3, 0.07)),
+            mod: rows(0.27, 0.065)),
         // Rhomboids / teres mass between the shoulder blades.
         _Patch(const ['Upper Back'],
-            t0: 0.12,
-            t1: 0.38,
+            t0: 0.10,
+            t1: 0.34,
             tf: 0.06,
             aCenter: math.pi - 0.55,
             aHalf: 0.5,
@@ -602,11 +614,11 @@ class MuscleBodyPainter extends CustomPainter {
             bulge: 2.6,
             grooves: const [(2.2, 0.07, 0.3), (-2.2, 0.07, 0.3)],
             mod: (t, th) =>
-                0.85 + 0.15 * math.cos(2 * math.pi * (t - 0.12) / 0.13)),
+                0.85 + 0.15 * math.cos(2 * math.pi * (t - 0.10) / 0.12)),
         // Lats: the wings of the V-taper, with diagonal fiber striations.
         _Patch(const ['Lats'],
-            t0: 0.3,
-            t1: 0.72,
+            t0: 0.27,
+            t1: 0.66,
             tf: 0.07,
             aCenter: math.pi - 0.6,
             aHalf: 0.5,
@@ -615,8 +627,8 @@ class MuscleBodyPainter extends CustomPainter {
             mod: fibers(9, 6, 0.10)),
         // Erector columns with a deep spine channel.
         _Patch(const ['Lower Back'],
-            t0: 0.5,
-            t1: 0.98,
+            t0: 0.45,
+            t1: 0.96,
             tf: 0.06,
             aCenter: math.pi,
             aHalf: 0.3,
@@ -629,17 +641,17 @@ class MuscleBodyPainter extends CustomPainter {
             ]),
         // Inguinal fold across the front of the pelvis.
         _Patch(const [],
-            t0: 0.88, t1: 0.93, tf: 0.03, aHalf: 0.5, af: 0.25, bulge: -0.8),
+            t0: 0.90, t1: 0.95, tf: 0.03, aHalf: 0.5, af: 0.25, bulge: -0.8),
       ],
     );
 
     // ── Neck: traps up the back, sternocleidomastoid ridges in front ──────
     tube(
-      y0: 46,
-      y1: 84,
-      cx0: 100,
-      cx1: 100,
-      rPts: const [(0, 8), (1, 13)],
+      y0: 60,
+      y1: 92,
+      cxPts: const [(0, 100), (1, 100)],
+      czPts: const [(0, 1), (1, 2)],
+      rPts: const [(0, 10), (1, 15.5)],
       zRatio: 0.95,
       rings: 24,
       segs: 48,
@@ -664,41 +676,82 @@ class MuscleBodyPainter extends CustomPainter {
       ],
     );
 
-    // ── Head: profiled skull → cheek → jaw, not an egg ─────────────────────
+    // ── Head: skull → brow → cheekbones → jaw, with a sculpted face ───────
     tube(
-      y0: 6,
-      y1: 58,
-      cx0: 100,
-      cx1: 100,
+      y0: 8,
+      y1: 66,
+      cxPts: const [(0, 100), (1, 100)],
+      czPts: const [(0, 0), (0.75, 1), (1, 0)],
       rPts: const [
         (0, 9),
-        (0.2, 15.5),
-        (0.5, 15),
-        (0.75, 12),
-        (1, 7.5),
+        (0.22, 15.5),
+        (0.5, 14.8),
+        (0.72, 12.5),
+        (1, 8),
       ],
-      zRatio: 1.08,
-      rings: 24,
-      segs: 48,
-      capTop: 0.22,
-      capBottom: 0.18,
+      zRatio: 1.1,
+      rings: 26,
+      segs: 52,
+      capTop: 0.26,
+      capBottom: 0.2,
+      patches: [
+        // Brow ridge.
+        _Patch(const [],
+            t0: 0.30, t1: 0.40, tf: 0.04, aHalf: 0.5, af: 0.2, bulge: 1.0),
+        // Eye sockets: shadowed hollows under the brow.
+        _Patch(const [],
+            t0: 0.40,
+            t1: 0.50,
+            tf: 0.03,
+            aCenter: 0.45,
+            aHalf: 0.13,
+            af: 0.08,
+            bulge: -1.0),
+        // Nose.
+        _Patch(const [],
+            t0: 0.46, t1: 0.64, tf: 0.04, aHalf: 0.11, af: 0.07, bulge: 2.4),
+        // Cheekbones.
+        _Patch(const [],
+            t0: 0.48,
+            t1: 0.62,
+            tf: 0.04,
+            aCenter: 0.55,
+            aHalf: 0.22,
+            bulge: 0.9),
+        // Mouth crease.
+        _Patch(const [],
+            t0: 0.72, t1: 0.75, tf: 0.02, aHalf: 0.2, af: 0.1, bulge: -0.5),
+        // Chin.
+        _Patch(const [],
+            t0: 0.82, t1: 0.95, tf: 0.04, aHalf: 0.17, af: 0.1, bulge: 1.1),
+        // Ears.
+        _Patch(const [],
+            t0: 0.42,
+            t1: 0.58,
+            tf: 0.04,
+            aCenter: 1.45,
+            aHalf: 0.12,
+            af: 0.08,
+            bulge: 1.5),
+      ],
     );
 
-    // ── Left arm (delts, biceps, triceps, forearm), then mirrored ─────────
+    // ── Left arm: hangs with the elbow swung outward, opening the armpit
+    // gap of a relaxed athletic stance; fist lands beside the thigh ────────
     var v0 = pos.length ~/ 3;
     var t0 = tris.length;
     tube(
-      y0: 84,
-      y1: 232,
-      cx0: 53,
-      cx1: 47,
+      y0: 92,
+      y1: 260,
+      cxPts: const [(0, 52), (0.35, 58), (0.75, 52), (1, 50)],
+      czPts: const [(0, 0), (0.4, 1), (1, 6)],
       rPts: const [
-        (0, 13.2),
-        (0.18, 10),
-        (0.42, 9.2),
-        (0.52, 7.8),
-        (0.64, 9),
-        (1, 4.8),
+        (0, 13),
+        (0.2, 10.2),
+        (0.42, 9.4),
+        (0.52, 8),
+        (0.62, 9.2),
+        (1, 5),
       ],
       rings: 92,
       segs: 56,
@@ -708,7 +761,7 @@ class MuscleBodyPainter extends CustomPainter {
         // Deltoid: three lobes (anterior/lateral/posterior) split by grooves.
         _Patch(const ['Shoulders'],
             t0: 0.0,
-            t1: 0.17,
+            t1: 0.15,
             tf: 0.05,
             aHalf: 3.2,
             af: 0.3,
@@ -723,19 +776,19 @@ class MuscleBodyPainter extends CustomPainter {
                 0.85 + 0.15 * math.cos(2 * (th.abs() - math.pi / 2))),
         // Biceps: two heads with a peak.
         _Patch(const ['Biceps'],
-            t0: 0.2,
-            t1: 0.44,
+            t0: 0.18,
+            t1: 0.40,
             tf: 0.05,
             aHalf: 0.9,
             af: 0.3,
             bulge: 2.8,
             grooves: const [(0, 0.08, 0.3)],
             mod: (t, th) =>
-                math.sin(math.pi * (t - 0.2) / 0.24).clamp(0.0, 1.0)),
+                math.sin(math.pi * (t - 0.18) / 0.22).clamp(0.0, 1.0)),
         // Triceps horseshoe: long, lateral and medial heads.
         _Patch(const ['Triceps'],
-            t0: 0.2,
-            t1: 0.48,
+            t0: 0.18,
+            t1: 0.44,
             tf: 0.05,
             aCenter: math.pi,
             aHalf: 0.95,
@@ -748,35 +801,35 @@ class MuscleBodyPainter extends CustomPainter {
             ]),
         // Forearm mass with the brachioradialis ridge lines.
         _Patch(const ['Forearms'],
-            t0: 0.52,
-            t1: 0.86,
+            t0: 0.50,
+            t1: 0.82,
             tf: 0.06,
             aHalf: 3.2,
             af: 0.3,
             bulge: 1.7,
             grooves: const [(0.9, 0.09, 0.25), (-0.9, 0.09, 0.25)],
             mod: (t, th) =>
-                math.sin(math.pi * (t - 0.52) / 0.34).clamp(0.0, 1.0)),
+                math.sin(math.pi * (t - 0.50) / 0.32).clamp(0.0, 1.0)),
       ],
     );
-    // Fist by the thigh.
-    ellipsoid(47, 238, 3, 5.5, 8, 6.5, 14, 24);
+    // Fist beside the thigh, slightly forward.
+    ellipsoid(50, 264, 5, 5.5, 9, 6.5, 14, 24);
     mirror(v0, t0);
 
-    // ── Left leg (glutes, quads, hams, calves), then mirrored ─────────────
+    // ── Left leg: from the true crotch height (half the figure) ───────────
     v0 = pos.length ~/ 3;
     t0 = tris.length;
     tube(
-      y0: 196,
-      y1: 402,
-      cx0: 86,
-      cx1: 88.5,
+      y0: 228,
+      y1: 414,
+      cxPts: const [(0, 87), (0.5, 89.5), (1, 89)],
+      czPts: const [(0, -1), (0.3, 1), (0.55, 0), (0.78, -2), (1, -1)],
       rPts: const [
-        (0, 17.5),
-        (0.42, 11),
-        (0.5, 10.2),
-        (0.62, 11.5),
-        (1, 5.8),
+        (0, 15.5),
+        (0.44, 10.4),
+        (0.52, 9.6),
+        (0.64, 10.8),
+        (1, 5.4),
       ],
       zRatio: 0.95,
       rings: 120,
@@ -786,9 +839,9 @@ class MuscleBodyPainter extends CustomPainter {
       patches: [
         // Glute sphere with fiber striations.
         _Patch(const ['Glutes'],
-            t0: 0.07,
-            t1: 0.2,
-            tf: 0.07,
+            t0: 0.04,
+            t1: 0.18,
+            tf: 0.06,
             aCenter: math.pi,
             aHalf: 1.2,
             af: 0.3,
@@ -797,8 +850,8 @@ class MuscleBodyPainter extends CustomPainter {
         // Quads: three heads split by grooves, cut by the diagonal sartorius
         // line running from the outer hip to the inner knee.
         _Patch(const ['Quadriceps', 'Adductors'],
-            t0: 0.05,
-            t1: 0.45,
+            t0: 0.06,
+            t1: 0.48,
             tf: 0.06,
             aHalf: 1.1,
             af: 0.28,
@@ -809,21 +862,21 @@ class MuscleBodyPainter extends CustomPainter {
               (-0.55, 0.10, 0.5),
             ],
             mod: (t, th) {
-              final line = -0.9 + (t - 0.05) * 3.55;
+              final line = -0.9 + (t - 0.06) * 3.64;
               final d = th - line;
               return 1 - 0.3 * math.exp(-(d * d) / (2 * 0.1 * 0.1));
             }),
         // Vastus medialis teardrop above the knee.
         _Patch(const ['Quadriceps', 'Adductors'],
-            t0: 0.36,
-            t1: 0.5,
+            t0: 0.40,
+            t1: 0.53,
             tf: 0.04,
             aCenter: 0.7,
             aHalf: 0.35,
             bulge: 2.4),
         // Adductor mass filling the inner thigh.
         _Patch(const ['Quadriceps', 'Adductors'],
-            t0: 0.03,
+            t0: 0.04,
             t1: 0.28,
             tf: 0.06,
             aCenter: 1.35,
@@ -831,8 +884,8 @@ class MuscleBodyPainter extends CustomPainter {
             bulge: 1.8),
         // Hamstrings: biceps femoris + semitendinosus + semimembranosus.
         _Patch(const ['Hamstrings'],
-            t0: 0.22,
-            t1: 0.5,
+            t0: 0.20,
+            t1: 0.50,
             tf: 0.05,
             aCenter: math.pi,
             aHalf: 0.95,
@@ -845,7 +898,7 @@ class MuscleBodyPainter extends CustomPainter {
             ]),
         // Gastrocnemius diamond: twin heads over the soleus.
         _Patch(const ['Calves'],
-            t0: 0.53,
+            t0: 0.55,
             t1: 0.78,
             tf: 0.05,
             aCenter: math.pi,
@@ -856,14 +909,14 @@ class MuscleBodyPainter extends CustomPainter {
         // Soleus ridge below the gastroc heads.
         _Patch(const ['Calves'],
             t0: 0.78,
-            t1: 0.9,
+            t1: 0.90,
             tf: 0.04,
             aCenter: math.pi,
             aHalf: 0.8,
             bulge: 1.2),
         // Tibialis along the shin with the bone line beside it.
         _Patch(const ['Calves'],
-            t0: 0.52,
+            t0: 0.55,
             t1: 0.86,
             aHalf: 0.4,
             af: 0.25,
@@ -871,8 +924,8 @@ class MuscleBodyPainter extends CustomPainter {
             grooves: const [(0, 0.07, 0.3)]),
       ],
     );
-    // Foot pointing toward the viewer.
-    ellipsoid(87, 404, 9, 7.5, 6, 16, 16, 28);
+    // Foot: long, low, and turned slightly outward like a relaxed stance.
+    ellipsoid(88, 416, 7, 7, 6, 15, 16, 28, rotY: -0.3);
     mirror(v0, t0);
 
     // ── Smooth normals: accumulate face normals per vertex ────────────────
