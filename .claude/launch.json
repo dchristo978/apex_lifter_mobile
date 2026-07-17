@@ -6,6 +6,12 @@
       "runtimeExecutable": "flutter",
       "runtimeArgs": ["run", "-d", "web-server", "--web-port", "5555"],
       "port": 5555
+    },
+    {
+      "name": "body-preview",
+      "runtimeExecutable": "flutter",
+      "runtimeArgs": ["run", "-d", "web-server", "--web-port", "5556", "-t", "lib/dev_body_preview.dart"],
+      "port": 5556
     }
   ]
 }

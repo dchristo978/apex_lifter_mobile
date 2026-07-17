@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +29,11 @@ Future<void> main() async {
 
   final api = ApiClient();
   final push = PushService(api, navigatorKey: navigatorKey);
-  // Sets push up if Firebase is configured; a no-op otherwise.
-  await push.init();
+  // Sets push up if Firebase is configured; a no-op otherwise. Deliberately
+  // NOT awaited: some Firebase platform calls (e.g. getInitialMessage) can
+  // hang on certain engine builds, and blocking here would leave the app on a
+  // blank first frame. Let it initialise in the background instead.
+  unawaited(push.init());
 
   runApp(
     MultiProvider(

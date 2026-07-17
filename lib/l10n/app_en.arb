@@ -648,7 +648,12 @@
   "less": "Less",
   "more": "More",
   "muscleBalance": "Muscle balance",
-  "muscleBalanceCaption": "Sets per muscle group over the last 30 days",
+  "muscleBalanceCaption": "Sets per muscle group over the last {days} days",
+  "@muscleBalanceCaption": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
   "neglectedMuscles": "You've skipped {groups} in the last {days} days 😏",
   "@neglectedMuscles": {
     "placeholders": {

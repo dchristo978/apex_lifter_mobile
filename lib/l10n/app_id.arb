@@ -397,7 +397,7 @@
   "less": "Sedikit",
   "more": "Banyak",
   "muscleBalance": "Keseimbangan otot",
-  "muscleBalanceCaption": "Set per kelompok otot dalam 30 hari terakhir",
+  "muscleBalanceCaption": "Set per kelompok otot dalam {days} hari terakhir",
   "neglectedMuscles": "Kamu melewatkan {groups} dalam {days} hari terakhir 😏",
   "strengthStandards": "Standar kekuatan",
   "standardsNeedProfile": "Atur berat badan dan jenis kelamin di profilmu untuk melihat perbandingan angkatanmu.",

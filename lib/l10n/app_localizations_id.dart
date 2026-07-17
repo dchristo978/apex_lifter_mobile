@@ -1050,8 +1050,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get muscleBalance => 'Keseimbangan otot';
 
   @override
-  String get muscleBalanceCaption =>
-      'Set per kelompok otot dalam 30 hari terakhir';
+  String muscleBalanceCaption(int days) {
+    return 'Set per kelompok otot dalam $days hari terakhir';
+  }
 
   @override
   String neglectedMuscles(String groups, int days) {

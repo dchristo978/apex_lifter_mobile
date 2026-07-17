@@ -1,6 +1,3 @@
-import 'dart:math' as math;
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +6,7 @@ import '../models/models.dart';
 import '../services/api_client.dart';
 
 /// Long-term retention insights: a training-frequency heatmap, a muscle-balance
-/// radar (which groups you're neglecting), and strength standards that place
+/// breakdown (which groups you're neglecting), and strength standards that place
 /// your big lifts against population norms.
 class InsightsScreen extends StatefulWidget {
   const InsightsScreen({super.key});
@@ -19,6 +16,11 @@ class InsightsScreen extends StatefulWidget {
 }
 
 class _InsightsScreenState extends State<InsightsScreen> {
+  /// Trailing window for the muscle-balance breakdown. Matches the window the
+  /// 3D muscle model and the profile summary use, so a group that reads as
+  /// neglected here is the same set of groups they show as unlit.
+  static const _balanceDays = 7;
+
   Heatmap? _heatmap;
   MuscleActivation? _balance;
   StrengthStandards? _standards;
@@ -40,7 +42,7 @@ class _InsightsScreenState extends State<InsightsScreen> {
       final api = context.read<ApiClient>();
       final results = await Future.wait([
         api.get('/insights/heatmap'),
-        api.get('/insights/muscle-activation', {'days': '30'}),
+        api.get('/insights/muscle-activation', {'days': '$_balanceDays'}),
         api.get('/insights/strength-standards'),
       ]);
       if (!mounted) return;
@@ -239,7 +241,7 @@ class _HeatmapCard extends StatelessWidget {
   }
 }
 
-// ─── Muscle balance radar ────────────────────────────────────────────────────
+// ─── Muscle balance bars ─────────────────────────────────────────────────────
 
 class _MuscleBalanceCard extends StatelessWidget {
   const _MuscleBalanceCard({required this.balance});
@@ -252,31 +254,36 @@ class _MuscleBalanceCard extends StatelessWidget {
     final byGroup = balance.byGroup;
     final maxSets = balance.maxSets;
 
-    final axes = balance.balanceGroups
-        .map((g) => _RadarAxis(
-              label: g,
-              value: maxSets == 0
-                  ? 0
-                  : (byGroup[g]?.sets ?? 0) / maxSets,
-            ))
-        .toList();
+    int setsOf(String g) => byGroup[g]?.sets ?? 0;
+
+    // Ranked hardest-worked first, so the untrained groups collect at the
+    // bottom and the imbalance is the shape of the list itself. Ties keep the
+    // server's canonical (anatomical) order.
+    final groups = [...balance.balanceGroups];
+    final order = {
+      for (var i = 0; i < groups.length; i++) groups[i]: i,
+    };
+    groups.sort((a, b) {
+      final bySets = setsOf(b).compareTo(setsOf(a));
+      return bySets != 0 ? bySets : order[a]!.compareTo(order[b]!);
+    });
 
     return Card(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.muscleBalanceCaption,
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center),
-            const SizedBox(height: 12),
-            AspectRatio(
-              aspectRatio: 1,
-              child: CustomPaint(
-                painter: _RadarPainter(axes, scheme.primary),
-                child: const SizedBox.expand(),
+            Text(l10n.muscleBalanceCaption(balance.days),
+                style: Theme.of(context).textTheme.bodySmall),
+            const SizedBox(height: 14),
+            for (final g in groups)
+              _BalanceBar(
+                label: g,
+                sets: setsOf(g),
+                fraction: maxSets == 0 ? 0 : setsOf(g) / maxSets,
+                color: scheme.primary,
               ),
-            ),
             if (balance.neglected.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
@@ -300,89 +307,81 @@ class _MuscleBalanceCard extends StatelessWidget {
   }
 }
 
-class _RadarAxis {
-  _RadarAxis({required this.label, required this.value});
-  final String label;
-  final double value; // 0..1
-}
+class _BalanceBar extends StatelessWidget {
+  const _BalanceBar({
+    required this.label,
+    required this.sets,
+    required this.fraction,
+    required this.color,
+  });
 
-class _RadarPainter extends CustomPainter {
-  _RadarPainter(this.axes, this.color);
-  final List<_RadarAxis> axes;
+  final String label;
+  final int sets;
+  final double fraction; // 0..1, relative to the busiest group
   final Color color;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    if (axes.isEmpty) return;
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = math.min(size.width, size.height) / 2 - 34;
-    final n = axes.length;
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final untrained = sets == 0;
+    final ink = theme.textTheme.bodySmall?.color;
 
-    final gridPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1
-      ..color = Colors.white.withValues(alpha: 0.10);
-
-    // Concentric rings.
-    for (var ring = 1; ring <= 4; ring++) {
-      final r = radius * ring / 4;
-      final path = Path();
-      for (var i = 0; i < n; i++) {
-        final a = -math.pi / 2 + 2 * math.pi * i / n;
-        final p = center + Offset(math.cos(a), math.sin(a)) * r;
-        i == 0 ? path.moveTo(p.dx, p.dy) : path.lineTo(p.dx, p.dy);
-      }
-      path.close();
-      canvas.drawPath(path, gridPaint);
-    }
-
-    // Spokes + labels.
-    final labelStyle = TextStyle(
-        color: Colors.white.withValues(alpha: 0.7), fontSize: 9);
-    for (var i = 0; i < n; i++) {
-      final a = -math.pi / 2 + 2 * math.pi * i / n;
-      final dir = Offset(math.cos(a), math.sin(a));
-      canvas.drawLine(center, center + dir * radius, gridPaint);
-
-      final tp = TextPainter(
-        text: TextSpan(text: axes[i].label, style: labelStyle),
-        textDirection: ui.TextDirection.ltr,
-        textAlign: TextAlign.center,
-      )..layout(maxWidth: 60);
-      final lp = center + dir * (radius + 16);
-      tp.paint(canvas, lp - Offset(tp.width / 2, tp.height / 2));
-    }
-
-    // Value polygon.
-    final valuePath = Path();
-    for (var i = 0; i < n; i++) {
-      final a = -math.pi / 2 + 2 * math.pi * i / n;
-      final r = radius * axes[i].value.clamp(0.0, 1.0);
-      final p = center + Offset(math.cos(a), math.sin(a)) * r;
-      i == 0 ? valuePath.moveTo(p.dx, p.dy) : valuePath.lineTo(p.dx, p.dy);
-    }
-    valuePath.close();
-    canvas.drawPath(valuePath, Paint()..color = color.withValues(alpha: 0.28));
-    canvas.drawPath(
-      valuePath,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2
-        ..color = color,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 84,
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: ink?.withValues(alpha: untrained ? 0.45 : 0.85),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.06),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                FractionallySizedBox(
+                  widthFactor: fraction.clamp(0.0, 1.0),
+                  child: Container(
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          SizedBox(
+            width: 22,
+            child: Text(
+              '$sets',
+              textAlign: TextAlign.end,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: ink?.withValues(alpha: untrained ? 0.45 : 0.85),
+                fontFeatures: const [FontFeature.tabularFigures()],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
-
-    // Vertices.
-    final dot = Paint()..color = color;
-    for (var i = 0; i < n; i++) {
-      final a = -math.pi / 2 + 2 * math.pi * i / n;
-      final r = radius * axes[i].value.clamp(0.0, 1.0);
-      canvas.drawCircle(center + Offset(math.cos(a), math.sin(a)) * r, 2.5, dot);
-    }
   }
-
-  @override
-  bool shouldRepaint(covariant _RadarPainter old) =>
-      old.axes != axes || old.color != color;
 }
 
 // ─── Strength standards ──────────────────────────────────────────────────────

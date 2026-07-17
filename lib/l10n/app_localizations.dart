@@ -1925,8 +1925,8 @@ abstract class AppLocalizations {
   /// No description provided for @muscleBalanceCaption.
   ///
   /// In en, this message translates to:
-  /// **'Sets per muscle group over the last 30 days'**
-  String get muscleBalanceCaption;
+  /// **'Sets per muscle group over the last {days} days'**
+  String muscleBalanceCaption(int days);
 
   /// No description provided for @neglectedMuscles.
   ///
