@@ -1,3 +1,19 @@
+// ⚠️ HIDDEN — ENTIRE FILE COMMENTED OUT. ⚠️
+//
+// This is the flutter_scene (Flutter GPU / Impeller) path of the muscle map.
+// It only compiles on the Flutter *master* channel, and the app is back on
+// stable 3.35.7 so it stays store-shippable, so the whole widget is commented
+// out rather than deleted. The `flutter_scene` / `hooks` dependencies are
+// likewise commented out in pubspec.yaml.
+//
+// The feature itself is hidden behind `kMuscleMapEnabled` in
+// lib/feature_flags.dart. [MuscleModelScreen] no longer references this widget
+// and renders the pure-Dart CustomPaint mesh ([MuscleBody]) instead.
+//
+// To restore: switch to the master channel, uncomment the flutter_scene deps
+// and the `assets_src/` asset in pubspec.yaml, uncomment everything below, and
+// restore the 3D branch in lib/screens/muscle_model_screen.dart.
+/*
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -169,3 +185,4 @@ class _Muscle3DViewState extends State<Muscle3DView> {
     );
   }
 }
+*/

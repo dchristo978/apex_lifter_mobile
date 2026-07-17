@@ -6,7 +6,10 @@ import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../services/api_client.dart';
-import '../widgets/muscle_3d_view.dart';
+// HIDDEN: the flutter_scene 3D path needs the Flutter master channel; the app
+// is back on stable 3.35.7, so muscle_3d_view.dart is commented out and this
+// screen renders the pure-Dart CustomPaint mesh below. See feature_flags.dart.
+// import '../widgets/muscle_3d_view.dart';
 import '../widgets/muscle_body.dart';
 
 /// A rotatable 3D-style muscle model. The lifter drags left/right to spin the
@@ -27,9 +30,10 @@ class _MuscleModelScreenState extends State<MuscleModelScreen>
   /// Rotation about the vertical axis, in radians. 0 = facing front.
   double _angle = 0;
 
-  /// Prefer the real 3D (flutter_scene) model; flip to the CustomPaint mesh if
-  /// the GPU scene fails to load or render (unsupported device, etc.).
-  bool _use3d = true;
+  /// Forced to false while the flutter_scene 3D path is commented out for the
+  /// stable channel (see the import above) — the CustomPaint mesh is the only
+  /// path that compiles on stable. Restore to `true` when re-enabling 3D.
+  final bool _use3d = false;
   late final AnimationController _spin;
   Animation<double>? _snap;
 
@@ -128,33 +132,38 @@ class _MuscleModelScreenState extends State<MuscleModelScreen>
           )
         else
           const SizedBox(height: 20),
+        // HIDDEN: the flutter_scene branch that rendered Muscle3DView here is
+        // commented out — it only compiles on the master channel. Restore it
+        // alongside muscle_3d_view.dart when re-enabling the 3D path:
+        //
+        //   child: _use3d
+        //       ? Padding(
+        //           padding: const EdgeInsets.symmetric(vertical: 12),
+        //           child: Muscle3DView(
+        //             activeGroups: active,
+        //             intensity: intensity,
+        //             onError: (_) {
+        //               if (mounted) setState(() => _use3d = false);
+        //             },
+        //           ),
+        //         )
+        //       : <the GestureDetector below>,
         Expanded(
-          child: _use3d
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Muscle3DView(
-                    activeGroups: active,
-                    intensity: intensity,
-                    onError: (_) {
-                      if (mounted) setState(() => _use3d = false);
-                    },
-                  ),
-                )
-              : GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onHorizontalDragUpdate: _onDragUpdate,
-                  onHorizontalDragEnd: _onDragEnd,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: _RotatingBody(
-                        angle: _angle,
-                        activeGroups: active,
-                        intensity: intensity,
-                      ),
-                    ),
-                  ),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragUpdate: _onDragUpdate,
+            onHorizontalDragEnd: _onDragEnd,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: _RotatingBody(
+                  angle: _angle,
+                  activeGroups: active,
+                  intensity: intensity,
                 ),
+              ),
+            ),
+          ),
         ),
         _DragHint(text: l10n.swipeToRotate),
         _TrainedSummary(data: data),

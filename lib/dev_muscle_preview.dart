@@ -1,7 +1,17 @@
-// Dev-only harness (not shipped): renders just the flutter_scene 3D muscle
-// model so it can be viewed in isolation, without the app's auth/backend.
+// ⚠️ HIDDEN — ENTIRE FILE COMMENTED OUT. ⚠️
+//
+// Dev-only harness (not shipped) for the flutter_scene 3D muscle model, which
+// only compiles on the Flutter *master* channel. The app is back on stable
+// 3.35.7, and lib/widgets/muscle_3d_view.dart is commented out along with the
+// flutter_scene deps in pubspec.yaml, so this harness is disabled too.
+//
+// The pure-Dart CustomPaint mesh ([MuscleBody]) still renders fine on stable,
+// so it can be previewed without this harness while the feature is hidden.
+//
+// To restore: switch to the master channel and uncomment this file along with
+// muscle_3d_view.dart and the flutter_scene deps.
 //   flutter run -d chrome -t lib/dev_muscle_preview.dart
-//   flutter build web -t lib/dev_muscle_preview.dart
+/*
 import 'package:flutter/material.dart';
 
 import 'widgets/muscle_3d_view.dart';
@@ -34,3 +44,4 @@ class _PreviewApp extends StatelessWidget {
     );
   }
 }
+*/

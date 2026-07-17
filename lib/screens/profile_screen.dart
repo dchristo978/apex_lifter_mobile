@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../feature_flags.dart';
 import '../l10n/app_localizations.dart';
 import '../models/models.dart';
 import '../providers/auth_provider.dart';
@@ -76,8 +77,12 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: 20),
           StreakCard(weeks: user.weekStreak),
           const SizedBox(height: 16),
-          const _MusclePreview(),
-          const SizedBox(height: 16),
+          // Hidden behind kMuscleMapEnabled while the anatomical model is
+          // reworked; the feature's code is all still in place.
+          if (kMuscleMapEnabled) ...[
+            const _MusclePreview(),
+            const SizedBox(height: 16),
+          ],
           Card(
             child: ListTile(
               leading: const Icon(Icons.insights_outlined),

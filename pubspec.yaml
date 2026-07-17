@@ -49,12 +49,16 @@ dependencies:
   firebase_core: ^3.6.0
   firebase_messaging: ^15.1.3
 
-  # Real-time 3D engine (Flutter GPU / Impeller) for the rotatable muscle
-  # model. Requires the Flutter master channel — see README. `hooks` +
-  # `flutter_scene`'s build_hooks import the local assets_src/muscle.glb into
-  # a scene asset at build time; vector_math is used for camera math.
-  flutter_scene: ^0.18.0
-  hooks: ^2.0.0
+  # HIDDEN — the muscle map feature is disabled (see lib/feature_flags.dart,
+  # kMuscleMapEnabled). `flutter_scene` is a real-time 3D engine built on
+  # Flutter GPU / Impeller, which is only available on the Flutter *master*
+  # channel. The app is back on stable (3.35.7) so it is store-shippable, so
+  # these are commented out rather than removed. To restore the 3D muscle
+  # model: switch to the master channel, uncomment the three deps below, and
+  # uncomment the flutter_scene code in lib/widgets/muscle_3d_view.dart,
+  # lib/screens/muscle_model_screen.dart and lib/dev_muscle_preview.dart.
+  # flutter_scene: ^0.18.0
+  # hooks: ^2.0.0
   vector_math: ^2.1.4
 
 dev_dependencies:
@@ -93,9 +97,11 @@ flutter:
 
   assets:
     - assets/icon/app_icon.png
-    # Source model for the 3D muscle map; the flutter_scene build hook imports
-    # it into a scene asset loaded via loadScene('assets_src/muscle.glb').
-    - assets_src/
+    # HIDDEN with the muscle map (see lib/feature_flags.dart). Source model for
+    # the 3D muscle map; the flutter_scene build hook imported it into a scene
+    # asset loaded via loadScene('assets_src/muscle.glb'). The .glb is kept in
+    # the repo — re-enable this alongside the flutter_scene deps above.
+    # - assets_src/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
